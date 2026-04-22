@@ -574,13 +574,13 @@
       opacity: 0;
     }
 
-    /* ── First beat: realistic kraft envelope + card (swipe up or tap) ── */
+    /* ── First beat: envelope on same parchment as rest of invite; opens on swipe up only ── */
     .intro-envelope-gate {
       --env-kraft-mid: #b8926a;
       --env-kraft-dark: #7d5c3e;
       --env-kraft-light: #dcc4a4;
       --env-ivory: #f7f0e4;
-      --env-shadow: rgba(22, 16, 12, 0.45);
+      --env-shadow: rgba(22, 16, 12, 0.38);
       position: absolute;
       inset: 0;
       z-index: 125;
@@ -590,10 +590,7 @@
       justify-content: center;
       padding: max(0.75rem, env(safe-area-inset-top, 0px)) 1rem max(1rem, env(safe-area-inset-bottom, 0px));
       box-sizing: border-box;
-      background:
-        radial-gradient(ellipse 72% 55% at 50% 88%, rgba(42, 32, 24, 0.22) 0%, transparent 55%),
-        radial-gradient(ellipse 120% 80% at 50% 20%, rgba(255, 252, 245, 0.55) 0%, transparent 48%),
-        linear-gradient(168deg, #1e1612 0%, #3d2e24 38%, #5c4836 72%, #2a2018 100%);
+      /* background from .invite-paper (second class on element) */
       transition: opacity 0.55s var(--ease-out), visibility 0s linear 0s;
       touch-action: none;
     }
@@ -613,8 +610,7 @@
     }
     .intro-envelope-gate__labels {
       text-align: center;
-      color: rgba(255, 252, 245, 0.94);
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+      color: var(--ink);
     }
     .intro-envelope-gate__names {
       margin: 0;
@@ -627,8 +623,8 @@
     .intro-envelope-gate__names span {
       font-style: italic;
       font-weight: 400;
-      opacity: 0.9;
-      color: rgba(255, 236, 210, 0.95);
+      opacity: 0.88;
+      color: var(--p1-gold-deep);
     }
     .intro-envelope-gate__sub {
       margin: 0.4rem 0 0;
@@ -636,7 +632,7 @@
       font-size: 0.52rem;
       letter-spacing: 0.32em;
       text-transform: uppercase;
-      color: rgba(232, 218, 198, 0.75);
+      color: var(--muted);
     }
     .intro-envelope-gate__shell {
       position: relative;
@@ -645,7 +641,17 @@
       perspective: 1100px;
       perspective-origin: 50% 65%;
       transform-style: preserve-3d;
-      filter: drop-shadow(0 22px 28px rgba(12, 8, 6, 0.42)) drop-shadow(0 6px 12px rgba(12, 8, 6, 0.22));
+      filter: drop-shadow(0 18px 32px rgba(45, 32, 22, 0.14)) drop-shadow(0 4px 10px rgba(45, 32, 22, 0.08));
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .intro-envelope-gate__shell:focus {
+      outline: none;
+    }
+    .intro-envelope-gate__shell:focus-visible {
+      outline: 2px solid rgba(176, 141, 87, 0.65);
+      outline-offset: 4px;
+      border-radius: 12px;
     }
     /* Contact shadow on “table” */
     .intro-envelope-gate__ground {
@@ -656,9 +662,9 @@
       height: 32%;
       transform: translateX(-50%);
       z-index: 0;
-      background: radial-gradient(ellipse 52% 38% at 50% 50%, rgba(8, 6, 4, 0.5), transparent 72%);
-      filter: blur(18px);
-      opacity: 0.85;
+      background: radial-gradient(ellipse 52% 38% at 50% 50%, rgba(62, 48, 32, 0.22), transparent 72%);
+      filter: blur(16px);
+      opacity: 0.55;
       pointer-events: none;
     }
     /* Main body — kraft fibres + light rake */
@@ -759,7 +765,7 @@
       right: 0;
       bottom: 1.5%;
       height: 52%;
-      z-index: 4;
+      z-index: 5;
       clip-path: polygon(0 100%, 12% 38%, 50% 4%, 88% 38%, 100% 100%);
       background:
         linear-gradient(128deg, rgba(255, 252, 248, 0.35) 0%, transparent 45%),
@@ -780,29 +786,27 @@
       opacity: 0.7;
       pointer-events: none;
     }
+    /* Card sits inside cavity (below pocket + flap) until opened */
     .intro-envelope-gate__card {
       position: absolute;
       left: 10%;
       right: 10%;
       bottom: 17%;
       height: 70%;
-      z-index: 5;
+      z-index: 4;
       transform-origin: 50% 100%;
-      transform: translateY(11%) scale(0.965) rotateX(2deg);
+      transform: translateY(46%) scale(0.9) rotateX(1deg);
       transition:
-        transform 0.82s var(--ease-rich),
+        transform 0.88s var(--ease-rich),
         box-shadow 0.65s ease,
         filter 0.5s ease;
       border-radius: 5px 5px 4px 4px;
       box-shadow:
-        0 1px 0 rgba(255, 252, 248, 0.85),
-        0 3px 0 rgba(176, 141, 87, 0.25),
-        0 22px 44px var(--env-shadow);
-      cursor: grab;
-      filter: saturate(1.02);
-    }
-    .intro-envelope-gate__card:active {
-      cursor: grabbing;
+        0 1px 0 rgba(255, 252, 248, 0.75),
+        0 3px 0 rgba(176, 141, 87, 0.2),
+        0 12px 28px rgba(45, 32, 22, 0.12);
+      pointer-events: none;
+      filter: saturate(0.98);
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__card {
       transform: translateY(calc(-1 * min(48vh, 16rem))) scale(1) rotateX(0deg);
@@ -852,6 +856,7 @@
       top: 0;
       height: 54%;
       z-index: 6;
+      transform: rotateX(0deg);
       transform-origin: 50% 0%;
       transform-style: preserve-3d;
       -webkit-backface-visibility: hidden;
@@ -863,7 +868,7 @@
       box-shadow:
         inset 0 -3px 6px rgba(255, 252, 248, 0.35),
         inset 0 1px 0 rgba(255, 252, 248, 0.45),
-        0 10px 24px rgba(22, 16, 12, 0.22);
+        0 10px 26px rgba(45, 32, 22, 0.14);
       transition: transform 0.78s var(--ease-rich);
     }
     .intro-envelope-gate__flap::before {
@@ -921,22 +926,20 @@
       font-size: 0.52rem;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: rgba(232, 218, 198, 0.82);
+      color: var(--muted);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
     }
     .intro-envelope-gate__hint::after {
       content: "";
       width: 11px;
       height: 11px;
-      border-right: 2px solid rgba(232, 200, 150, 0.85);
-      border-bottom: 2px solid rgba(232, 200, 150, 0.85);
+      border-right: 2px solid rgba(176, 141, 87, 0.65);
+      border-bottom: 2px solid rgba(176, 141, 87, 0.65);
       transform: rotate(-135deg);
       margin-top: 0.1rem;
-      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
       animation: envHintNudge 1.65s ease-in-out infinite;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__hint {
@@ -954,32 +957,6 @@
         opacity: 1;
       }
     }
-    .intro-envelope-gate__tap {
-      margin-top: 0.1rem;
-      min-height: 48px;
-      padding: 0 1.4rem;
-      border-radius: 999px;
-      border: 1px solid rgba(201, 168, 120, 0.55);
-      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, #ebe0d0 45%, #dccbb4 100%);
-      font-family: var(--font-caps);
-      font-size: 0.52rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--ink);
-      cursor: pointer;
-      box-shadow:
-        0 1px 0 rgba(255, 252, 248, 0.95) inset,
-        0 10px 26px rgba(12, 8, 6, 0.28);
-      -webkit-tap-highlight-color: transparent;
-    }
-    .intro-envelope-gate__tap:active {
-      transform: scale(0.98);
-    }
-    .intro-envelope-gate__tap:focus-visible {
-      outline: 2px solid rgba(232, 200, 150, 0.95);
-      outline-offset: 3px;
-    }
-
     body:not(.intro-done) .tabs {
       visibility: hidden;
       pointer-events: none;
@@ -2644,10 +2621,10 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >Open the envelope by swiping up on the card or using the Open button, then a Ganesh motif on the invitation backdrop, a message from the families, and the scroll invitation.</span>
+      >Swipe up on the closed envelope to open it, then a Ganesh motif on the invitation backdrop, a message from the families, and the scroll invitation.</span>
     <div
       id="intro-envelope-gate"
-      class="intro-envelope-gate"
+      class="intro-envelope-gate invite-paper"
       role="group"
       aria-label="Invitation envelope"
     >
@@ -2656,25 +2633,30 @@
           <p class="intro-envelope-gate__names">Rutuja <span>&amp;</span> Saurabh</p>
           <p class="intro-envelope-gate__sub">Wedding · May 2026</p>
         </div>
-        <div class="intro-envelope-gate__shell">
+        <div
+          class="intro-envelope-gate__shell"
+          tabindex="0"
+          aria-label="Closed invitation envelope"
+          aria-describedby="intro-envelope-gate-hint"
+        >
           <div class="intro-envelope-gate__ground" aria-hidden="true"></div>
           <div class="intro-envelope-gate__back" aria-hidden="true"></div>
           <div class="intro-envelope-gate__gusset intro-envelope-gate__gusset--l" aria-hidden="true"></div>
           <div class="intro-envelope-gate__gusset intro-envelope-gate__gusset--r" aria-hidden="true"></div>
           <div class="intro-envelope-gate__throat" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
           <div class="intro-envelope-gate__card">
             <div class="intro-envelope-gate__card-face">
               <span class="intro-envelope-gate__card-initials" aria-hidden="true">R &amp; S</span>
               <span class="intro-envelope-gate__card-line">Invitation</span>
             </div>
           </div>
+          <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
           <div class="intro-envelope-gate__flap" aria-hidden="true">
             <div class="intro-envelope-gate__wax" aria-hidden="true"></div>
           </div>
         </div>
-        <p class="intro-envelope-gate__hint">Swipe up on the card</p>
-        <button type="button" class="intro-envelope-gate__tap" id="intro-envelope-tap">Open invitation</button>
+        <p class="intro-envelope-gate__hint" id="intro-envelope-gate-hint">Swipe up on the envelope</p>
+        <button type="button" class="visually-hidden" id="intro-envelope-a11y">Open invitation</button>
       </div>
     </div>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
@@ -2962,6 +2944,10 @@
       if (envelopeGateComplete || introFinished) return;
       envelopeGateComplete = true;
       var gate = document.getElementById("intro-envelope-gate");
+      if (gate) {
+        var shellEl = gate.querySelector(".intro-envelope-gate__shell");
+        if (shellEl) shellEl.setAttribute("tabindex", "-1");
+      }
       tryAutoplayBackgroundMusic();
       if (introShell) introShell.classList.remove("intro-envelope-pending");
       if (reduceMotion) {
@@ -2984,39 +2970,43 @@
     function initEnvelopeGate() {
       if (!introShell) return;
       var gate = document.getElementById("intro-envelope-gate");
-      var tapBtn = document.getElementById("intro-envelope-tap");
-      if (!gate) {
+      var shell = gate ? gate.querySelector(".intro-envelope-gate__shell") : null;
+      var a11yBtn = document.getElementById("intro-envelope-a11y");
+      if (!gate || !shell) {
         runGaneshOpeningThenFamily();
         return;
       }
       envelopeGateComplete = false;
       introShell.classList.add("intro-envelope-pending");
       var dragY0 = null;
+      var swipeThreshold = 64;
 
       function onPointerDown(e) {
         if (envelopeGateComplete || introFinished) return;
-        if (e.target.closest && e.target.closest(".intro-envelope-gate__tap")) return;
         dragY0 = e.clientY;
       }
       function onPointerUp(e) {
         if (envelopeGateComplete || introFinished) return;
-        if (e.target.closest && e.target.closest(".intro-envelope-gate__tap")) {
-          dragY0 = null;
-          return;
-        }
         if (dragY0 == null) return;
         var dy = dragY0 - e.clientY;
         dragY0 = null;
-        if (dy > 52) passEnvelopeGateAndContinue();
+        if (dy >= swipeThreshold) passEnvelopeGateAndContinue();
       }
 
-      gate.addEventListener("pointerdown", onPointerDown);
-      gate.addEventListener("pointerup", onPointerUp);
-      gate.addEventListener("pointercancel", function () {
+      shell.addEventListener("pointerdown", onPointerDown);
+      shell.addEventListener("pointerup", onPointerUp);
+      shell.addEventListener("pointercancel", function () {
         dragY0 = null;
       });
-      if (tapBtn) {
-        tapBtn.addEventListener("click", function () {
+      shell.addEventListener("keydown", function (e) {
+        if (envelopeGateComplete || introFinished) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          passEnvelopeGateAndContinue();
+        }
+      });
+      if (a11yBtn) {
+        a11yBtn.addEventListener("click", function () {
           if (!envelopeGateComplete && !introFinished) passEnvelopeGateAndContinue();
         });
       }
