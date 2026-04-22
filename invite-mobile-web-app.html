@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
+  <link rel="preload" href="assets/ganesh-design.png" as="image" type="image/png">
   <link rel="preload" href="assets/WhatsApp%20Image%202026-04-22%20at%2010.20.26.jpeg" as="image" type="image/jpeg">
   <script>
   (function () {
@@ -184,6 +185,11 @@
       transform-origin: 50% 45%;
       transition: opacity 1.15s ease, transform 1.45s cubic-bezier(0.28, 0.9, 0.32, 1);
     }
+    #mobile-intro.env-opening-active:not(.env-opening-exit) .mobile-intro__glow {
+      opacity: 0.88;
+      transform: scale(1.05);
+    }
+    #mobile-intro.env-opening-exit .mobile-intro__glow,
     #mobile-intro.env-intro-family-active .mobile-intro__glow {
       opacity: 0.82;
       transform: scale(1.03);
@@ -248,6 +254,148 @@
       gap: clamp(0.85rem, 2.8dvh, 1.65rem);
       box-sizing: border-box;
       pointer-events: none;
+    }
+    #mobile-intro .env-opening {
+      position: fixed;
+      inset: 0;
+      z-index: 4;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-right: env(safe-area-inset-right, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      padding-left: env(safe-area-inset-left, 0px);
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      isolation: isolate;
+      transition: opacity 0.42s cubic-bezier(0.33, 1, 0.68, 1), visibility 0s linear 0.42s;
+    }
+    #mobile-intro .env-opening__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    #mobile-intro .env-opening__bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 42%;
+      transform: scale(1.06);
+      transform-origin: center center;
+      opacity: 0.48;
+      filter: saturate(1.06) brightness(1.02);
+    }
+    #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bg-img {
+      animation: envOpeningBgDrift 9s ease-in-out infinite alternate;
+    }
+    @keyframes envOpeningBgDrift {
+      0% { transform: scale(1.04) translate3d(0, 0, 0); }
+      100% { transform: scale(1.1) translate3d(0.5%, -0.4%, 0); }
+    }
+    #mobile-intro .env-opening__scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 92% 88% at 50% 45%, rgba(254, 250, 241, 0.52) 0%, rgba(250, 244, 232, 0.35) 42%, rgba(42, 32, 22, 0.2) 100%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.18) 0%, rgba(22, 16, 12, 0.1) 100%);
+    }
+    #mobile-intro .env-opening__content {
+      position: relative;
+      z-index: 3;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.85rem, 2.4dvh, 1.5rem);
+      padding: clamp(0.75rem, 3vw, 1.5rem);
+      width: 100%;
+      min-height: 100%;
+      box-sizing: border-box;
+    }
+    #mobile-intro .env-opening__blossom {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.62;
+    }
+    #mobile-intro .env-opening__blossom .petal {
+      opacity: 0.55;
+    }
+    #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1), visibility 0s linear 0s;
+    }
+    #mobile-intro.env-opening-active.env-opening-exit .env-opening {
+      opacity: 0;
+      visibility: visible;
+      transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #mobile-intro.env-opening-done .env-opening {
+      opacity: 0;
+      visibility: hidden;
+      transition: none;
+    }
+    #mobile-intro .env-opening__ganesh-wrap {
+      position: relative;
+      z-index: 2;
+      width: min(17rem, 84vw);
+      max-width: 100%;
+      display: grid;
+      place-items: center;
+      padding: clamp(0.65rem, 2dvh, 1.1rem) clamp(0.75rem, 3vw, 1.25rem);
+      border-radius: clamp(10px, 1.8vmin, 16px);
+      background: rgba(255, 252, 248, 0.52);
+      box-shadow:
+        0 0 0 1px rgba(176, 141, 87, 0.26),
+        0 0 0 2px rgba(255, 252, 248, 0.45),
+        0 16px 40px rgba(22, 16, 12, 0.1);
+      flex-shrink: 0;
+      opacity: 0;
+      transform: translateY(22px) scale(0.92);
+      filter: blur(6px);
+    }
+    #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh-wrap {
+      animation: envOpeningGaneshFrame 1.05s cubic-bezier(0.2, 1, 0.34, 1) 0.12s forwards;
+    }
+    @keyframes envOpeningGaneshFrame {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+    #mobile-intro .env-opening__ganesh {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: min(32dvh, 260px);
+      object-fit: contain;
+      object-position: center center;
+      user-select: none;
+      pointer-events: none;
+    }
+    #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh {
+      animation: envOpeningGaneshHalo 2.5s ease-in-out 0.35s infinite alternate;
+    }
+    @keyframes envOpeningGaneshHalo {
+      0% {
+        filter: drop-shadow(0 4px 14px rgba(201, 168, 120, 0.14));
+      }
+      100% {
+        filter: drop-shadow(0 10px 32px rgba(201, 168, 120, 0.36));
+      }
     }
     #mobile-intro .env-intro-family {
       position: fixed;
@@ -527,7 +675,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: clamp(0.75rem, 2.2dvh, 1.15rem);
+      gap: clamp(0.55rem, 1.8dvh, 0.95rem);
     }
     .intro-parchment-gate__title {
       margin: 0;
@@ -558,6 +706,8 @@
       perspective-origin: 50% 42%;
       width: min(88vw, 20.5rem);
       padding: 0.25rem 0 0.5rem;
+      position: relative;
+      z-index: 1;
     }
     .parchment-envelope {
       position: relative;
@@ -568,6 +718,13 @@
       -webkit-tap-highlight-color: transparent;
       touch-action: none;
       filter: drop-shadow(0 18px 36px rgba(38, 28, 18, 0.14));
+      border-radius: 12px;
+    }
+    .parchment-envelope:not(.is-open) {
+      overflow: hidden;
+    }
+    .parchment-envelope.is-open {
+      overflow: visible;
     }
     .parchment-envelope:focus {
       outline: none;
@@ -615,11 +772,11 @@
       position: absolute;
       left: 10%;
       right: 10%;
-      bottom: 14%;
-      height: 48%;
+      bottom: 10%;
+      height: 50%;
       z-index: 3;
       transform-origin: 50% 100%;
-      transform: translateY(52%) scale(0.9) rotateX(4deg);
+      transform: translateY(78%) scale(0.86) rotateX(8deg);
       border-radius: 8px;
       border: 1px solid rgba(154, 115, 69, 0.42);
       background:
@@ -643,7 +800,7 @@
     }
     .parchment-envelope.is-open .parchment-envelope__card {
       z-index: 6;
-      transform: translateY(calc(-1 * min(42vh, 13.5rem))) scale(1) rotateX(0deg);
+      transform: translateY(calc(-1 * min(40vh, 12.5rem))) scale(1) rotateX(0deg);
       box-shadow:
         inset 0 1px 0 rgba(255, 252, 248, 1),
         0 6px 0 rgba(176, 141, 87, 0.22),
@@ -706,14 +863,22 @@
       transform: rotateX(-178deg);
     }
     .intro-parchment-gate__hint {
-      margin: 0;
+      position: relative;
+      z-index: 8;
+      margin: 0 0 clamp(0.15rem, 0.8dvh, 0.35rem);
+      padding: 0.45rem 0.85rem 0.5rem;
       font-family: var(--font-caps);
-      font-size: 0.5rem;
-      letter-spacing: 0.22em;
+      font-size: clamp(0.48rem, 2.4vw, 0.55rem);
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(92, 81, 71, 0.85);
+      color: rgba(61, 52, 41, 0.92);
       text-align: center;
       cursor: pointer;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.95);
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.92) 0%, rgba(250, 244, 232, 0.88) 100%);
+      border: 1px solid rgba(176, 141, 87, 0.35);
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(38, 28, 18, 0.08);
     }
     .intro-parchment-gate__hint::after {
       content: "";
@@ -2733,6 +2898,126 @@
       animation: chipRise 0.5s var(--ease-out) 0.32s both;
     }
 
+    /* ── Gatherings: “Where we're gathering” (venues) ── */
+    #venues.gatherings-card {
+      position: relative;
+      overflow: hidden;
+    }
+    #venues.gatherings-card::before {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      background:
+        radial-gradient(ellipse 72% 58% at 10% -5%, rgba(201, 168, 76, 0.14), transparent 55%),
+        radial-gradient(ellipse 60% 48% at 92% 105%, rgba(244, 167, 185, 0.1), transparent 52%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    #venues.gatherings-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .gatherings-rich__head {
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+    .eyebrow--gatherings {
+      margin-bottom: 0.45rem;
+      text-transform: none;
+      letter-spacing: 0.1em;
+      font-size: clamp(0.68rem, 2.8vw, 0.78rem);
+      color: var(--gold);
+    }
+    .gatherings-rich__tag {
+      margin: 0 0 0.9rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1.02rem, 3.4vw, 1.16rem);
+      font-style: italic;
+      color: rgba(92, 81, 71, 0.92);
+      line-height: 1.48;
+    }
+    .gatherings-rich__lead {
+      margin: 0 0 1.2rem;
+      text-align: center;
+      font-family: var(--font-serif);
+      font-size: clamp(0.94rem, 3vw, 1.05rem);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .gatherings-rich__list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.05rem;
+    }
+    .gathering-card {
+      position: relative;
+      padding: clamp(1rem, 2.8vw, 1.12rem) clamp(1rem, 3vw, 1.22rem) clamp(1.05rem, 3vw, 1.2rem);
+      border-radius: clamp(12px, 2vmin, 16px);
+      border: 1px solid rgba(176, 141, 87, 0.34);
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(176, 141, 87, 0.035) 1px, rgba(176, 141, 87, 0.035) 2px),
+        linear-gradient(165deg, rgba(255, 253, 248, 0.98) 0%, #faf4e8 52%, #f0e8da 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        0 8px 26px rgba(38, 28, 18, 0.07);
+    }
+    .gathering-card::before {
+      content: "";
+      position: absolute;
+      left: 1.05rem;
+      top: 1.05rem;
+      width: 11px;
+      height: 11px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.55), rgba(143, 106, 58, 0.38));
+      box-shadow: 0 0 0 2px rgba(255, 252, 248, 0.95);
+    }
+    .gathering-card__label {
+      margin: 0 0 0.32rem 1.5rem;
+      font-family: var(--font-caps);
+      font-size: 0.48rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(143, 106, 58, 0.88);
+    }
+    .gathering-card h3 {
+      margin: 0 0 0.42rem 1.5rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3.8vw, 1.28rem);
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+    .gathering-card p {
+      margin: 0 0 0.3rem 1.5rem;
+      font-family: var(--font-serif);
+      color: var(--muted);
+      line-height: 1.52;
+    }
+    .gathering-card .map-btn {
+      margin-top: 0.55rem;
+    }
+    #venues.is-revealed .gathering-card {
+      animation: gatheringCardRise 0.68s var(--ease-out) both;
+    }
+    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(1) {
+      animation-delay: 0.06s;
+    }
+    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(2) {
+      animation-delay: 0.16s;
+    }
+    @keyframes gatheringCardRise {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .map-btn {
       display: block;
       width: 100%;
@@ -3013,6 +3298,11 @@
       .card.is-revealed .event {
         animation: none !important;
       }
+      #venues.is-revealed .gathering-card {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
       .map-btn::after {
         display: none;
       }
@@ -3031,13 +3321,23 @@
         transform: rotateX(-178deg) !important;
       }
       .parchment-envelope.is-open .parchment-envelope__card {
-        transform: translateY(calc(-1 * min(42vh, 13.5rem))) scale(1) rotateX(0deg) !important;
+        transform: translateY(calc(-1 * min(40vh, 12.5rem))) scale(1) rotateX(0deg) !important;
       }
       .parchment-envelope.is-open .parchment-envelope__pocket {
         transform: translateY(3px) scale(0.992) !important;
       }
       .intro-parchment-gate__hint::after {
         animation: none !important;
+      }
+      #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bg-img,
+      #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh-wrap,
+      #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh {
+        animation: none !important;
+      }
+      #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh-wrap {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
       }
       .petal {
         animation: none;
@@ -3067,7 +3367,7 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >Tap or swipe up on the envelope to open it; the invitation card rises, then a message from the families appears, followed by the full invitation. You can use Continue to skip at any time.</span>
+      >Tap or swipe up on the envelope to open it; the card rises, then a Ganesh motif appears over the invitation artwork with blossoms, then a message from the families, followed by the full invitation. You can use Continue to skip at any time.</span>
     <div
       id="intro-parchment-gate"
       class="intro-parchment-gate"
@@ -3088,6 +3388,7 @@
       <div class="intro-parchment-gate__inner">
         <p class="intro-parchment-gate__title">Rutuja <span>&amp;</span> Saurabh</p>
         <p class="intro-parchment-gate__subtitle">Wedding · May 2026</p>
+        <p class="intro-parchment-gate__hint" id="intro-parchment-hint">Tap or swipe up to open</p>
         <div class="intro-parchment-gate__stage3d">
           <div
             class="parchment-envelope"
@@ -3105,7 +3406,6 @@
             <div class="parchment-envelope__flap" aria-hidden="true"></div>
           </div>
         </div>
-        <p class="intro-parchment-gate__hint" id="intro-parchment-hint">Tap or swipe up to open</p>
         <button type="button" class="visually-hidden" id="intro-parchment-a11y">Open invitation envelope</button>
       </div>
     </div>
@@ -3122,6 +3422,35 @@
           <p class="env-envelope-note__lead">
             The Patil and Pawar families request the <em>honour of your presence</em> as they celebrate the wedding of their beloved children—with hearts full of gratitude, they invite you to witness this sacred union, to share in the joy of the day, and to bless the couple as they begin their journey together, carrying tradition, hope, and the warmth of everyone they hold dear.
           </p>
+        </div>
+      </div>
+      <div id="mobile-env-opening" class="env-opening" aria-hidden="true">
+        <div class="env-opening__bg" aria-hidden="true">
+          <img
+            class="env-opening__bg-img"
+            src="assets/invitation-bg.png"
+            width="682"
+            height="1024"
+            alt=""
+            decoding="async"
+            fetchpriority="high"
+          >
+        </div>
+        <div class="env-opening__scrim" aria-hidden="true"></div>
+        <div class="env-opening__blossom blossom-layer" aria-hidden="true">
+          <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
+          ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
+        </div>
+        <div class="env-opening__content">
+          <div class="env-opening__ganesh-wrap">
+            <img
+              class="env-opening__ganesh"
+              src="assets/ganesh-design.png"
+              alt="Ganesh motif"
+              decoding="async"
+              fetchpriority="high"
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -3324,19 +3653,26 @@
       </div>
     </section>
 
-    <section id="venues" class="card invite-paper reveal" aria-labelledby="venues-h">
-      <p class="eyebrow" id="venues-h">Directions</p>
-      <p>Open a venue in Google Maps.</p>
-      <article class="event" style="border:0;padding-top:0">
-        <h3>Mandav &amp; Mehandi</h3>
-        <p><time datetime="2026-05-01">May 1st, 2026</time></p>
-        <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Bhusani%2C%20Kalwan%2C%20Nashik%20District%2C%20Maharashtra">Open in Google Maps</a>
-      </article>
-      <article class="event">
-        <h3>Haldi &amp; wedding</h3>
-        <p>Lakshminarayan Resort</p>
-        <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Lakshminarayan%20Resort%2C%20Nampur%20Road%2C%20Malegaon%2C%20Nashik%2C%20Maharashtra">Open in Google Maps</a>
-      </article>
+    <section id="venues" class="card invite-paper reveal gatherings-card" aria-labelledby="venues-h">
+      <header class="gatherings-rich__head">
+        <p class="eyebrow eyebrow--gatherings" id="venues-h">Where we're gathering</p>
+        <p class="gatherings-rich__tag">Two places on the map · follow the pins when you travel</p>
+      </header>
+      <p class="gatherings-rich__lead">Each card opens in Google Maps so you can save the route or share it with family.</p>
+      <div class="gatherings-rich__list">
+        <article class="gathering-card">
+          <p class="gathering-card__label">May 1st · Kalwan</p>
+          <h3>Mandav &amp; Mehandi</h3>
+          <p>Bhusani, Kalwan, Nashik District</p>
+          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Bhusani%2C%20Kalwan%2C%20Nashik%20District%2C%20Maharashtra">Open in Google Maps</a>
+        </article>
+        <article class="gathering-card">
+          <p class="gathering-card__label">May 2nd–3rd · Malegaon</p>
+          <h3>Haldi &amp; wedding</h3>
+          <p>Lakshminarayan Resort — Lotus Hall, Nampur Road, Malegaon, Nashik</p>
+          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Lakshminarayan%20Resort%2C%20Nampur%20Road%2C%20Malegaon%2C%20Nashik%2C%20Maharashtra">Open in Google Maps</a>
+        </article>
+      </div>
     </section>
 
     <footer class="reveal">
@@ -3352,6 +3688,9 @@
     var famExitTimer = null;
     var famFinishTimer = null;
     var envelopeAfterOpenTimer = null;
+    var envOpeningTimerA = null;
+    var envOpeningTimerB = null;
+    var envOpeningTimerC = null;
     var parchmentGateComplete = false;
     var introFinished = false;
     var revIo = null;
@@ -3432,7 +3771,7 @@
       if (reduceMotion) {
         if (shell) shell.classList.add("is-open");
         dismissParchmentGateUi();
-        runIntroFamilyThenFinish();
+        runPostEnvelopeMotifThenFamily();
         return;
       }
       if (shell) shell.classList.add("is-open");
@@ -3440,8 +3779,45 @@
         envelopeAfterOpenTimer = null;
         if (introFinished) return;
         dismissParchmentGateUi();
-        runIntroFamilyThenFinish();
+        runPostEnvelopeMotifThenFamily();
       }, 2600);
+    }
+
+    function runPostEnvelopeMotifThenFamily() {
+      if (!introShell || introFinished) return;
+      clearIntroTimers();
+      tryAutoplayBackgroundMusic();
+      var openingEl = document.getElementById("mobile-env-opening");
+      if (openingEl) openingEl.setAttribute("aria-hidden", "false");
+      if (reduceMotion) {
+        introShell.classList.remove("env-opening-active", "env-opening-exit");
+        introShell.classList.add("env-opening-done");
+        if (openingEl) openingEl.setAttribute("aria-hidden", "true");
+        runIntroFamilyThenFinish();
+        return;
+      }
+      var tActive = 40;
+      var fadeInMs = 450;
+      var dwellMs = 1750;
+      var fadeOutMs = 440;
+      envOpeningTimerA = window.setTimeout(function () {
+        envOpeningTimerA = null;
+        if (!introShell || introFinished) return;
+        introShell.classList.add("env-opening-active");
+      }, tActive);
+      envOpeningTimerB = window.setTimeout(function () {
+        envOpeningTimerB = null;
+        if (!introShell || introFinished) return;
+        introShell.classList.add("env-opening-exit");
+      }, tActive + fadeInMs + dwellMs);
+      envOpeningTimerC = window.setTimeout(function () {
+        envOpeningTimerC = null;
+        if (!introShell || introFinished) return;
+        introShell.classList.remove("env-opening-active", "env-opening-exit");
+        introShell.classList.add("env-opening-done");
+        if (openingEl) openingEl.setAttribute("aria-hidden", "true");
+        runIntroFamilyThenFinish();
+      }, tActive + fadeInMs + dwellMs + fadeOutMs);
     }
 
     function initParchmentEnvelopeGate() {
@@ -3450,7 +3826,7 @@
       var shell = gate ? gate.querySelector(".parchment-envelope") : null;
       var a11yBtn = document.getElementById("intro-parchment-a11y");
       if (!gate || !shell) {
-        runIntroFamilyThenFinish();
+        runPostEnvelopeMotifThenFamily();
         return;
       }
       parchmentGateComplete = false;
@@ -3495,10 +3871,10 @@
     }
 
     function clearIntroTimers() {
-      [envelopeAfterOpenTimer, famExitTimer, famFinishTimer].forEach(function (id) {
+      [envelopeAfterOpenTimer, envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
         if (id) window.clearTimeout(id);
       });
-      envelopeAfterOpenTimer = famExitTimer = famFinishTimer = null;
+      envelopeAfterOpenTimer = envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
     }
 
     function beginScrollReveals() {
@@ -3531,10 +3907,14 @@
       clearIntroTimers();
       document.body.classList.add("intro-done");
       if (introShell) {
+        introShell.classList.remove("env-opening-active", "env-opening-exit");
+        introShell.classList.add("env-opening-done");
         introShell.classList.add("is-hidden");
         introShell.setAttribute("aria-busy", "false");
         introShell.setAttribute("aria-hidden", "true");
       }
+      var openingEl = document.getElementById("mobile-env-opening");
+      if (openingEl) openingEl.setAttribute("aria-hidden", "true");
       if (introFam) introFam.setAttribute("aria-hidden", "true");
       var hero = document.getElementById("cover");
       if (hero) {
@@ -3554,7 +3934,7 @@
 
     function runIntroFamilyThenFinish() {
       if (!introShell || introFinished) return;
-      introShell.classList.remove("env-intro-family-active", "env-intro-family--exit");
+      introShell.classList.remove("env-intro-family-active", "env-intro-family--exit", "env-opening-active", "env-opening-exit");
       if (introFam) introFam.setAttribute("aria-hidden", "false");
       introShell.classList.add("env-intro-family-active");
       var introFadeInMs = reduceMotion ? 0 : 220;
@@ -3577,8 +3957,17 @@
       if (introFinished) return;
       clearIntroTimers();
       if (introShell) {
-        introShell.classList.remove("env-intro-family-active", "env-intro-family--exit", "intro-parchment-pending");
+        introShell.classList.remove(
+          "env-intro-family-active",
+          "env-intro-family--exit",
+          "intro-parchment-pending",
+          "env-opening-active",
+          "env-opening-exit"
+        );
+        introShell.classList.add("env-opening-done");
       }
+      var openingEl = document.getElementById("mobile-env-opening");
+      if (openingEl) openingEl.setAttribute("aria-hidden", "true");
       var shell = document.querySelector("#intro-parchment-gate .parchment-envelope");
       if (shell) shell.classList.add("is-open");
       revealHeroAndScrollUI();
