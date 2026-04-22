@@ -13,7 +13,7 @@
   <link rel="manifest" href="invite-mobile.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
   <link rel="preload" href="assets/ganesh-design.png" as="image" type="image/png">
   <script>
@@ -50,8 +50,9 @@
       --radius: 16px;
       --shadow: 0 10px 36px rgba(35, 26, 18, 0.09);
       --shadow-lift: 0 18px 48px rgba(18, 12, 8, 0.1), 0 8px 20px rgba(45, 32, 22, 0.06);
-      --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+      --font-serif: "Cormorant Garamond", "Cormorant Infant", "Playfair Display", Georgia, serif;
       --font-display: "Playfair Display", Georgia, serif;
+      --font-invite: "Cormorant Infant", "Cormorant Garamond", Georgia, serif;
       --font-caps: "Cinzel", serif;
       --font-script: "Great Vibes", cursive;
       --pad-x: max(1rem, env(safe-area-inset-left, 0px));
@@ -65,6 +66,13 @@
       --dur-hero: 1.85s;
       --ease-page-rich: cubic-bezier(0.2, 1, 0.34, 1);
       --ease-page-soft: cubic-bezier(0.18, 0.9, 0.32, 1);
+      --ease-page-drift: cubic-bezier(0.26, 1.05, 0.36, 1);
+      /* Ceremony / page1 palette (index.html #page1) */
+      --p1-gold: #b08d57;
+      --p1-gold-mid: #a67c52;
+      --p1-gold-deep: #8a663a;
+      --p1-cream: #fff9f0;
+      --p1-col: min(22rem, 88vw);
     }
 
     /* Parchment panels — same treatment as index.html .invite-paper */
@@ -96,6 +104,8 @@
       background-color: var(--cream);
       padding-bottom: calc(var(--tab-h) + var(--pad-b) + 12px);
       position: relative;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: "kern" 1, "liga" 1;
     }
     body::before {
       content: "";
@@ -880,7 +890,7 @@
       font-family: var(--font-display);
       font-weight: 600;
       font-size: 1.22rem;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       margin: 0 0 0.65rem;
       color: var(--ink);
     }
@@ -1316,63 +1326,463 @@
       to { filter: saturate(1.12) brightness(1.03); }
     }
 
-    .invite-lede {
-      font-size: 1.12rem;
+    /* ── Ceremony (#invite): index.html page1 — framed backdrop + invite sheet ── */
+    #invite.ceremony-framed.card {
+      padding: 0;
+      overflow: hidden;
+    }
+    #invite.ceremony-framed > .eyebrow {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      padding: 0.75rem 1rem 0.5rem;
       text-align: center;
     }
-    .big-date {
+    #invite .ceremony-framed__stage {
+      position: relative;
+      isolation: isolate;
+      min-height: min(72vh, 32rem);
+      overflow: hidden;
+    }
+    #invite .ceremony-framed__backdrop {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 42%;
+      transform: scale(1.08) translate3d(0, 12px, 0);
+      opacity: 0.55;
+      z-index: 0;
+      pointer-events: none;
+    }
+    #invite.is-revealed .ceremony-framed__backdrop {
+      animation: ceremonyBackdropIn 1.35s var(--ease-page-drift) forwards, ceremonyBackdropDrift 18s ease-in-out 1.4s infinite alternate;
+    }
+    @keyframes ceremonyBackdropIn {
+      to {
+        opacity: 0.92;
+        transform: scale(1) translate3d(0, 0, 0);
+      }
+    }
+    @keyframes ceremonyBackdropDrift {
+      from { transform: scale(1) translate3d(0, 0, 0); }
+      to { transform: scale(1.04) translate3d(0.8%, -0.6%, 0); }
+    }
+    #invite .ceremony-framed__vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(62, 48, 32, 0.14) 0%, transparent 22%, transparent 78%, rgba(48, 36, 24, 0.12) 100%),
+        radial-gradient(ellipse 70% 55% at 50% 50%, transparent 35%, rgba(42, 32, 22, 0.18) 100%);
+      opacity: 0.85;
+    }
+    #invite .ceremony-framed__lamp {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 95% 58% at 50% -8%, rgba(255, 244, 220, 0.45), transparent 52%),
+        radial-gradient(ellipse 55% 40% at 100% 100%, rgba(255, 200, 170, 0.08), transparent 50%);
+      mix-blend-mode: soft-light;
+      opacity: 0.75;
+    }
+    #invite.is-revealed .ceremony-framed__lamp {
+      animation: ceremonyLampDrift 9s ease-in-out infinite alternate;
+    }
+    @keyframes ceremonyLampDrift {
+      from { opacity: 0.65; transform: translate3d(0, 0, 0); }
+      to { opacity: 0.92; transform: translate3d(1%, -0.5%, 0); }
+    }
+    #invite .ceremony-framed__wing {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: min(26vw, 120px);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    #invite .ceremony-framed__wing--l {
+      left: 0;
+      background: linear-gradient(90deg, rgba(255, 252, 248, 0.5) 0%, rgba(201, 168, 120, 0.08) 45%, transparent 100%);
+      box-shadow: inset 3px 0 0 rgba(255, 253, 248, 0.35);
+    }
+    #invite .ceremony-framed__wing--r {
+      right: 0;
+      background: linear-gradient(270deg, rgba(255, 252, 248, 0.5) 0%, rgba(201, 168, 120, 0.08) 45%, transparent 100%);
+      box-shadow: inset -3px 0 0 rgba(255, 253, 248, 0.35);
+    }
+    #invite.is-revealed .ceremony-framed__wing {
+      animation: ceremonyWingFade 1.1s var(--ease-page-soft) 0.25s forwards;
+    }
+    @keyframes ceremonyWingFade {
+      to { opacity: 0.88; }
+    }
+    #invite .invite-sheet {
+      position: relative;
+      z-index: 2;
+      box-sizing: border-box;
+      max-width: var(--p1-col);
+      margin: 0 auto;
+      padding: clamp(1.75rem, 7dvh, 2.75rem) clamp(1rem, 4vw, 1.5rem) clamp(1.5rem, 6dvh, 2.5rem);
       text-align: center;
-      margin: 1rem 0;
+      color: var(--p1-gold-mid);
+      transform: translate3d(0, min(18px, 2.5dvh), 0) scale(0.97) rotateZ(-0.35deg);
+      opacity: 0.65;
     }
-    .big-date .dow {
-      font-family: var(--font-caps);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: var(--muted);
+    #invite.is-revealed .invite-sheet {
+      animation: inviteSheetSettle 1.1s var(--ease-page-drift) 0.12s forwards;
     }
-    .big-date .day {
-      font-family: var(--font-caps);
-      font-size: clamp(3rem, 18vw, 4.25rem);
-      line-height: 1;
-      font-weight: 600;
-      color: var(--gold);
+    @keyframes inviteSheetSettle {
+      to {
+        transform: translate3d(0, 0, 0) scale(1) rotateZ(0deg);
+        opacity: 1;
+      }
+    }
+    #invite .invite-sheet__stage {
+      width: 100%;
+      max-width: var(--p1-col);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #invite .invite-sheet__eyebrow {
+      margin: 0 0 clamp(0.5rem, 1.4dvh, 0.75rem);
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(0.88rem, 2.6vw, 1.02rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--p1-gold-deep);
+      text-wrap: balance;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.75), 0 0 14px rgba(255, 250, 242, 0.85);
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    #invite.is-revealed .invite-sheet__eyebrow {
+      animation: ceremonyLineIn 0.85s var(--ease-rich) 0.35s forwards;
+    }
+    #invite .invite-sheet__names {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.05rem, 0.5vw, 0.2rem);
+      margin: 0 0 clamp(0.65rem, 1.8dvh, 0.95rem);
+      width: 100%;
+      font-family: var(--font-script);
+      font-weight: 400;
+      font-size: clamp(2.5rem, 11vw, 3.65rem);
+      line-height: 1.1;
+      color: var(--p1-gold);
+      text-shadow:
+        0 1px 0 rgba(255, 249, 240, 0.48),
+        0 2px 14px rgba(138, 102, 58, 0.2),
+        0 10px 32px rgba(176, 141, 87, 0.14);
+      opacity: 0;
+      transform: scale(0.88) translateY(20px);
+    }
+    #invite.is-revealed h2.invite-sheet__names {
+      transition: none !important;
+      animation: ceremonyNamesIn 1.05s var(--ease-page-rich) 0.45s forwards;
+    }
+    @keyframes ceremonyNamesIn {
+      70% {
+        opacity: 1;
+        transform: scale(1.04) translateY(-4px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    #invite .invite-sheet__name {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    #invite .invite-sheet__amp-row {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    #invite .invite-sheet__amp {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 3.2vw, 1.28rem);
+      color: var(--p1-gold-deep);
+      margin: 0.15rem 0;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.55), 0 0 20px rgba(176, 141, 87, 0.22);
+    }
+    #invite.is-revealed .invite-sheet__amp {
+      animation: ceremonyAmpGlow 3.5s ease-in-out 1.2s infinite alternate;
+    }
+    @keyframes ceremonyAmpGlow {
+      from { filter: brightness(1); }
+      to { filter: brightness(1.12); }
+    }
+    #invite .invite-sheet__lede {
+      margin: 0 0 clamp(0.75rem, 2dvh, 1rem);
+      width: 100%;
+      max-width: var(--p1-col);
+      font-family: var(--font-invite);
+      font-size: clamp(0.95rem, 2.8vw, 1.08rem);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.35);
+    }
+    #invite .invite-sheet__lede .invite-word {
       display: inline-block;
-      text-shadow: 0 2px 24px rgba(154, 115, 69, 0.25);
+      opacity: 0;
+      transform: translate3d(0, 10px, 0) scale(0.94);
     }
-    .card.is-revealed .big-date .day {
-      animation: dayReveal 1s var(--ease-rich) 0.15s both, dayShimmer 4s ease-in-out 1.2s infinite alternate;
+    #invite.is-revealed .invite-sheet__lede .invite-word {
+      animation: inviteWordIn 0.62s var(--ease-page-drift) forwards;
+      animation-delay: calc(0.55s + var(--wi, 0) * 48ms);
     }
-    @keyframes dayReveal {
+    @keyframes inviteWordIn {
       0% {
         opacity: 0;
-        transform: translateY(20px) scale(0.85);
+        transform: translate3d(0, 12px, 0) scale(0.9) rotateZ(-0.2deg);
+      }
+      70% {
+        opacity: 1;
+        transform: translate3d(0, -2px, 0) scale(1.03) rotateZ(0.15deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1) rotateZ(0deg);
+      }
+    }
+    @keyframes ceremonyLineIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #invite .invite-sheet__schedule {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: var(--p1-col);
+      margin: 0 auto clamp(0.85rem, 2.2dvh, 1.15rem);
+      padding: 0;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+    }
+    #invite.is-revealed .invite-sheet__schedule {
+      animation: ceremonyScheduleIn 0.95s var(--ease-page-rich) 0.75s forwards;
+    }
+    @keyframes ceremonyScheduleIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    #invite .invite-sheet__schedule::before,
+    #invite .invite-sheet__schedule::after {
+      content: "";
+      display: block;
+      width: min(11rem, 82vw);
+      height: 1px;
+      flex-shrink: 0;
+      background: linear-gradient(90deg, transparent, rgba(166, 124, 82, 0.5), transparent);
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    #invite .invite-sheet__schedule::before {
+      margin-bottom: clamp(0.65rem, 1.8dvh, 0.95rem);
+    }
+    #invite .invite-sheet__schedule::after {
+      margin-top: clamp(0.65rem, 1.8dvh, 0.95rem);
+    }
+    #invite.is-revealed .invite-sheet__schedule::before {
+      animation: ceremonyRuleDraw 0.75s var(--ease-out) 0.85s forwards;
+    }
+    #invite.is-revealed .invite-sheet__schedule::after {
+      animation: ceremonyRuleDraw 0.75s var(--ease-out) 1.05s forwards;
+    }
+    @keyframes ceremonyRuleDraw {
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+    #invite .invite-sheet__dow {
+      margin: 0 0 clamp(0.45rem, 1.2dvh, 0.65rem);
+      width: 100%;
+      font-family: var(--font-caps);
+      font-size: clamp(0.58rem, 1.8vw, 0.7rem);
+      font-weight: 600;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--p1-gold-deep);
+    }
+    #invite .invite-sheet__day {
+      margin: 0 0 clamp(0.35rem, 1dvh, 0.5rem);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3.1rem, 14vw, 4.6rem);
+      line-height: 0.9;
+      color: var(--p1-gold);
+      text-shadow:
+        0 1px 0 rgba(255, 249, 240, 0.35),
+        0 3px 18px rgba(138, 102, 58, 0.14);
+    }
+    #invite.is-revealed .invite-sheet__day {
+      animation: inviteDayReveal 1s var(--ease-rich) 0.9s both, inviteDayShimmer 4s ease-in-out 1.8s infinite alternate;
+    }
+    @keyframes inviteDayReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.82);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
     }
-    @keyframes dayShimmer {
-      0% { filter: brightness(1); }
-      100% { filter: brightness(1.12); }
+    @keyframes inviteDayShimmer {
+      from { filter: brightness(1); }
+      to { filter: brightness(1.1); }
     }
-    .big-date .rest {
-      font-size: 1.05rem;
-      margin-top: 0.25rem;
+    #invite .invite-sheet__mon-year {
+      margin: 0 0 clamp(0.45rem, 1.2dvh, 0.65rem);
+      font-family: var(--font-display);
+      font-size: clamp(0.92rem, 2.5vw, 1.08rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.28);
     }
-    .venue {
-      text-align: center;
+    #invite .invite-sheet__year {
       font-style: normal;
-      font-size: 1.02rem;
-      line-height: 1.45;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      margin-left: 0.25em;
+      font-size: 0.82em;
+      color: var(--p1-gold-deep);
+    }
+    #invite .invite-sheet__time {
+      display: block;
+      margin: 0;
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(0.82rem, 2.4vw, 0.98rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--p1-gold-deep);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.22);
+    }
+    #invite .invite-sheet__venue {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.25rem, 0.8dvh, 0.45rem);
+      margin: 0;
+      padding: clamp(0.65rem, 1.8dvh, 0.95rem) 0 0;
+      width: 100%;
+      max-width: var(--p1-col);
+      font-family: var(--font-display);
+      font-size: clamp(0.82rem, 2.4vw, 0.96rem);
+      font-weight: 400;
+      font-style: normal;
+      line-height: 1.55;
+      letter-spacing: 0.04em;
+      font-feature-settings: "kern" 1, "liga" 1;
+      color: var(--p1-gold-mid);
+      text-align: center;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.28), 0 0 1.2em rgba(176, 141, 87, 0.06);
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    #invite.is-revealed .invite-sheet__venue {
+      animation: ceremonyVenueIn 0.85s var(--ease-soft) 1.05s forwards;
+    }
+    @keyframes ceremonyVenueIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #invite .invite-sheet__venue-line {
+      display: block;
+      width: 100%;
+    }
+    #invite .invite-sheet__footer {
+      margin: clamp(0.75rem, 2dvh, 1rem) 0 0;
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(0.76rem, 2.1vw, 0.9rem);
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--p1-gold-deep);
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    #invite.is-revealed .invite-sheet__footer {
+      animation: ceremonyLineIn 0.75s var(--ease-out) 1.25s forwards;
     }
 
     .event {
       padding: 0.85rem 0;
       border-bottom: 1px solid var(--line);
+      position: relative;
     }
     .event:last-child { border-bottom: 0; padding-bottom: 0; }
     .event h3 { margin-top: 0; }
+    .card.is-revealed .event::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: min(5rem, 40%);
+      height: 1px;
+      transform: translateX(-50%) scaleX(0);
+      background: linear-gradient(90deg, transparent, rgba(176, 141, 87, 0.45), transparent);
+      animation: eventRuleGrow 0.85s var(--ease-out) forwards;
+    }
+    .card.is-revealed .event:nth-of-type(1)::before { animation-delay: 0.35s; }
+    .card.is-revealed .event:nth-of-type(2)::before { animation-delay: 0.48s; }
+    .card.is-revealed .event:nth-of-type(3)::before { animation-delay: 0.6s; }
+    #events .event:last-of-type::before {
+      display: none;
+    }
+    @keyframes eventRuleGrow {
+      to { transform: translateX(-50%) scaleX(1); }
+    }
+    #events.is-revealed > h2 {
+      animation: richTitleBreath 7s ease-in-out 0.8s infinite alternate;
+    }
+    @keyframes richTitleBreath {
+      from { text-shadow: 0 1px 0 rgba(255, 252, 248, 0.5); }
+      to { text-shadow: 0 1px 0 rgba(255, 252, 248, 0.85), 0 0 28px rgba(201, 168, 120, 0.18); }
+    }
+    #families.is-revealed > p:not(.eyebrow) {
+      animation: familiesCopyDrift 8s ease-in-out infinite alternate;
+    }
+    @keyframes familiesCopyDrift {
+      from { text-shadow: 0 0 0 transparent; }
+      to { text-shadow: 0 0 22px rgba(201, 168, 120, 0.06); }
+    }
+    footer.reveal.is-revealed {
+      animation: footerTwinkle 5s ease-in-out infinite alternate;
+    }
+    @keyframes footerTwinkle {
+      from { opacity: 0.85; }
+      to { opacity: 1; letter-spacing: 0.04em; }
+    }
 
     .signers {
       text-align: center;
@@ -1487,6 +1897,9 @@
     .music-panel.is-revealed .music-player-wrap {
       animation: musicFrameGlow 5s ease-in-out infinite alternate;
     }
+    .music-panel.is-revealed h2 {
+      animation: richTitleBreath 8s ease-in-out 0.5s infinite alternate;
+    }
     @keyframes musicFrameGlow {
       0% {
         box-shadow:
@@ -1531,35 +1944,6 @@
       }
     }
 
-    .invite-lede,
-    .venue,
-    .big-date .dow,
-    .big-date .rest {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.7s var(--ease-soft), transform 0.75s var(--ease-rich);
-    }
-    .card.is-revealed .invite-lede {
-      opacity: 1;
-      transform: none;
-      transition-delay: 0.12s;
-    }
-    .card.is-revealed .big-date .dow {
-      opacity: 1;
-      transform: none;
-      transition-delay: 0.2s;
-    }
-    .card.is-revealed .venue {
-      opacity: 1;
-      transform: none;
-      transition-delay: 0.45s;
-    }
-    .card.is-revealed .big-date .rest {
-      opacity: 1;
-      transform: none;
-      transition-delay: 0.55s;
-    }
-
     @media (prefers-reduced-motion: reduce) {
       body::before,
       .hero img,
@@ -1568,9 +1952,27 @@
       .hero.is-revealed .hero__names,
       .hero.is-revealed .hero__date,
       #timing.is-revealed .cal__grid span.cal__day--wed,
-      .card.is-revealed .big-date .day,
+      #invite.is-revealed .ceremony-framed__backdrop,
+      #invite.is-revealed .ceremony-framed__lamp,
+      #invite.is-revealed .ceremony-framed__wing,
+      #invite.is-revealed .invite-sheet,
+      #invite.is-revealed .invite-sheet__eyebrow,
+      #invite.is-revealed h2.invite-sheet__names,
+      #invite.is-revealed .invite-sheet__amp,
+      #invite.is-revealed .invite-sheet__lede .invite-word,
+      #invite.is-revealed .invite-sheet__schedule,
+      #invite.is-revealed .invite-sheet__schedule::before,
+      #invite.is-revealed .invite-sheet__schedule::after,
+      #invite.is-revealed .invite-sheet__day,
+      #invite.is-revealed .invite-sheet__venue,
+      #invite.is-revealed .invite-sheet__footer,
       .card.is-revealed .map-btn,
       .music-panel.is-revealed .music-player-wrap,
+      .music-panel.is-revealed h2,
+      #events.is-revealed > h2,
+      #families.is-revealed > p:not(.eyebrow),
+      footer.reveal.is-revealed,
+      .card.is-revealed .event::before,
       .reveal.card.invite-paper.is-revealed::after {
         animation: none !important;
       }
@@ -1616,14 +2018,26 @@
       #timing.is-revealed .cal__grid span:empty,
       .countdown div,
       .cal,
-      .invite-lede,
-      .venue,
-      .big-date .dow,
-      .big-date .rest {
+      #invite .invite-sheet,
+      #invite .invite-sheet__eyebrow,
+      #invite h2.invite-sheet__names,
+      #invite .invite-sheet__schedule,
+      #invite .invite-sheet__venue,
+      #invite .invite-sheet__footer,
+      #invite .invite-sheet__lede .invite-word {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
         transition: none !important;
+      }
+      #invite .ceremony-framed__backdrop {
+        opacity: 0.9 !important;
+        transform: none !important;
+      }
+      #invite .ceremony-framed__lamp,
+      #invite .ceremony-framed__wing {
+        animation: none !important;
+        transform: none !important;
       }
       #timing .cal {
         clip-path: none !important;
@@ -1805,20 +2219,46 @@
       </div>
     </section>
 
-    <section id="invite" class="card invite-paper reveal" aria-labelledby="invite-h">
+    <section id="invite" class="card invite-paper reveal ceremony-framed" aria-labelledby="invite-h">
       <p class="eyebrow" id="invite-h">Ceremony</p>
-      <p class="invite-lede">Together with their families, <strong>Rutuja</strong> and <strong>Saurabh</strong> cordially invite you to grace the auspicious occasion of their marriage.</p>
-      <div class="big-date">
-        <div class="dow">Sunday</div>
-        <div class="day" aria-label="3 May 2026">3</div>
-        <div class="rest">May 2026 · <time datetime="2026-05-03T19:20">7:20 in the evening</time></div>
+      <div class="ceremony-framed__stage">
+        <img
+          class="ceremony-framed__backdrop"
+          src="assets/invitation-bg.png"
+          width="682"
+          height="1024"
+          alt=""
+          decoding="async"
+          fetchpriority="low"
+        >
+        <div class="ceremony-framed__vignette" aria-hidden="true"></div>
+        <div class="ceremony-framed__lamp" aria-hidden="true"></div>
+        <div class="ceremony-framed__wing ceremony-framed__wing--l" aria-hidden="true"></div>
+        <div class="ceremony-framed__wing ceremony-framed__wing--r" aria-hidden="true"></div>
+        <div class="invite-sheet">
+          <div class="invite-sheet__stage">
+            <p class="invite-sheet__eyebrow">Together with their families</p>
+            <h2 class="invite-sheet__names">
+              <span class="invite-sheet__name invite-sheet__name--first">Rutuja</span>
+              <span class="invite-sheet__amp-row"><span class="invite-sheet__amp">&amp;</span></span>
+              <span class="invite-sheet__name invite-sheet__name--second">Saurabh</span>
+            </h2>
+            <p class="invite-sheet__lede">cordially invite you to grace the auspicious occasion of their marriage.</p>
+            <div class="invite-sheet__schedule">
+              <p class="invite-sheet__dow">Sunday</p>
+              <p class="invite-sheet__day" aria-label="Sunday the third of May, two thousand twenty-six">3</p>
+              <p class="invite-sheet__mon-year">May <span class="invite-sheet__year">2026</span></p>
+              <time class="invite-sheet__time" datetime="2026-05-03T19:20">At 7:20 in the evening</time>
+            </div>
+            <address class="invite-sheet__venue">
+              <span class="invite-sheet__venue-line">Lakshmi Narayan Resort,</span>
+              <span class="invite-sheet__venue-line">Lotus Hall, Nampur Road,</span>
+              <span class="invite-sheet__venue-line">Malegaon, Nashik</span>
+            </address>
+            <p class="invite-sheet__footer">Reception to follow</p>
+          </div>
+        </div>
       </div>
-      <address class="venue">
-        Lakshmi Narayan Resort,<br>
-        Lotus Hall, Nampur Road,<br>
-        Malegaon, Nashik
-      </address>
-      <p style="text-align:center;margin-top:0.85rem;font-family:var(--font-caps);font-size:0.72rem;letter-spacing:0.15em;">Reception to follow</p>
     </section>
 
     <section id="events" class="card invite-paper reveal" aria-labelledby="events-h">
@@ -2103,6 +2543,20 @@
           el.style.setProperty("--cal-stag", (0.58 + i * 0.036) + "s");
         });
       }
+    })();
+
+    (function wrapCeremonyLede() {
+      var lede = document.querySelector("#invite .invite-sheet__lede");
+      if (!lede || lede.getAttribute("data-words") === "1") return;
+      lede.setAttribute("data-words", "1");
+      var txt = lede.textContent.trim();
+      if (!txt) return;
+      function esc(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+      }
+      lede.innerHTML = txt.split(/\s+/).map(function (w, i) {
+        return '<span class="invite-word" style="--wi:' + i + '">' + esc(w) + "</span>";
+      }).join(" ");
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
