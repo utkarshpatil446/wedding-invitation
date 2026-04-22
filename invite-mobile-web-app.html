@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="Digital wedding invitation.">
 <meta name="theme-color" content="#fefaf1">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-title" content="Wedding Invitation">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,6 +90,7 @@ html {
   scroll-behavior: auto;
   height: 100%;
   min-height: 100%;
+  color-scheme: light;
   /* Older iOS: dynamic toolbar + 100vh quirks */
   min-height: -webkit-fill-available;
   -webkit-text-size-adjust: 100%;
@@ -105,6 +109,13 @@ body {
   font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   font-size: clamp(0.95rem, 1.55vw, 1.05rem);
   line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce rubber-band / pull-to-refresh fighting the full-screen loader on mobile Chrome */
+body.is-revealing {
+  overscroll-behavior: none;
 }
 
 /* ── Sealed envelope → opens automatically after countdown (index2 loader transitions) ── */
@@ -115,6 +126,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overscroll-behavior: none;
   /* Respect notch / home indicator on phones (viewport-fit=cover). */
   padding-top: env(safe-area-inset-top, 0px);
   padding-right: env(safe-area-inset-right, 0px);
@@ -3361,6 +3373,8 @@ body.has-revealed.page0-pull-played #page0.panel--active:not(.panel--word-exit) 
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
   scroll-padding-top: 0;
+  scroll-padding-left: env(safe-area-inset-left, 0px);
+  scroll-padding-right: env(safe-area-inset-right, 0px);
   scroll-behavior: auto;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
@@ -5326,6 +5340,8 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
   flex-direction: column;
   gap: 0.72rem;
   padding: 0.35rem 0.25rem;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .page-nav .dot {
@@ -5338,6 +5354,8 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
   border: 1px solid rgba(176, 141, 87, 0.5);
   text-indent: -9999px;
   overflow: visible;
+  touch-action: manipulation;
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
     background 0.48s cubic-bezier(0.28, 1, 0.5, 1),
@@ -5496,6 +5514,11 @@ body.is-cover-page .page-nav {
       100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 0.5rem
     );
     box-sizing: border-box;
+  }
+
+  /* Bottom dot bar overlaps the last snap panel slightly — keep snap targets clear of it */
+  body.has-revealed #snap-scroll.snap-scroll {
+    scroll-padding-bottom: max(3.75rem, calc(env(safe-area-inset-bottom, 0px) + 2.85rem));
   }
 }
 
@@ -6002,15 +6025,15 @@ body.is-cover-page .page-nav {
       ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
       ><span class="petal"></span><span class="petal"></span>
     </div>
-    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async">
+    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async" loading="lazy">
     <div class="cover-wing cover-wing--left" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="cover-wing cover-wing--right" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="invite-sheet">
@@ -6045,15 +6068,15 @@ body.is-cover-page .page-nav {
       ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
       ><span class="petal"></span><span class="petal"></span>
     </div>
-    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async">
+    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async" loading="lazy">
     <div class="cover-wing cover-wing--left" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="cover-wing cover-wing--right" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="fn-sheet">
@@ -6089,15 +6112,15 @@ body.is-cover-page .page-nav {
       ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
       ><span class="petal"></span><span class="petal"></span>
     </div>
-    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async">
+    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async" loading="lazy">
     <div class="cover-wing cover-wing--left" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="cover-wing cover-wing--right" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="p3-sheet">
@@ -6130,15 +6153,15 @@ body.is-cover-page .page-nav {
       ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
       ><span class="petal"></span><span class="petal"></span>
     </div>
-    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async">
+    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async" loading="lazy">
     <div class="cover-wing cover-wing--left" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="cover-wing cover-wing--right" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
       </div>
     </div>
     <div class="p4-sheet">
@@ -7110,11 +7133,37 @@ body.is-cover-page .page-nav {
   }
 
   root.addEventListener("scroll", onSnapScrollSettled, { passive: true });
-  window.addEventListener("resize", function () {
+
+  var layoutRefreshTimer = null;
+  function flushLayoutRefresh() {
+    layoutRefreshTimer = null;
     snapUiSeeded = false;
     invalidatePanelLayoutCache();
     scheduleScrollLighting();
+    /* After toolbar / orientation / safe-area changes, resync active panel + dots */
+    window.requestAnimationFrame(function () {
+      onSnapScroll();
+    });
+  }
+  function scheduleLayoutRefresh() {
+    if (layoutRefreshTimer) window.clearTimeout(layoutRefreshTimer);
+    layoutRefreshTimer = window.setTimeout(flushLayoutRefresh, 90);
+  }
+  window.addEventListener("resize", scheduleLayoutRefresh, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", scheduleLayoutRefresh, { passive: true });
+  }
+  window.addEventListener(
+    "orientationchange",
+    function () {
+      window.setTimeout(flushLayoutRefresh, 280);
+    },
+    { passive: true }
+  );
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) flushLayoutRefresh();
   });
+
   document.addEventListener("wedding-invite-revealed", function () {
     invalidatePanelLayoutCache();
     scheduleScrollLighting();
@@ -7137,6 +7186,27 @@ body.is-cover-page .page-nav {
     } catch (err) {
       sections[i].scrollIntoView({ behavior: "auto", block: "start" });
     }
+  }
+
+  var pageNav = document.querySelector(".page-nav");
+  if (pageNav) {
+    pageNav.addEventListener(
+      "click",
+      function (e) {
+        if (!document.body.classList.contains("has-revealed")) return;
+        var a = e.target && e.target.closest && e.target.closest("a.dot");
+        if (!a || !pageNav.contains(a)) return;
+        var href = a.getAttribute("href") || "";
+        if (href.charAt(0) !== "#") return;
+        var panel = document.getElementById(href.slice(1));
+        if (!panel || !root.contains(panel)) return;
+        var idx = sections.indexOf(panel);
+        if (idx < 0) return;
+        e.preventDefault();
+        goPage(idx);
+      },
+      true
+    );
   }
 
   document.addEventListener("keydown", function (e) {
