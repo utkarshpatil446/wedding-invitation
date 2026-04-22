@@ -1280,7 +1280,7 @@
       border: none;
       border-radius: 1px;
       padding: clamp(22px, 5.5vw, 32px) clamp(18px, 5vw, 30px) clamp(24px, 6vw, 34px);
-      min-height: clamp(104px, 22vw, 138px);
+      min-height: clamp(220px, 52vw, 300px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1324,13 +1324,154 @@
         0 1px 3px rgba(100, 72, 48, 0.15);
       pointer-events: none;
     }
+    /* Couple portrait — halo, jewelled frame, warm vignette (envelope insert) */
+    #intro-simple-envelope .card-photo-moment {
+      position: relative;
+      width: min(184px, 80%);
+      margin: 0 auto clamp(6px, 2vw, 12px);
+      z-index: 2;
+    }
+    #intro-simple-envelope .card-photo-moment::before,
+    #intro-simple-envelope .card-photo-moment::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      margin-top: -5px;
+      opacity: 0.72;
+      background: radial-gradient(circle, rgba(255, 248, 228, 0.95) 0%, rgba(212, 184, 120, 0.5) 45%, transparent 70%);
+      border: 1px solid rgba(184, 145, 88, 0.45);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(201, 168, 120, 0.35);
+      pointer-events: none;
+      z-index: 3;
+    }
+    #intro-simple-envelope .card-photo-moment::before {
+      left: -2px;
+    }
+    #intro-simple-envelope .card-photo-moment::after {
+      right: -2px;
+    }
+    #intro-simple-envelope .card-photo-glow {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 118%;
+      height: 112%;
+      transform: translate(-50%, -50%);
+      background:
+        radial-gradient(ellipse 62% 58% at 50% 42%, rgba(255, 236, 214, 0.75) 0%, transparent 58%),
+        radial-gradient(ellipse 80% 70% at 30% 70%, rgba(244, 190, 200, 0.14) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 60% at 78% 32%, rgba(201, 168, 120, 0.22) 0%, transparent 52%);
+      filter: blur(16px);
+      opacity: 0.88;
+      z-index: 0;
+      pointer-events: none;
+      animation: intro-card-photo-glow 4.2s ease-in-out infinite alternate;
+    }
+    @keyframes intro-card-photo-glow {
+      from {
+        opacity: 0.72;
+        transform: translate(-50%, -50%) scale(0.94);
+      }
+      to {
+        opacity: 0.98;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+    }
+    #intro-simple-envelope .card-photo-frame {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      max-height: min(200px, 34vw);
+      margin: 0 auto;
+      padding: 5px;
+      border-radius: 50% 50% 46% 46% / 40% 40% 46% 46%;
+      background: linear-gradient(
+        148deg,
+        #fff9f0 0%,
+        #f0dcc8 22%,
+        #d4b87a 48%,
+        #9a7340 62%,
+        #e8d4a8 82%,
+        #fdf4e4 100%
+      );
+      box-shadow:
+        0 0 0 1px rgba(255, 252, 248, 0.98),
+        0 0 0 2px rgba(143, 106, 58, 0.22),
+        0 6px 20px rgba(90, 62, 48, 0.16),
+        0 14px 36px rgba(201, 168, 120, 0.22),
+        inset 0 2px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -3px 12px rgba(100, 72, 48, 0.08);
+    }
+    #intro-simple-envelope .card-photo-frame::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 47% 47% 43% 43% / 37% 37% 43% 43%;
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 252, 248, 0.7),
+        inset 0 10px 24px rgba(255, 253, 250, 0.45),
+        inset 0 -14px 28px rgba(60, 40, 30, 0.14);
+      pointer-events: none;
+      z-index: 2;
+    }
+    #intro-simple-envelope .card-photo-frame::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 47% 47% 43% 43% / 37% 37% 43% 43%;
+      background: linear-gradient(
+        168deg,
+        rgba(255, 252, 248, 0.42) 0%,
+        transparent 35%,
+        transparent 58%,
+        rgba(90, 62, 48, 0.07) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+    #intro-simple-envelope .card-couple-photo {
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      right: 5px;
+      bottom: 5px;
+      width: calc(100% - 10px);
+      height: calc(100% - 10px);
+      object-fit: cover;
+      object-position: center 22%;
+      border-radius: 47% 47% 43% 43% / 37% 37% 43% 43%;
+      display: block;
+    }
+    #intro-simple-envelope .env-wrap.open .card-photo-frame {
+      animation: intro-card-photo-frame-in 1.35s cubic-bezier(0.22, 0.88, 0.32, 1) 1.05s both;
+    }
+    @keyframes intro-card-photo-frame-in {
+      from {
+        opacity: 0.85;
+        transform: scale(0.92);
+        filter: saturate(0.92);
+      }
+      55% {
+        transform: scale(1.02);
+        filter: saturate(1.05);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+        filter: saturate(1);
+      }
+    }
     #intro-simple-envelope .rs-monogram {
       position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: clamp(0.1em, 2vw, 0.2em);
-      margin: 0 auto;
+      margin: clamp(10px, 2.5vw, 16px) auto 0;
       padding: 0.52em 0.78em 0.56em;
       border-radius: 2px;
       font-family: "Cinzel Decorative", "Cinzel", serif;
@@ -3612,6 +3753,21 @@
       color: var(--muted);
       padding: 1.5rem 0 0.5rem;
     }
+    footer .footer__thanks {
+      margin: 0 auto 0.7rem;
+      max-width: min(20rem, 90vw);
+      padding: 0 var(--pad-x);
+      font-family: var(--font-invite);
+      font-style: italic;
+      font-size: 0.98rem;
+      font-weight: 400;
+      line-height: 1.45;
+      color: rgba(61, 52, 41, 0.88);
+    }
+    footer .footer__sign {
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
 
     .card.is-revealed .event {
       animation: eventFade 0.65s var(--ease-out) both;
@@ -3823,6 +3979,16 @@
         transform: none !important;
         filter: none !important;
       }
+      #intro-simple-envelope .card-photo-glow {
+        animation: none !important;
+        opacity: 0.82 !important;
+        transform: translate(-50%, -50%) scale(1) !important;
+      }
+      #intro-simple-envelope .env-wrap.open .card-photo-frame {
+        animation: none !important;
+        transform: none !important;
+        filter: none !important;
+      }
       #intro-simple-envelope .card .card-foil-sweep {
         animation: none !important;
         opacity: 0 !important;
@@ -3967,6 +4133,20 @@
               <span class="card-foil-sweep" aria-hidden="true"></span>
               <div class="card-in">
                 <div class="card-crest" aria-hidden="true"></div>
+                <div class="card-photo-moment">
+                  <div class="card-photo-glow" aria-hidden="true"></div>
+                  <div class="card-photo-frame">
+                    <img
+                      class="card-couple-photo"
+                      src="assets/WhatsApp%20Image%202026-04-22%20at%2010.20.26.jpeg"
+                      alt="Rutuja and Saurabh"
+                      width="720"
+                      height="960"
+                      decoding="async"
+                      fetchpriority="low"
+                    >
+                  </div>
+                </div>
                 <div class="rs-monogram" aria-label="Initials R and S"><span class="rs-r"><span class="rs-let">R</span></span><span class="rs-amp">&amp;</span><span class="rs-s"><span class="rs-let">S</span></span></div>
               </div>
             </div>
@@ -4243,7 +4423,8 @@
     </section>
 
     <footer class="reveal">
-      With love · Rutuja &amp; Saurabh
+      <p class="footer__thanks">We can&rsquo;t wait to celebrate with you.</p>
+      <p class="footer__sign">With love · Rutuja &amp; Saurabh</p>
     </footer>
   </main>
 
@@ -4263,6 +4444,11 @@
     var bgMusicGestureListeners = null;
     var musicTourInited = false;
     var musicTourIo = null;
+    var idleAutoScrollTimer = null;
+    var idleAutoScrollArmed = false;
+    var idleAutoScrollSuppressUntil = 0;
+    var IDLE_AUTO_MS = 5000;
+    var IDLE_AUTO_SUPPRESS_MS = 3200;
 
     function detachBgMusicGestureListeners() {
       if (!bgMusicGestureListeners) return;
@@ -4526,6 +4712,7 @@
         });
       });
       initMusicTourPauseOnce();
+      armIdleSectionAutoAdvance();
     }
 
     function runIntroFamilyThenFinish() {
@@ -4787,6 +4974,132 @@
         syncTabsFromScrollPosition();
       });
     }
+
+    function getActiveSectionIdFromScroll() {
+      var anchorY = window.innerHeight * 0.36;
+      var activeId = "cover";
+      for (var si = 0; si < sectionIds.length; si++) {
+        var sid = sectionIds[si];
+        var secEl = document.getElementById(sid);
+        if (!secEl) continue;
+        if (secEl.getBoundingClientRect().top <= anchorY) activeId = sid;
+      }
+      return activeId;
+    }
+
+    function clearIdleAutoScrollTimer() {
+      if (idleAutoScrollTimer) {
+        window.clearTimeout(idleAutoScrollTimer);
+        idleAutoScrollTimer = null;
+      }
+    }
+
+    function scheduleIdleAutoScroll() {
+      if (reduceMotion) return;
+      if (!document.body.classList.contains("intro-done")) return;
+      clearIdleAutoScrollTimer();
+      idleAutoScrollTimer = window.setTimeout(idleAutoAdvanceTick, IDLE_AUTO_MS);
+    }
+
+    function onScrollForIdleAuto() {
+      if (reduceMotion) return;
+      if (!document.body.classList.contains("intro-done")) return;
+      if (Date.now() < idleAutoScrollSuppressUntil) return;
+      scheduleIdleAutoScroll();
+    }
+
+    function onVisibilityIdleAuto() {
+      if (document.hidden) clearIdleAutoScrollTimer();
+      else scheduleIdleAutoScroll();
+    }
+
+    function idleAutoAdvanceTick() {
+      idleAutoScrollTimer = null;
+      if (!document.body.classList.contains("intro-done")) return;
+      if (reduceMotion) return;
+      if (document.hidden) {
+        scheduleIdleAutoScroll();
+        return;
+      }
+      var activeId = getActiveSectionIdFromScroll();
+      var idx = sectionIds.indexOf(activeId);
+      if (idx < 0) idx = 0;
+      var lastI = sectionIds.length - 1;
+
+      if (idx < lastI) {
+        var nextId = sectionIds[idx + 1];
+        var nextEl = document.getElementById(nextId);
+        if (!nextEl) {
+          scheduleIdleAutoScroll();
+          return;
+        }
+        idleAutoScrollSuppressUntil = Date.now() + IDLE_AUTO_SUPPRESS_MS;
+        try {
+          history.replaceState(null, "", "#" + nextId);
+        } catch (err) { /* ignore */ }
+        setTabsCurrent(nextId);
+        scheduleScrollTabSync();
+        nextEl.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+        scheduleIdleAutoScroll();
+        return;
+      }
+
+      var foot = document.querySelector("main > footer.reveal");
+      var footerInView = false;
+      if (foot) {
+        var fr = foot.getBoundingClientRect();
+        footerInView = fr.top < window.innerHeight * 0.88 && fr.bottom > 72;
+      }
+
+      function scrollToCoverFromLoop() {
+        var coverEl = document.getElementById("cover");
+        if (!coverEl) {
+          scheduleIdleAutoScroll();
+          return;
+        }
+        idleAutoScrollSuppressUntil = Date.now() + IDLE_AUTO_SUPPRESS_MS;
+        try {
+          history.replaceState(null, "", "#cover");
+        } catch (err2) { /* ignore */ }
+        setTabsCurrent("cover");
+        scheduleScrollTabSync();
+        coverEl.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+        scheduleIdleAutoScroll();
+      }
+
+      if (footerInView) {
+        scrollToCoverFromLoop();
+        return;
+      }
+
+      if (foot) {
+        idleAutoScrollSuppressUntil = Date.now() + IDLE_AUTO_SUPPRESS_MS;
+        foot.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "end",
+        });
+        scheduleIdleAutoScroll();
+        return;
+      }
+
+      scrollToCoverFromLoop();
+    }
+
+    function armIdleSectionAutoAdvance() {
+      if (reduceMotion || idleAutoScrollArmed) return;
+      idleAutoScrollArmed = true;
+      window.addEventListener("scroll", onScrollForIdleAuto, { passive: true });
+      window.addEventListener("resize", onScrollForIdleAuto, { passive: true });
+      document.addEventListener("visibilitychange", onVisibilityIdleAuto);
+      scheduleIdleAutoScroll();
+    }
+
     window.addEventListener("scroll", scheduleScrollTabSync, { passive: true });
     window.addEventListener("resize", scheduleScrollTabSync);
     function syncTabsFromHash() {
@@ -4807,6 +5120,7 @@
     initMusicFabAndVisibility();
     if (document.body.classList.contains("intro-done")) {
       initMusicTourPauseOnce();
+      armIdleSectionAutoAdvance();
     }
 
     var skipEl = document.querySelector("a.skip");
