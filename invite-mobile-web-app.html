@@ -1759,7 +1759,7 @@ body.is-revealing {
   letter-spacing: 0.02em;
 }
 
-@media (max-width: 720px) {
+@media (orientation: portrait) and (max-width: 720px) {
   .env-cal,
   .env-countdown {
     position: relative;
@@ -5456,20 +5456,37 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
 }
 
 /*
- * Narrow or vertically tight viewports: inner parchment sheets scroll inside the panel.
- * Without this, .panel--framed { overflow: hidden } clips invite / functions / family text on phones
- * and in landscape, while desktop-wide layouts stay unchanged outside this query.
+ * invite-mobile-web-app.html — MOBILE PORTRAIT LAYER (this file only)
+ * Applies when the viewport is portrait and not wider than 900px (phones & narrow tablets).
+ * Desktop, landscape phones, and ultra-wide split views keep the default stylesheet above.
  */
-@media (max-width: 720px), (max-height: 720px) {
+@media (orientation: portrait) and (max-width: 900px) {
+  :root {
+    --mp-safe-t: env(safe-area-inset-top, 0px);
+    --mp-safe-b: env(safe-area-inset-bottom, 0px);
+    --mp-vh: var(--viewport-h, 100dvh);
+    /* Reserve vertical space for floating dot nav (right rail); bottom bar overrides in ≤480px */
+    --mp-bottom-ui: 3.25rem;
+  }
+
+  body {
+    font-size: clamp(1rem, 4vw, 1.05rem);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Cover + framed panels: slightly tighter horizontal padding in portrait */
+  .panel:not(.panel--framed):not(.panel--cover) {
+    padding: clamp(0.85rem, 3.6vw, 1.35rem);
+  }
+
   .panel.panel--framed {
     contain: style;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  #page1 {
-    --p1-col: min(22rem, calc(100vw - 1.1rem));
-  }
   #page2 {
     --p2-col: min(22rem, calc(100vw - 1.1rem));
   }
@@ -5480,16 +5497,15 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
     --p4-col: min(22rem, calc(100vw - 1.1rem));
   }
 
+  /* Inner parchments: scroll + height cap = visible viewport minus chrome & nav */
   #page1 .invite-sheet,
   #page2 .fn-sheet,
   #page3 .p3-sheet {
     min-height: 0;
     max-width: min(22rem, calc(100vw - 1.1rem));
-    /* Fallback first for engines without svh */
-    max-height: 86dvh;
     max-height: min(
       86dvh,
-      calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 3.5rem)
+      calc(var(--mp-vh) - var(--mp-safe-t) - var(--mp-safe-b) - var(--mp-bottom-ui) - 0.75rem)
     );
     overflow-x: hidden;
     overflow-y: auto;
@@ -5525,65 +5541,25 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
   }
 
   #page4 .p4-sheet {
-    max-height: 80dvh;
     max-height: min(
       80dvh,
-      calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 3.75rem)
+      calc(var(--mp-vh) - var(--mp-safe-t) - var(--mp-safe-b) - var(--mp-bottom-ui) - 1.25rem)
     );
-  }
-}
-
-body.is-cover-page .page-nav {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-@media (max-width: 480px) {
-  .page-nav {
-    top: auto;
-    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
-    right: 50%;
-    transform: translateX(50%);
-    flex-direction: row;
-    padding-left: max(0.25rem, env(safe-area-inset-left, 0px));
-    padding-right: max(0.25rem, env(safe-area-inset-right, 0px));
-    max-width: calc(
-      100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 0.5rem
-    );
-    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
 
-  /* Bottom dot bar overlaps the last snap panel slightly — keep snap targets clear of it */
-  body.has-revealed #snap-scroll.snap-scroll {
-    scroll-padding-bottom: max(3.75rem, calc(env(safe-area-inset-bottom, 0px) + 2.85rem));
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   MOBILE-FIRST ENHANCEMENTS  (≤ 600 px wide / short screens)
-   Preserves all existing design; strengthens readability,
-   touch targets, and layout density on phones.
-   ═══════════════════════════════════════════════════════════ */
-
-@media (max-width: 600px) {
-
-  /* ── Body & base ── */
-  body {
-    font-size: clamp(1rem, 4vw, 1.05rem);
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* ── Loader stage: tighter padding so all three hero cards fit ── */
+  /* ── Loader (opening act) ── */
   .env-stage {
-    padding-top: max(env(safe-area-inset-top, 0px), clamp(0.4rem, 1.5dvh, 0.75rem));
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), clamp(0.4rem, 1.5dvh, 0.75rem));
+    padding-top: max(var(--mp-safe-t), clamp(0.4rem, 1.5dvh, 0.75rem));
+    padding-bottom: max(var(--mp-safe-b), clamp(0.4rem, 1.5dvh, 0.75rem));
     padding-left: max(env(safe-area-inset-left, 0px), clamp(0.5rem, 2.5vw, 1rem));
     padding-right: max(env(safe-area-inset-right, 0px), clamp(0.5rem, 2.5vw, 1rem));
     gap: clamp(0.4rem, 1.5dvh, 0.8rem);
   }
 
-  /* ── Envelope + trio: shrink to fit narrow / short screens ── */
   .env-hero {
     --env-trio-h: clamp(200px, 30dvh, 310px);
     --env-cal-gap: clamp(1rem, 2.5vw, 1.75rem);
@@ -5591,7 +5567,6 @@ body.is-cover-page .page-nav {
     gap: clamp(0.35rem, 1.2dvh, 0.65rem);
   }
 
-  /* ── Calendar / countdown cards: fill width, bump tiny type ── */
   .env-cal,
   .env-countdown {
     width: min(17rem, 92vw);
@@ -5632,7 +5607,6 @@ body.is-cover-page .page-nav {
     padding: 0.2rem 0.1rem;
   }
 
-  /* ── Family note on loader: tighter, more readable ── */
   .env-envelope-note {
     max-width: 95vw;
     padding: clamp(0.8rem, 2.2dvh, 1.15rem) clamp(0.85rem, 3vw, 1.2rem);
@@ -5647,12 +5621,11 @@ body.is-cover-page .page-nav {
     line-height: 1.65;
   }
 
-  /* ── Ganesh intro image: slightly smaller on short screens ── */
   .env-opening__ganesh {
     max-height: min(26dvh, 200px);
   }
 
-  /* ── Page 1: invitation card ── */
+  /* ── Invitation sheet typography ── */
   #page1 {
     --p1-col: min(22rem, calc(100vw - 1.5rem));
     --p1-s3: clamp(0.65rem, 1.6dvh, 0.9rem);
@@ -5701,17 +5674,14 @@ body.is-cover-page .page-nav {
     font-size: clamp(0.8rem, 3vw, 0.94rem);
   }
 
-  /* ── Page 2: functions sheet ── */
   #page2 {
     --p2-col: min(22rem, calc(100vw - 1.5rem));
   }
 
-  /* ── Page 3: family message ── */
   #page3 {
     --p3-col: min(22rem, calc(100vw - 1.5rem));
   }
 
-  /* Larger tap targets for phone links */
   .p3-sheet__contact a {
     display: inline-block;
     padding: 0.55rem 0.85rem;
@@ -5725,12 +5695,10 @@ body.is-cover-page .page-nav {
     text-decoration: none;
   }
 
-  /* ── Page 4: venue maps ── */
   #page4 {
     --p4-col: min(22rem, calc(100vw - 1.5rem));
   }
 
-  /* Venue map card link: full-width on mobile, large touch target ── */
   .p4-map-card__link {
     display: block;
     width: 100%;
@@ -5741,31 +5709,57 @@ body.is-cover-page .page-nav {
     box-sizing: border-box;
   }
 
-  /* Map preview tile: slightly shorter on phones */
   .p4-map-card__preview {
     height: clamp(5rem, 14dvh, 8rem);
   }
 
-  /* ── Cover wings: less on narrow screens ── */
   .cover-wing {
     width: min(26vw, 108px);
   }
 
-  /* ── Dot nav: slightly larger touch targets ── */
   .page-nav .dot {
     width: 10px;
     height: 10px;
   }
 
-  /* ── Scrollable inner sheets: prevent content clipping on very small screens ── */
-  .panel.panel--framed {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  body.has-revealed #snap-scroll.snap-scroll {
+    scroll-padding-top: max(0.5rem, var(--mp-safe-t));
   }
 }
 
-/* ── Extra-narrow phones (≤ 360 px) ── */
-@media (max-width: 360px) {
+body.is-cover-page .page-nav {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+/* Portrait + narrow: bottom dot rail (thumb-friendly) */
+@media (orientation: portrait) and (max-width: 480px) {
+  :root {
+    --mp-bottom-ui: 5.75rem;
+  }
+
+  .page-nav {
+    top: auto;
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+    padding-left: max(0.25rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.25rem, env(safe-area-inset-right, 0px));
+    max-width: calc(
+      100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 0.5rem
+    );
+    box-sizing: border-box;
+  }
+
+  body.has-revealed #snap-scroll.snap-scroll {
+    scroll-padding-bottom: max(4rem, calc(env(safe-area-inset-bottom, 0px) + 3.1rem));
+  }
+}
+
+/* Portrait + extra-narrow */
+@media (orientation: portrait) and (max-width: 360px) {
   .env-hero {
     --env-trio-h: clamp(180px, 28dvh, 260px);
   }
@@ -5794,9 +5788,8 @@ body.is-cover-page .page-nav {
   }
 }
 
-/* ── Landscape phones: very short viewport ── */
+/* Landscape phones: short vertical — separate from portrait layer */
 @media (max-height: 500px) and (max-width: 900px) {
-
   .env-stage {
     padding-top: max(env(safe-area-inset-top, 0px), 0.25rem);
     padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.25rem);
@@ -5810,7 +5803,6 @@ body.is-cover-page .page-nav {
     --env-trio-h: clamp(160px, 52dvh, 240px);
   }
 
-  /* Landscape: show env + compact cards side-by-side if space allows */
   .env-cal,
   .env-countdown {
     width: min(14rem, 44vw);
@@ -5822,25 +5814,6 @@ body.is-cover-page .page-nav {
 
   .env-envelope-note__lead {
     font-size: clamp(0.88rem, 2.5vw, 1rem);
-  }
-}
-
-/* Portrait: inner parchment height tracks live viewport (URL bar / home indicator) */
-@media (orientation: portrait) and (max-width: 900px) {
-  #page1 .invite-sheet,
-  #page2 .fn-sheet,
-  #page3 .p3-sheet {
-    max-height: min(
-      84dvh,
-      calc(var(--viewport-h, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 3.75rem)
-    );
-  }
-
-  #page4 .p4-sheet {
-    max-height: min(
-      78dvh,
-      calc(var(--viewport-h, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 4rem)
-    );
   }
 }
 </style>
