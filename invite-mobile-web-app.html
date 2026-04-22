@@ -12,6 +12,26 @@
 <meta name="apple-mobile-web-app-title" content="Wedding Invitation">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Wedding Invitation</title>
+<link rel="manifest" href="invite-mobile.webmanifest">
+<!-- Real pixel height for mobile toolbars (100dvh still pairs fixed descendants badly on some WebKit builds). -->
+<script>
+(function () {
+  function setViewportH() {
+    var el = document.documentElement;
+    var h = window.innerHeight || 0;
+    if (window.visualViewport && window.visualViewport.height) h = window.visualViewport.height;
+    if (h > 0) el.style.setProperty("--viewport-h", h + "px");
+  }
+  setViewportH();
+  window.addEventListener("resize", setViewportH, { passive: true });
+  window.addEventListener("orientationchange", function () {
+    setTimeout(setViewportH, 200);
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", setViewportH, { passive: true });
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -90,6 +110,8 @@ html {
   scroll-behavior: auto;
   height: 100%;
   min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   color-scheme: light;
   /* Older iOS: dynamic toolbar + 100vh quirks */
   min-height: -webkit-fill-available;
@@ -100,6 +122,8 @@ html {
 body {
   margin: 0;
   min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   min-height: -webkit-fill-available;
   height: 100%;
   overflow-x: hidden;
@@ -2934,20 +2958,28 @@ body.is-revealing {
   }
 }
 
-body.is-revealing #snap-scroll,
+/*
+ * #snap-scroll must never use transform: even scale(1) creates a containing block, so
+ * position:fixed (.cover-sheet handoff) is tied to the scroll root instead of the viewport
+ * — broken layout on iOS / Chrome Android. Opacity only here; nav can still scale in.
+ */
+body.is-revealing #snap-scroll {
+  opacity: 0;
+  pointer-events: none;
+}
+body.has-revealed #snap-scroll {
+  opacity: 1;
+  pointer-events: auto;
+  transition: none;
+}
+
 body.is-revealing .page-nav {
   opacity: 0;
   transform: scale(0.985);
-  /* Keep pointer-events: auto so links work whenever the loader is not on top (e.g. during fade / skip). */
 }
-body.has-revealed #snap-scroll,
 body.has-revealed .page-nav {
   opacity: 1;
   transform: scale(1);
-  /*
-   * Do not animate opacity on #snap-scroll: a fixed .cover-sheet (page0 pull) is still a descendant,
-   * and a fading ancestor opacity would hide the cover for the first frames (blink).
-   */
   transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1) 0.01s;
 }
 
@@ -3309,7 +3341,6 @@ body.has-revealed.page0-pull-played #page0.panel--active:not(.panel--word-exit) 
   #page-loader.is-exiting:not(.is-hidden) {
     transition: opacity 0.18s ease 0.06s;
   }
-  body.has-revealed #snap-scroll,
   body.has-revealed .page-nav {
     transition-duration: 0.2s;
     transition-delay: 0s;
@@ -3369,6 +3400,10 @@ body.has-revealed.page0-pull-played #page0.panel--active:not(.panel--word-exit) 
 .snap-scroll {
   height: 100vh;
   height: 100dvh;
+  height: var(--viewport-h, 100dvh);
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: var(--viewport-h, 100dvh);
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
@@ -3388,10 +3423,13 @@ body.has-revealed .snap-scroll {
 .panel {
   height: 100vh;
   height: 100dvh;
+  height: var(--viewport-h, 100dvh);
   min-height: 100vh;
   min-height: 100dvh;
+  min-height: var(--viewport-h, 100dvh);
   max-height: 100vh;
   max-height: 100dvh;
+  max-height: var(--viewport-h, 100dvh);
   width: 100%;
   flex-shrink: 0;
   scroll-snap-align: start;
@@ -6025,15 +6063,15 @@ body.is-cover-page .page-nav {
       ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
       ><span class="petal"></span><span class="petal"></span>
     </div>
-    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async" loading="lazy">
+    <img class="panel__backdrop" src="assets/invitation-bg.png" width="682" height="1024" alt="" role="presentation" decoding="async">
     <div class="cover-wing cover-wing--left" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
       </div>
     </div>
     <div class="cover-wing cover-wing--right" aria-hidden="true">
       <div class="cover-wing__inner">
-        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low" loading="lazy">
+        <img src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" width="2048" height="2048" alt="" decoding="async" fetchpriority="low">
       </div>
     </div>
     <div class="invite-sheet">
@@ -7135,8 +7173,18 @@ body.is-cover-page .page-nav {
   root.addEventListener("scroll", onSnapScrollSettled, { passive: true });
 
   var layoutRefreshTimer = null;
+  function syncInviteViewportHeightCss() {
+    var el = document.documentElement;
+    var h = window.innerHeight || 0;
+    if (window.visualViewport && window.visualViewport.height) {
+      h = window.visualViewport.height;
+    }
+    if (h > 0) el.style.setProperty("--viewport-h", h + "px");
+  }
+
   function flushLayoutRefresh() {
     layoutRefreshTimer = null;
+    syncInviteViewportHeightCss();
     snapUiSeeded = false;
     invalidatePanelLayoutCache();
     scheduleScrollLighting();
