@@ -4442,8 +4442,6 @@
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
-    var musicTourInited = false;
-    var musicTourIo = null;
     var idleAutoScrollTimer = null;
     var idleAutoScrollArmed = false;
     var idleAutoScrollSuppressUntil = 0;
@@ -4711,7 +4709,6 @@
           syncTabsFromScrollPosition();
         });
       });
-      initMusicTourPauseOnce();
       armIdleSectionAutoAdvance();
     }
 
@@ -4906,45 +4903,14 @@
           a.pause();
         }
       });
+      /* Pause when leaving the tab, window, or navigating away (in-page scroll does not hide). */
       document.addEventListener("visibilitychange", function () {
         if (document.hidden && !a.paused) a.pause();
       });
-      syncFab();
-    }
-
-    function initMusicTourPauseOnce() {
-      if (musicTourInited || typeof IntersectionObserver === "undefined") return;
-      musicTourInited = true;
-      var audio = document.getElementById("bg-music");
-      var seen = {};
-      var need = sectionIds.length;
-      var nSeen = 0;
-      function markSeen(id) {
-        if (seen[id]) return;
-        seen[id] = true;
-        nSeen++;
-        if (nSeen >= need && audio && !audio.paused) {
-          audio.pause();
-          if (musicTourIo) {
-            musicTourIo.disconnect();
-            musicTourIo = null;
-          }
-        }
-      }
-      musicTourIo = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (e) {
-            if (!e.isIntersecting) return;
-            var id = e.target.id;
-            if (sectionIds.indexOf(id) >= 0) markSeen(id);
-          });
-        },
-        { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
-      );
-      sectionIds.forEach(function (sid) {
-        var sec = document.getElementById(sid);
-        if (sec) musicTourIo.observe(sec);
+      window.addEventListener("pagehide", function () {
+        if (!a.paused) a.pause();
       });
+      syncFab();
     }
 
     function setTabsCurrent(id) {
@@ -5119,7 +5085,6 @@
     scheduleScrollTabSync();
     initMusicFabAndVisibility();
     if (document.body.classList.contains("intro-done")) {
-      initMusicTourPauseOnce();
       armIdleSectionAutoAdvance();
     }
 
