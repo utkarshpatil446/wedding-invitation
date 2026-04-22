@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#faf6ef">
+  <meta name="theme-color" content="#fefaf1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Rutuja &amp; Saurabh">
   <meta name="mobile-web-app-capable" content="yes">
@@ -13,7 +13,8 @@
   <link rel="manifest" href="invite-mobile.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
   <script>
   (function () {
     function setVh() {
@@ -30,17 +31,28 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     :root {
-      --ink: #2e261f;
+      /* Aligned with index.html invitation palette */
+      --invite-cream: #fdf6e8;
+      --invite-cream-deep: #ebe3d4;
+      --invite-cream-warm: #faf4e8;
+      --invite-gold-soft: rgba(201, 168, 76, 0.13);
+      --invite-rose-soft: rgba(244, 167, 185, 0.09);
+      --invite-line: rgba(143, 106, 58, 0.042);
+      --ink: #3d3429;
       --muted: #5c5147;
-      --gold: #9a7345;
-      --gold-soft: rgba(154, 115, 69, 0.18);
-      --cream: #faf6ef;
+      --gold: #8f6a3a;
+      --gold-mid: #b08d57;
+      --gold-soft: rgba(176, 141, 87, 0.2);
+      --cream: #fefaf1;
       --paper: #fffdf8;
-      --line: rgba(154, 115, 69, 0.22);
-      --radius: 14px;
-      --shadow: 0 8px 28px rgba(35, 26, 18, 0.08);
-      --font-serif: "Cormorant Garamond", Georgia, serif;
+      --line: rgba(176, 141, 87, 0.28);
+      --radius: 16px;
+      --shadow: 0 10px 36px rgba(35, 26, 18, 0.09);
+      --shadow-lift: 0 18px 48px rgba(18, 12, 8, 0.1), 0 8px 20px rgba(45, 32, 22, 0.06);
+      --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+      --font-display: "Playfair Display", Georgia, serif;
       --font-caps: "Cinzel", serif;
+      --font-script: "Great Vibes", cursive;
       --pad-x: max(1rem, env(safe-area-inset-left, 0px));
       --pad-x2: max(1rem, env(safe-area-inset-right, 0px));
       --pad-b: max(0.75rem, env(safe-area-inset-bottom, 0px));
@@ -50,6 +62,22 @@
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --dur-reveal: 0.95s;
       --dur-hero: 1.85s;
+      --ease-page-rich: cubic-bezier(0.2, 1, 0.34, 1);
+      --ease-page-soft: cubic-bezier(0.18, 0.9, 0.32, 1);
+    }
+
+    /* Parchment panels — same treatment as index.html .invite-paper */
+    .invite-paper {
+      background-color: var(--invite-cream-warm);
+      background-image:
+        radial-gradient(ellipse 92% 68% at 50% -18%, var(--invite-gold-soft) 0%, transparent 52%),
+        radial-gradient(ellipse 52% 42% at 96% 90%, var(--invite-rose-soft) 0%, transparent 48%),
+        radial-gradient(ellipse 48% 40% at 4% 82%, rgba(201, 168, 76, 0.07) 0%, transparent 46%),
+        repeating-linear-gradient(135deg, transparent 0, transparent 11px, var(--invite-line) 11px, var(--invite-line) 12px),
+        repeating-linear-gradient(45deg, transparent 0, transparent 13px, rgba(143, 106, 58, 0.032) 13px, rgba(143, 106, 58, 0.032) 14px),
+        radial-gradient(circle at 50% 52%, #fffdf8 0%, var(--invite-cream) 44%, var(--invite-cream-deep) 100%);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 22px 22px, 22px 22px, 100% 100%;
+      background-position: 0 0, 0 0, 0 0, 0 0, 11px -11px, 0 0;
     }
     html {
       scroll-behavior: smooth;
@@ -64,7 +92,7 @@
       font-size: 1.125rem;
       line-height: 1.55;
       color: var(--ink);
-      background: var(--cream);
+      background-color: var(--cream);
       padding-bottom: calc(var(--tab-h) + var(--pad-b) + 12px);
       position: relative;
     }
@@ -75,9 +103,9 @@
       z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 95% 55% at 50% -15%, rgba(218, 179, 120, 0.16), transparent 52%),
-        radial-gradient(ellipse 55% 42% at 108% 88%, rgba(244, 200, 210, 0.1), transparent 48%),
-        radial-gradient(ellipse 45% 38% at -5% 72%, rgba(201, 168, 120, 0.08), transparent 46%);
+        radial-gradient(ellipse 95% 55% at 50% -15%, var(--invite-gold-soft), transparent 52%),
+        radial-gradient(ellipse 55% 42% at 108% 88%, var(--invite-rose-soft), transparent 48%),
+        radial-gradient(ellipse 45% 38% at -5% 72%, rgba(201, 168, 76, 0.1), transparent 46%);
       opacity: 0.85;
       animation: ambienceDrift 22s var(--ease-soft) infinite alternate;
     }
@@ -125,15 +153,16 @@
       -webkit-tap-highlight-color: transparent;
     }
     .tabs a {
-      flex: 1;
+      flex: 1 1 15%;
+      min-width: 0;
       min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 4px;
+      padding: 0 2px;
       font-family: var(--font-caps);
-      font-size: 0.58rem;
-      letter-spacing: 0.06em;
+      font-size: 0.48rem;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--muted);
@@ -175,6 +204,7 @@
       position: relative;
       border-radius: var(--radius);
       overflow: hidden;
+      border: 1px solid rgba(176, 141, 87, 0.45);
       box-shadow:
         var(--shadow),
         0 0 0 1px rgba(255, 252, 248, 0.35) inset,
@@ -257,9 +287,18 @@
       font-size: clamp(1.35rem, 5.5vw, 1.85rem);
       letter-spacing: 0.04em;
       margin: 0;
-      line-height: 1.2;
+      line-height: 1.25;
       opacity: 0;
       transform: translateY(18px) scale(0.96);
+    }
+    .hero__names .hero__amp {
+      font-family: var(--font-script);
+      font-weight: 400;
+      font-size: 1.35em;
+      margin: 0 0.12em;
+      vertical-align: middle;
+      color: #f5e6c8;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
     }
     .hero.is-revealed .hero__names {
       animation: heroTitle 1.05s var(--ease-rich) 0.38s forwards;
@@ -306,18 +345,58 @@
         box-shadow 0.8s var(--ease-soft);
     }
     .card {
-      background: var(--paper);
+      position: relative;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 1.25rem 1.2rem;
       margin-bottom: 1rem;
       box-shadow: var(--shadow);
     }
+    .card.invite-paper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: url("assets/invitation-bg.png") center / cover no-repeat;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card.invite-paper > * {
+      position: relative;
+      z-index: 1;
+    }
+    .reveal.card.invite-paper::after {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 0;
+      background: linear-gradient(118deg, transparent 38%, rgba(255, 252, 248, 0.55) 50%, transparent 62%);
+      transform: translateX(-120%);
+      opacity: 0;
+    }
+    .reveal.card.invite-paper.is-revealed::after {
+      animation: sheetSheen 1.15s var(--ease-page-rich) 0.35s forwards;
+    }
+    @keyframes sheetSheen {
+      0% {
+        transform: translateX(-120%);
+        opacity: 0.85;
+      }
+      100% {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+    }
     .reveal.card.is-revealed {
       box-shadow:
-        var(--shadow),
-        0 0 0 1px rgba(255, 252, 248, 0.65) inset,
-        0 0 40px rgba(201, 168, 120, 0.12);
+        var(--shadow-lift),
+        0 0 0 1px rgba(255, 252, 248, 0.55) inset,
+        0 0 48px rgba(201, 168, 120, 0.14);
+      transform: translateY(0) scale(1);
     }
     .card.is-revealed .eyebrow::after {
       content: "";
@@ -346,10 +425,10 @@
       margin: 0 0 0.5rem;
     }
     h2 {
-      font-family: var(--font-caps);
+      font-family: var(--font-display);
       font-weight: 600;
-      font-size: 1.15rem;
-      letter-spacing: 0.08em;
+      font-size: 1.22rem;
+      letter-spacing: 0.06em;
       margin: 0 0 0.65rem;
       color: var(--ink);
     }
@@ -639,41 +718,42 @@
       100% { box-shadow: 0 8px 26px rgba(154, 115, 69, 0.18); }
     }
 
-    .music-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 0.75rem;
+    /* Foreground audio — native controls, index-style frame */
+    .music-panel .music-lede {
+      font-size: 1.02rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
     }
-    .music-row button {
-      min-height: 48px;
-      padding: 0 1.1rem;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--paper);
-      font-family: var(--font-caps);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink);
-      cursor: pointer;
-      transition:
-        transform 0.35s var(--ease-out),
-        box-shadow 0.5s var(--ease-soft),
-        border-color 0.35s ease,
-        background 0.45s ease;
+    .music-player-wrap {
+      border-radius: 14px;
+      padding: 14px 12px;
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, #faf4e8 100%);
+      border: 1px solid rgba(176, 141, 87, 0.35);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 6px 22px rgba(45, 32, 22, 0.07);
+      transition: box-shadow 0.5s var(--ease-page-soft), transform 0.45s var(--ease-out);
     }
-    .music-row button[aria-pressed="true"] {
-      background: var(--gold-soft);
-      border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(201, 168, 120, 0.35);
-      animation: musicGlow 2.5s ease-in-out infinite alternate;
+    .music-panel.is-revealed .music-player-wrap {
+      animation: musicFrameGlow 5s ease-in-out infinite alternate;
     }
-    @keyframes musicGlow {
-      0% { box-shadow: 0 0 12px rgba(201, 168, 120, 0.25); }
-      100% { box-shadow: 0 0 28px rgba(201, 168, 120, 0.4); }
+    @keyframes musicFrameGlow {
+      0% {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.85),
+          0 6px 22px rgba(45, 32, 22, 0.07);
+      }
+      100% {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.85),
+          0 8px 28px rgba(201, 168, 120, 0.22);
+      }
+    }
+    .music-player-wrap audio {
+      width: 100%;
+      min-height: 56px;
+      display: block;
+      border-radius: 10px;
     }
 
     footer {
@@ -740,7 +820,8 @@
       .card.is-revealed .cal__day--wed,
       .card.is-revealed .big-date .day,
       .card.is-revealed .map-btn,
-      .music-row button[aria-pressed="true"] {
+      .music-panel.is-revealed .music-player-wrap,
+      .reveal.card.invite-paper.is-revealed::after {
         animation: none !important;
       }
       body::before {
@@ -801,6 +882,7 @@
 
   <nav class="tabs" aria-label="Page sections">
     <a href="#cover" aria-current="true">Cover</a>
+    <a href="#music">Music</a>
     <a href="#invite">Invite</a>
     <a href="#events">Events</a>
     <a href="#family">Family</a>
@@ -820,23 +902,30 @@
       <div class="hero__veil" aria-hidden="true"></div>
       <div class="hero__text">
         <p class="hero__kicker">The wedding of</p>
-        <h1 class="hero__names">Rutuja &amp; Saurabh</h1>
+        <h1 class="hero__names">Rutuja <span class="hero__amp">&amp;</span> Saurabh</h1>
         <p class="hero__date">Sunday 3 May 2026 · Nashik</p>
       </div>
     </section>
 
-    <section id="families" class="card reveal" aria-labelledby="families-h">
+    <section id="music" class="card invite-paper reveal music-panel" aria-labelledby="music-h">
+      <p class="eyebrow" id="music-h">Music</p>
+      <h2>Celebration melody</h2>
+      <p class="music-lede">Press play on the player below—full controls and volume, same spirit as the desktop invite.</p>
+      <div class="music-player-wrap">
+        <audio id="bg-music" controls loop playsinline preload="metadata">
+          <source src="assets/background-music.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </section>
+
+    <section id="families" class="card invite-paper reveal" aria-labelledby="families-h">
       <p class="eyebrow" id="families-h">Together with our families</p>
       <p>
         The Patil and Pawar families request the <em>honour of your presence</em> as they celebrate the wedding of their beloved children—with gratitude, they invite you to witness this union, share in the joy of the day, and bless the couple as they begin their journey together.
       </p>
-      <div class="music-row">
-        <span class="eyebrow" style="margin:0">Ambience</span>
-        <button type="button" id="music-toggle" aria-pressed="false">Play gentle music</button>
-      </div>
     </section>
 
-    <section class="card reveal" id="timing" aria-labelledby="count-h">
+    <section class="card invite-paper reveal" id="timing" aria-labelledby="count-h">
       <p class="eyebrow" id="count-h">Counting down to</p>
       <h2 style="text-align:center;margin-bottom:0.25rem">Forever</h2>
       <div class="countdown" id="countdown" aria-live="polite">
@@ -859,7 +948,7 @@
       </div>
     </section>
 
-    <section id="invite" class="card reveal" aria-labelledby="invite-h">
+    <section id="invite" class="card invite-paper reveal" aria-labelledby="invite-h">
       <p class="eyebrow" id="invite-h">Ceremony</p>
       <p class="invite-lede">Together with their families, <strong>Rutuja</strong> and <strong>Saurabh</strong> cordially invite you to grace the auspicious occasion of their marriage.</p>
       <div class="big-date">
@@ -875,7 +964,7 @@
       <p style="text-align:center;margin-top:0.85rem;font-family:var(--font-caps);font-size:0.72rem;letter-spacing:0.15em;">Reception to follow</p>
     </section>
 
-    <section id="events" class="card reveal" aria-labelledby="events-h">
+    <section id="events" class="card invite-paper reveal" aria-labelledby="events-h">
       <p class="eyebrow" id="events-h">Schedule</p>
       <h2>Functions &amp; ceremonies</h2>
       <article class="event">
@@ -897,7 +986,7 @@
       </article>
     </section>
 
-    <section id="family" class="card reveal" aria-labelledby="family-h">
+    <section id="family" class="card invite-paper reveal" aria-labelledby="family-h">
       <p class="eyebrow" id="family-h">From the family</p>
       <p>We warmly invite you to bless Rutuja and Saurabh and to join us for their wedding and for every ceremony that surrounds it. Your presence would bring our family great joy.</p>
       <div class="signers">
@@ -913,7 +1002,7 @@
       </div>
     </section>
 
-    <section id="venues" class="card reveal" aria-labelledby="venues-h">
+    <section id="venues" class="card invite-paper reveal" aria-labelledby="venues-h">
       <p class="eyebrow" id="venues-h">Directions</p>
       <h2>Where we gather</h2>
       <p>Open a venue in Google Maps.</p>
@@ -933,10 +1022,6 @@
       With love · Rutuja &amp; Saurabh
     </footer>
   </main>
-
-  <audio id="bg-music" loop preload="metadata" playsinline>
-    <source src="assets/background-music.mp3" type="audio/mpeg">
-  </audio>
 
   <script>
   (function () {
@@ -1023,27 +1108,8 @@
       });
     }
 
-    var audio = document.getElementById("bg-music");
-    var btn = document.getElementById("music-toggle");
-    if (btn && audio) {
-      btn.addEventListener("click", function () {
-        if (audio.paused) {
-          audio.play().then(function () {
-            btn.setAttribute("aria-pressed", "true");
-            btn.textContent = "Pause music";
-          }).catch(function () {
-            btn.textContent = "Tap to try again";
-          });
-        } else {
-          audio.pause();
-          btn.setAttribute("aria-pressed", "false");
-          btn.textContent = "Play gentle music";
-        }
-      });
-    }
-
     var tabs = document.querySelectorAll(".tabs a");
-    var sectionIds = ["cover", "invite", "events", "family", "venues"];
+    var sectionIds = ["cover", "music", "invite", "events", "family", "venues"];
     function syncTabsFromHash() {
       var id = (location.hash || "#cover").replace("#", "");
       if (sectionIds.indexOf(id) < 0) id = "cover";
