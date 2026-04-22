@@ -14,8 +14,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="preload" href="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" as="image">
+  <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
   <link rel="preload" href="assets/ganesh-design.png" as="image" type="image/png">
+  <link rel="preload" href="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" as="image">
   <script>
   (function () {
     function setVh() {
@@ -289,14 +290,12 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      min-height: 100dvh;
-      min-width: 100%;
       object-fit: cover;
-      object-position: center 38%;
-      transform: scale(1.04);
+      object-position: center 42%;
+      transform: scale(1.06);
       transform-origin: center center;
-      opacity: 1;
-      filter: saturate(1.05) brightness(0.97);
+      opacity: 0.5;
+      filter: saturate(1.06) brightness(1.03);
     }
     #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bg-img {
       animation: mintroBgDrift 9s ease-in-out infinite alternate;
@@ -311,8 +310,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 95% 90% at 50% 48%, rgba(254, 250, 241, 0.35) 0%, rgba(42, 32, 22, 0.18) 72%, rgba(22, 16, 12, 0.35) 100%),
-        linear-gradient(180deg, rgba(255, 252, 248, 0.12) 0%, rgba(22, 16, 12, 0.2) 100%);
+        radial-gradient(ellipse 92% 88% at 50% 45%, rgba(254, 250, 241, 0.55) 0%, rgba(250, 244, 232, 0.38) 42%, rgba(42, 32, 22, 0.22) 100%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.2) 0%, rgba(22, 16, 12, 0.12) 100%);
     }
     #mobile-intro .env-opening__content {
       position: relative;
@@ -698,6 +697,7 @@
       transform: scale(1.1) translateY(8px);
       opacity: 0.85;
       transition: opacity 1s var(--ease-soft);
+      pointer-events: none;
     }
     .hero.is-revealed img {
       animation: heroKen var(--dur-hero) var(--ease-rich) forwards;
@@ -728,10 +728,28 @@
       left: 0;
       right: 0;
       bottom: 0;
+      z-index: 3;
       padding: 1rem 1rem 1.15rem;
       text-align: center;
       color: #fffef8;
       text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+    .hero__fullscreen-hit {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: inherit;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero__fullscreen-hit:focus-visible {
+      outline: 2px solid rgba(255, 244, 220, 0.95);
+      outline-offset: 3px;
     }
     .hero__kicker {
       font-family: var(--font-caps);
@@ -793,6 +811,122 @@
         transform: translateY(0) scale(1);
         letter-spacing: 0.04em;
       }
+    }
+
+    /* Full-screen couple portrait (opened from cover hero) */
+    .couple-fs {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-sizing: border-box;
+      min-height: var(--vh, 100dvh);
+      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px)
+        env(safe-area-inset-left, 0px);
+      background: #120d0a;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 0.38s var(--ease-out),
+        visibility 0s linear 0.38s;
+    }
+    .couple-fs.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: opacity 0.42s var(--ease-out), visibility 0s linear 0s;
+    }
+    .couple-fs__img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+      z-index: 0;
+    }
+    .couple-fs__scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        180deg,
+        rgba(18, 13, 10, 0.12) 0%,
+        rgba(18, 13, 10, 0.32) 42%,
+        rgba(18, 13, 10, 0.88) 100%
+      );
+      pointer-events: none;
+    }
+    .couple-fs__text {
+      position: relative;
+      z-index: 2;
+      flex: 0 0 auto;
+      padding: 1.25rem 1.25rem 1.5rem;
+      text-align: center;
+      color: #fffef8;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+    }
+    .couple-fs__kicker {
+      margin: 0 0 0.35rem;
+      font-family: var(--font-caps);
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.92;
+    }
+    .couple-fs__names {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.85rem, 7vw, 2.35rem);
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+    }
+    .couple-fs__names .couple-fs__amp {
+      font-style: italic;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+    .couple-fs__date {
+      margin: 0.55rem 0 0;
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      opacity: 0.94;
+    }
+    .couple-fs__close {
+      position: absolute;
+      top: max(0.65rem, env(safe-area-inset-top, 0px));
+      right: max(0.65rem, env(safe-area-inset-right, 0px));
+      z-index: 4;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      padding: 0;
+      border: 1px solid rgba(255, 252, 248, 0.35);
+      border-radius: 50%;
+      background: rgba(22, 16, 12, 0.45);
+      color: #fffef8;
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      backdrop-filter: blur(6px);
+    }
+    .couple-fs__close:active {
+      transform: scale(0.96);
+    }
+    .couple-fs__close:focus-visible {
+      outline: 2px solid rgba(255, 244, 220, 0.9);
+      outline-offset: 2px;
+    }
+    body.couple-fs-open {
+      overflow: hidden;
+      touch-action: none;
     }
 
     .reveal {
@@ -2104,6 +2238,10 @@
         transform: none !important;
         animation: none !important;
       }
+      .couple-fs,
+      .couple-fs.is-open {
+        transition: none !important;
+      }
       #timing .motif-widget,
       .card.is-revealed .motif-widget--count::after,
       .card.is-revealed .motif-widget--cal::after,
@@ -2227,7 +2365,7 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >A full-screen photo of the couple, then a Ganesh motif, then a message from the families, before the scroll invitation.</span>
+      >A Ganesh motif on the invitation backdrop, then a message from the families, before the scroll invitation.</span>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
     <div class="blossom-layer" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -2247,9 +2385,9 @@
         <div class="env-opening__bg" aria-hidden="true">
           <img
             class="env-opening__bg-img"
-            src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
-            width="2048"
-            height="2048"
+            src="assets/invitation-bg.png"
+            width="682"
+            height="1024"
             alt=""
             decoding="async"
             fetchpriority="high"
@@ -2281,7 +2419,8 @@
   </nav>
 
   <main>
-    <section id="cover" class="hero reveal" aria-label="Rutuja and Saurabh">
+    <section id="cover" class="hero hero--tappable reveal" aria-label="Rutuja and Saurabh">
+      <button type="button" class="hero__fullscreen-hit" id="hero-open-couple-fs" aria-label="Open couple portrait full screen"></button>
       <img
         src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
         width="2048"
@@ -2438,6 +2577,32 @@
       With love · Rutuja &amp; Saurabh
     </footer>
   </main>
+
+  <div
+    id="couple-fullscreen"
+    class="couple-fs"
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="couple-fs-title"
+    aria-hidden="true"
+  >
+    <img
+      class="couple-fs__img"
+      src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
+      width="2048"
+      height="2048"
+      alt="Rutuja and Saurabh"
+      decoding="async"
+    >
+    <div class="couple-fs__scrim" aria-hidden="true"></div>
+    <button type="button" class="couple-fs__close" id="couple-fs-close" aria-label="Close">×</button>
+    <div class="couple-fs__text">
+      <p class="couple-fs__kicker">The wedding of</p>
+      <h2 id="couple-fs-title" class="couple-fs__names">Rutuja <span class="couple-fs__amp">&amp;</span> Saurabh</h2>
+      <p class="couple-fs__date">Sunday 3 May 2026 · Malegoan</p>
+    </div>
+  </div>
 
   <script>
   (function () {
@@ -2740,6 +2905,71 @@
       lede.innerHTML = txt.split(/\s+/).map(function (w, i) {
         return '<span class="invite-word" style="--wi:' + i + '">' + esc(w) + "</span>";
       }).join(" ");
+    })();
+
+    (function initCoupleFullscreen() {
+      var overlay = document.getElementById("couple-fullscreen");
+      var openBtn = document.getElementById("hero-open-couple-fs");
+      var closeBtn = document.getElementById("couple-fs-close");
+      if (!overlay || !openBtn || !closeBtn) return;
+      var prevFocus = null;
+      var closeTimer = null;
+
+      function finishClose() {
+        closeTimer = null;
+        overlay.setAttribute("hidden", "");
+        document.body.classList.remove("couple-fs-open");
+        if (prevFocus && typeof prevFocus.focus === "function") {
+          try {
+            prevFocus.focus();
+          } catch (err) { /* ignore */ }
+        }
+        prevFocus = null;
+      }
+
+      function openCoupleFs() {
+        if (overlay.classList.contains("is-open")) return;
+        prevFocus = document.activeElement;
+        overlay.removeAttribute("hidden");
+        overlay.setAttribute("aria-hidden", "false");
+        document.body.classList.add("couple-fs-open");
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            overlay.classList.add("is-open");
+          });
+        });
+        window.setTimeout(function () {
+          closeBtn.focus();
+        }, 80);
+      }
+
+      function closeCoupleFs() {
+        if (!overlay.classList.contains("is-open")) return;
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden", "true");
+        if (closeTimer) window.clearTimeout(closeTimer);
+        var ms = reduceMotion ? 0 : 450;
+        closeTimer = window.setTimeout(finishClose, ms);
+      }
+
+      openBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        openCoupleFs();
+      });
+
+      closeBtn.addEventListener("click", function () {
+        closeCoupleFs();
+      });
+
+      var scrim = overlay.querySelector(".couple-fs__scrim");
+      if (scrim) scrim.addEventListener("click", closeCoupleFs);
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && overlay.classList.contains("is-open")) {
+          e.preventDefault();
+          closeCoupleFs();
+        }
+      });
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
