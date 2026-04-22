@@ -1325,9 +1325,9 @@
       scroll-margin-bottom: calc(var(--tab-h) + var(--pad-b) + 20px);
     }
 
-    /* Cover: full-viewport-width photo (large) + rich copy panel below — no text over image */
+    /* Cover: balanced photo height so names + date always fit above the tab bar */
     .hero {
-      --hero-photo-h: min(82vh, calc(var(--vh, 100vh) - var(--tab-h) - 9.5rem));
+      --hero-photo-h: min(44vh, calc(var(--vh, 100vh) - var(--tab-h) - 15.5rem));
       position: relative;
       display: flex;
       flex-direction: column;
@@ -1363,7 +1363,8 @@
       position: relative;
       width: 100%;
       height: var(--hero-photo-h);
-      min-height: min(52vh, 22rem);
+      min-height: min(28vh, 11.5rem);
+      max-height: min(48vh, 22rem);
       flex: 0 0 auto;
       overflow: hidden;
       background: #1a1512;
@@ -1375,7 +1376,7 @@
       overflow: hidden;
       pointer-events: none;
     }
-    /* Gentle cream wash — ties midtones to the hero copy panel without lifting exposure */
+    /* Warm grade toward parchment — keeps couple softer vs. cream panel (no “flash”) */
     .hero__media::before {
       content: "";
       position: absolute;
@@ -1383,27 +1384,28 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 88% 95% at 50% 48%, rgba(252, 246, 236, 0.2) 0%, transparent 56%);
-      mix-blend-mode: soft-light;
-      opacity: 0.42;
+        radial-gradient(ellipse 92% 100% at 50% 55%, rgba(245, 236, 220, 0.14) 0%, transparent 58%),
+        linear-gradient(180deg, rgba(62, 52, 44, 0.04) 0%, transparent 42%, rgba(253, 248, 238, 0.08) 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.55;
     }
     .hero__photo {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 22%;
-      transform: scale(1.06);
-      transform-origin: 50% 40%;
-      filter: brightness(1.04) contrast(1.06) saturate(1.05);
+      object-position: center 28%;
+      transform: scale(1.04);
+      transform-origin: 50% 35%;
+      filter: brightness(0.98) contrast(1.05) saturate(1.04);
       transition:
         transform 2.1s var(--ease-rich),
         filter 1.5s var(--ease-soft);
       will-change: transform;
     }
     .hero.is-revealed .hero__photo {
-      transform: scale(1.02);
-      filter: brightness(1.07) contrast(1.08) saturate(1.06);
+      transform: scale(1.01);
+      filter: brightness(1.02) contrast(1.06) saturate(1.05);
     }
     /* Soft blend from photo into the copy panel */
     .hero__photo-fade {
@@ -1428,14 +1430,15 @@
       z-index: 2;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 95% 72% at 50% 16%, transparent 36%, rgba(61, 52, 41, 0.09) 100%),
-        linear-gradient(90deg, rgba(61, 52, 41, 0.07) 0%, transparent 11%, transparent 89%, rgba(61, 52, 41, 0.07) 100%);
+        radial-gradient(ellipse 96% 74% at 50% 14%, transparent 34%, rgba(55, 46, 38, 0.12) 100%),
+        linear-gradient(90deg, rgba(55, 46, 38, 0.09) 0%, transparent 10%, transparent 90%, rgba(55, 46, 38, 0.09) 100%);
     }
     .hero__copy {
       position: relative;
       z-index: 3;
-      flex: 0 0 auto;
-      padding: clamp(1.15rem, 4vw, 1.65rem) clamp(1rem, 4vw, 1.5rem) clamp(1.35rem, 4.5vw, 1.85rem);
+      flex: 1 1 auto;
+      min-height: min(11.5rem, 32vh);
+      padding: clamp(1.1rem, 3.6vw, 1.5rem) clamp(1rem, 4vw, 1.5rem) clamp(1.45rem, 4.8vw, 1.95rem);
       background:
         radial-gradient(ellipse 92% 58% at 50% -20%, var(--invite-gold-soft) 0%, transparent 50%),
         radial-gradient(ellipse 48% 36% at 96% 92%, var(--invite-rose-soft) 0%, transparent 46%),
@@ -1507,11 +1510,11 @@
     .hero__names {
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: clamp(1.72rem, 7vw, 2.45rem);
+      font-size: clamp(1.45rem, 5.8vw, 2.05rem);
       letter-spacing: 0.025em;
       font-feature-settings: "kern" 1, "liga" 1;
       margin: 0;
-      line-height: 1.2;
+      line-height: 1.18;
       opacity: 0;
       transform: translateY(16px) scale(0.97);
       color: #1f1915;
@@ -1523,7 +1526,7 @@
     .hero__names .hero__amp {
       font-family: var(--font-script);
       font-weight: 400;
-      font-size: 1.52em;
+      font-size: 1.38em;
       margin: 0 0.06em;
       vertical-align: middle;
       color: #8a663a;
@@ -1536,7 +1539,7 @@
       display: block;
       width: min(10rem, 78%);
       height: 2px;
-      margin: 0.7rem auto 0;
+      margin: 0.55rem auto 0;
       border-radius: 2px;
       background: linear-gradient(
         90deg,
@@ -1557,16 +1560,16 @@
       animation: heroRule 1s var(--ease-rich) 0.92s forwards;
     }
     .hero__date {
-      margin: 0.85rem auto 0;
-      padding-top: 0.75rem;
-      max-width: 20rem;
+      margin: 0.65rem auto 0;
+      padding-top: 0.65rem;
+      max-width: 21rem;
       font-family: var(--font-caps);
-      font-size: clamp(0.6rem, 2.15vw, 0.7rem);
+      font-size: clamp(0.58rem, 2vw, 0.68rem);
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      line-height: 1.6;
-      color: #4a4036;
+      line-height: 1.55;
+      color: #3d3429;
       border-top: 1px solid rgba(176, 141, 87, 0.42);
       box-shadow: 0 -1px 0 rgba(255, 252, 248, 0.75);
       opacity: 0;
@@ -2682,12 +2685,103 @@
     @keyframes eventRuleGrow {
       to { transform: translateX(-50%) scaleX(1); }
     }
-    #events.is-revealed > h2 {
-      animation: richTitleBreath 7s ease-in-out 0.8s infinite alternate;
+
+    /* ── Events: “Functions & ceremonies” — rich list (scoped so #venues .event stays plain) ── */
+    #events.events-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      padding: clamp(1.25rem, 4vw, 1.65rem) clamp(1.05rem, 3.6vw, 1.4rem);
+    }
+    #events.events-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .events-rich__head {
+      text-align: center;
+      margin-bottom: 0.15rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px solid rgba(176, 141, 87, 0.22);
+      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.65);
+    }
+    #events .eyebrow--events {
+      margin-bottom: 0.45rem;
+      letter-spacing: 0.2em;
+      font-size: 0.58rem;
+      color: var(--gold-mid);
+    }
+    .events-rich__tag {
+      margin: 0 auto;
+      max-width: 18.5rem;
+      font-family: var(--font-invite);
+      font-size: clamp(0.98rem, 3.1vw, 1.08rem);
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    #events.is-revealed .events-rich__tag {
+      animation: richTitleBreath 7s ease-in-out 0.85s infinite alternate;
     }
     @keyframes richTitleBreath {
       from { text-shadow: 0 1px 0 rgba(255, 252, 248, 0.5); }
       to { text-shadow: 0 1px 0 rgba(255, 252, 248, 0.85), 0 0 28px rgba(201, 168, 120, 0.18); }
+    }
+    #events.is-revealed .event::before {
+      display: none;
+    }
+    #events .event {
+      margin: 0;
+      padding: clamp(0.95rem, 3.2vw, 1.15rem) clamp(0.85rem, 3vw, 1.05rem);
+      border: 1px solid rgba(176, 141, 87, 0.32);
+      border-radius: 14px;
+      border-bottom: 1px solid rgba(176, 141, 87, 0.32);
+      background:
+        radial-gradient(ellipse 88% 70% at 50% 0%, rgba(255, 252, 248, 0.75) 0%, transparent 52%),
+        linear-gradient(168deg, rgba(255, 253, 248, 0.97) 0%, rgba(248, 240, 228, 0.55) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.92),
+        0 6px 20px rgba(45, 32, 22, 0.05);
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    #events.is-revealed .event {
+      animation: eventsTileIn 0.72s var(--ease-out) forwards;
+    }
+    #events.is-revealed .event:nth-of-type(1) {
+      animation-delay: 0.12s;
+    }
+    #events.is-revealed .event:nth-of-type(2) {
+      animation-delay: 0.26s;
+    }
+    #events.is-revealed .event:nth-of-type(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes eventsTileIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #events .event h3 {
+      margin: 0 0 0.45rem;
+      padding-bottom: 0.35rem;
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 3.1vw, 1.06rem);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      border-bottom: 1px solid rgba(176, 141, 87, 0.18);
+    }
+    #events .event p {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.02rem, 3.2vw, 1.1rem);
+      line-height: 1.5;
+    }
+    #events .event p:last-child {
+      margin-bottom: 0;
+    }
+    #events .event time {
+      font-variant-numeric: tabular-nums;
     }
     #families.is-revealed .families-rich__body {
       animation: familiesCopyDrift 8s ease-in-out infinite alternate;
@@ -3182,7 +3276,7 @@
       #invite.is-revealed .invite-sheet__day,
       #invite.is-revealed .invite-sheet__venue,
       .card.is-revealed .map-btn,
-      #events.is-revealed > h2,
+      #events.is-revealed .events-rich__tag,
       #families.is-revealed .families-rich__body,
       #families.is-revealed .families-rich__orn-line,
       #families.is-revealed .families-rich__orn-mid,
@@ -3213,7 +3307,7 @@
       .hero.is-revealed .hero__photo {
         transform: none !important;
         transition: none !important;
-        filter: brightness(1.06) contrast(1.06) saturate(1.05) !important;
+        filter: brightness(1.01) contrast(1.05) saturate(1.04) !important;
       }
       .hero.is-revealed .hero__names::after {
         animation: none !important;
@@ -3326,6 +3420,14 @@
       .card.is-revealed .phones a {
         opacity: 1 !important;
         transform: none !important;
+      }
+      #events.is-revealed .event {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+      #events.is-revealed .events-rich__tag {
+        text-shadow: 0 1px 0 rgba(255, 252, 248, 0.75) !important;
       }
       .tabs a[aria-current="true"] {
         transform: none;
@@ -3662,9 +3764,11 @@
       </div>
     </section>
 
-    <section id="events" class="card invite-paper reveal" aria-labelledby="events-h">
-      <p class="eyebrow" id="events-h">Schedule</p>
-      <h2>Functions &amp; ceremonies</h2>
+    <section id="events" class="card invite-paper reveal events-card" aria-labelledby="events-h">
+      <header class="events-rich__head">
+        <p class="eyebrow eyebrow--events" id="events-h">Functions &amp; ceremonies</p>
+        <p class="events-rich__tag">Three gatherings · one weekend of joy</p>
+      </header>
       <article class="event">
         <h3>Mandav &amp; Mehandi</h3>
         <p><time datetime="2026-05-01">May 1st, 2026</time></p>
