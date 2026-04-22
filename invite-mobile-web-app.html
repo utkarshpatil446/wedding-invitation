@@ -5824,6 +5824,25 @@ body.is-cover-page .page-nav {
     font-size: clamp(0.88rem, 2.5vw, 1rem);
   }
 }
+
+/* Portrait: inner parchment height tracks live viewport (URL bar / home indicator) */
+@media (orientation: portrait) and (max-width: 900px) {
+  #page1 .invite-sheet,
+  #page2 .fn-sheet,
+  #page3 .p3-sheet {
+    max-height: min(
+      84dvh,
+      calc(var(--viewport-h, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 3.75rem)
+    );
+  }
+
+  #page4 .p4-sheet {
+    max-height: min(
+      78dvh,
+      calc(var(--viewport-h, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 4rem)
+    );
+  }
+}
 </style>
 </head>
 <body class="is-revealing">

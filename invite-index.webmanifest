@@ -1,0 +1,25 @@
+{
+  "name": "Wedding Invitation",
+  "short_name": "Invite",
+  "description": "Digital wedding invitation for Rutuja and Saurabh.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fefaf1",
+  "theme_color": "#fefaf1",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "assets/ganesh-design.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/ganesh-design.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
