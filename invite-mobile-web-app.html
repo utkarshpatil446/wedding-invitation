@@ -16,7 +16,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
   <link rel="preload" href="assets/ganesh-design.png" as="image" type="image/png">
-  <link rel="preload" href="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" as="image">
   <script>
   (function () {
     function setVh() {
@@ -64,7 +63,6 @@
       --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --dur-reveal: 0.95s;
-      --dur-hero: 1.85s;
       --ease-page-rich: cubic-bezier(0.2, 1, 0.34, 1);
       --ease-page-soft: cubic-bezier(0.18, 0.9, 0.32, 1);
       --ease-page-drift: cubic-bezier(0.26, 1.05, 0.36, 1);
@@ -911,6 +909,7 @@
       scroll-margin-bottom: calc(var(--tab-h) + var(--pad-b) + 20px);
     }
 
+    /* Cover: typography + parchment (no couple photo — Ganesh stays on intro only) */
     .hero {
       position: relative;
       border-radius: var(--radius);
@@ -921,8 +920,20 @@
         0 0 0 1px rgba(255, 252, 248, 0.35) inset,
         0 24px 60px rgba(45, 32, 22, 0.12);
       margin-bottom: 1.25rem;
-      aspect-ratio: 4 / 5;
-      max-height: min(72vh, calc(var(--vh, 100dvh) * 0.72));
+      min-height: clamp(13.5rem, 42vw, 17.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.5rem, 5vw, 2.25rem) 1.25rem;
+      box-sizing: border-box;
+      background-color: var(--invite-cream-warm);
+      background-image:
+        radial-gradient(ellipse 92% 58% at 50% -12%, var(--invite-gold-soft) 0%, transparent 52%),
+        radial-gradient(ellipse 48% 36% at 96% 92%, var(--invite-rose-soft) 0%, transparent 46%),
+        url("assets/invitation-bg.png");
+      background-size: 100% 100%, 100% 100%, cover;
+      background-position: 0 0, 0 0, center 38%;
+      background-repeat: no-repeat;
       opacity: 0;
       transform: translateY(18px) scale(0.97);
       filter: saturate(0.92);
@@ -936,68 +947,30 @@
       transform: translateY(0) scale(1);
       filter: saturate(1.05);
     }
-    .hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 22%;
-      display: block;
-      transform: scale(1.1) translateY(8px);
-      opacity: 0.85;
-      transition: opacity 1s var(--ease-soft);
-      pointer-events: none;
-    }
-    .hero.is-revealed img {
-      animation: heroKen var(--dur-hero) var(--ease-rich) forwards;
-    }
-    @keyframes heroKen {
-      0% {
-        transform: scale(1.12) translateY(12px);
-        opacity: 0.88;
-      }
-      100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-      }
-    }
-    .hero__veil {
+    .hero::after {
+      content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, transparent 38%, rgba(20, 14, 10, 0.12) 62%, rgba(20, 14, 10, 0.58) 100%);
       pointer-events: none;
-      opacity: 0;
-      transition: opacity 1s var(--ease-soft) 0.15s;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 252, 248, 0.35) 0%,
+        transparent 42%,
+        rgba(250, 244, 232, 0.5) 100%
+      );
+      z-index: 0;
     }
-    .hero.is-revealed .hero__veil {
-      opacity: 1;
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 22rem;
     }
     .hero__text {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 3;
-      padding: 1rem 1rem 1.15rem;
+      position: relative;
       text-align: center;
-      color: #fffef8;
-      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
-      pointer-events: none;
-    }
-    .hero__fullscreen-hit {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-radius: inherit;
-      background: transparent;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .hero__fullscreen-hit:focus-visible {
-      outline: 2px solid rgba(255, 244, 220, 0.95);
-      outline-offset: 3px;
+      color: var(--ink);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
     }
     .hero__kicker {
       font-family: var(--font-caps);
@@ -1012,10 +985,10 @@
       animation: heroLine 0.85s var(--ease-out) 0.2s forwards;
     }
     .hero__names {
-      font-family: var(--font-caps);
-      font-weight: 600;
-      font-size: clamp(1.35rem, 5.5vw, 1.85rem);
-      letter-spacing: 0.04em;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.45rem, 5.8vw, 1.95rem);
+      letter-spacing: 0.03em;
       margin: 0;
       line-height: 1.25;
       opacity: 0;
@@ -1027,8 +1000,8 @@
       font-size: 1.35em;
       margin: 0 0.12em;
       vertical-align: middle;
-      color: #f5e6c8;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+      color: var(--p1-gold-deep);
+      text-shadow: none;
     }
     .hero.is-revealed .hero__names {
       animation: heroTitle 1.05s var(--ease-rich) 0.38s forwards;
@@ -1059,122 +1032,6 @@
         transform: translateY(0) scale(1);
         letter-spacing: 0.04em;
       }
-    }
-
-    /* Full-screen couple portrait (opened from cover hero) */
-    .couple-fs {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      box-sizing: border-box;
-      min-height: var(--vh, 100dvh);
-      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px)
-        env(safe-area-inset-left, 0px);
-      background: #120d0a;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition:
-        opacity 0.38s var(--ease-out),
-        visibility 0s linear 0.38s;
-    }
-    .couple-fs.is-open {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transition: opacity 0.42s var(--ease-out), visibility 0s linear 0s;
-    }
-    .couple-fs__img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 28%;
-      z-index: 0;
-    }
-    .couple-fs__scrim {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: linear-gradient(
-        180deg,
-        rgba(18, 13, 10, 0.12) 0%,
-        rgba(18, 13, 10, 0.32) 42%,
-        rgba(18, 13, 10, 0.88) 100%
-      );
-      pointer-events: none;
-    }
-    .couple-fs__text {
-      position: relative;
-      z-index: 2;
-      flex: 0 0 auto;
-      padding: 1.25rem 1.25rem 1.5rem;
-      text-align: center;
-      color: #fffef8;
-      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
-    }
-    .couple-fs__kicker {
-      margin: 0 0 0.35rem;
-      font-family: var(--font-caps);
-      font-size: 0.62rem;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      opacity: 0.92;
-    }
-    .couple-fs__names {
-      margin: 0;
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: clamp(1.85rem, 7vw, 2.35rem);
-      line-height: 1.15;
-      letter-spacing: 0.02em;
-    }
-    .couple-fs__names .couple-fs__amp {
-      font-style: italic;
-      font-weight: 400;
-      opacity: 0.9;
-    }
-    .couple-fs__date {
-      margin: 0.55rem 0 0;
-      font-family: var(--font-serif);
-      font-size: 1.05rem;
-      opacity: 0.94;
-    }
-    .couple-fs__close {
-      position: absolute;
-      top: max(0.65rem, env(safe-area-inset-top, 0px));
-      right: max(0.65rem, env(safe-area-inset-right, 0px));
-      z-index: 4;
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      margin: 0;
-      padding: 0;
-      border: 1px solid rgba(255, 252, 248, 0.35);
-      border-radius: 50%;
-      background: rgba(22, 16, 12, 0.45);
-      color: #fffef8;
-      font-size: 1.35rem;
-      line-height: 1;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      backdrop-filter: blur(6px);
-    }
-    .couple-fs__close:active {
-      transform: scale(0.96);
-    }
-    .couple-fs__close:focus-visible {
-      outline: 2px solid rgba(255, 244, 220, 0.9);
-      outline-offset: 2px;
-    }
-    body.couple-fs-open {
-      overflow: hidden;
-      touch-action: none;
     }
 
     .reveal {
@@ -2433,8 +2290,6 @@
 
     @media (prefers-reduced-motion: reduce) {
       body::before,
-      .hero img,
-      .hero.is-revealed .hero__veil,
       .hero.is-revealed .hero__kicker,
       .hero.is-revealed .hero__names,
       .hero.is-revealed .hero__date,
@@ -2475,20 +2330,12 @@
         filter: none !important;
         transition: none !important;
       }
-      .hero img {
-        opacity: 1;
-        transform: none;
-      }
       .hero__kicker,
       .hero__names,
       .hero__date {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
-      }
-      .couple-fs,
-      .couple-fs.is-open {
-        transition: none !important;
       }
       #timing .motif-widget,
       .card.is-revealed .motif-widget--count::after,
@@ -2705,21 +2552,13 @@
   </nav>
 
   <main>
-    <section id="cover" class="hero hero--tappable reveal" aria-label="Rutuja and Saurabh">
-      <button type="button" class="hero__fullscreen-hit" id="hero-open-couple-fs" aria-label="Open couple portrait full screen"></button>
-      <img
-        src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
-        width="2048"
-        height="2048"
-        alt="Rutuja and Saurabh"
-        decoding="async"
-        fetchpriority="high"
-      >
-      <div class="hero__veil" aria-hidden="true"></div>
-      <div class="hero__text">
-        <p class="hero__kicker">The wedding of</p>
-        <h1 class="hero__names">Rutuja <span class="hero__amp">&amp;</span> Saurabh</h1>
-        <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
+    <section id="cover" class="hero reveal" aria-label="Rutuja and Saurabh">
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="hero__kicker">The wedding of</p>
+          <h1 class="hero__names">Rutuja <span class="hero__amp">&amp;</span> Saurabh</h1>
+          <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
+        </div>
       </div>
     </section>
 
@@ -2863,32 +2702,6 @@
       With love · Rutuja &amp; Saurabh
     </footer>
   </main>
-
-  <div
-    id="couple-fullscreen"
-    class="couple-fs"
-    hidden
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="couple-fs-title"
-    aria-hidden="true"
-  >
-    <img
-      class="couple-fs__img"
-      src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
-      width="2048"
-      height="2048"
-      alt="Rutuja and Saurabh"
-      decoding="async"
-    >
-    <div class="couple-fs__scrim" aria-hidden="true"></div>
-    <button type="button" class="couple-fs__close" id="couple-fs-close" aria-label="Close">×</button>
-    <div class="couple-fs__text">
-      <p class="couple-fs__kicker">The wedding of</p>
-      <h2 id="couple-fs-title" class="couple-fs__names">Rutuja <span class="couple-fs__amp">&amp;</span> Saurabh</h2>
-      <p class="couple-fs__date">Sunday 3 May 2026 · Malegoan</p>
-    </div>
-  </div>
 
   <script>
   (function () {
@@ -3269,71 +3082,6 @@
       lede.innerHTML = txt.split(/\s+/).map(function (w, i) {
         return '<span class="invite-word" style="--wi:' + i + '">' + esc(w) + "</span>";
       }).join(" ");
-    })();
-
-    (function initCoupleFullscreen() {
-      var overlay = document.getElementById("couple-fullscreen");
-      var openBtn = document.getElementById("hero-open-couple-fs");
-      var closeBtn = document.getElementById("couple-fs-close");
-      if (!overlay || !openBtn || !closeBtn) return;
-      var prevFocus = null;
-      var closeTimer = null;
-
-      function finishClose() {
-        closeTimer = null;
-        overlay.setAttribute("hidden", "");
-        document.body.classList.remove("couple-fs-open");
-        if (prevFocus && typeof prevFocus.focus === "function") {
-          try {
-            prevFocus.focus();
-          } catch (err) { /* ignore */ }
-        }
-        prevFocus = null;
-      }
-
-      function openCoupleFs() {
-        if (overlay.classList.contains("is-open")) return;
-        prevFocus = document.activeElement;
-        overlay.removeAttribute("hidden");
-        overlay.setAttribute("aria-hidden", "false");
-        document.body.classList.add("couple-fs-open");
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            overlay.classList.add("is-open");
-          });
-        });
-        window.setTimeout(function () {
-          closeBtn.focus();
-        }, 80);
-      }
-
-      function closeCoupleFs() {
-        if (!overlay.classList.contains("is-open")) return;
-        overlay.classList.remove("is-open");
-        overlay.setAttribute("aria-hidden", "true");
-        if (closeTimer) window.clearTimeout(closeTimer);
-        var ms = reduceMotion ? 0 : 450;
-        closeTimer = window.setTimeout(finishClose, ms);
-      }
-
-      openBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        openCoupleFs();
-      });
-
-      closeBtn.addEventListener("click", function () {
-        closeCoupleFs();
-      });
-
-      var scrim = overlay.querySelector(".couple-fs__scrim");
-      if (scrim) scrim.addEventListener("click", closeCoupleFs);
-
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && overlay.classList.contains("is-open")) {
-          e.preventDefault();
-          closeCoupleFs();
-        }
-      });
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
