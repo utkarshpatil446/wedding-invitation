@@ -45,6 +45,11 @@
       --pad-x2: max(1rem, env(safe-area-inset-right, 0px));
       --pad-b: max(0.75rem, env(safe-area-inset-bottom, 0px));
       --tab-h: 3.35rem;
+      --ease-rich: cubic-bezier(0.2, 0.82, 0.22, 1);
+      --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur-reveal: 0.95s;
+      --dur-hero: 1.85s;
     }
     html {
       scroll-behavior: smooth;
@@ -61,6 +66,30 @@
       color: var(--ink);
       background: var(--cream);
       padding-bottom: calc(var(--tab-h) + var(--pad-b) + 12px);
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 95% 55% at 50% -15%, rgba(218, 179, 120, 0.16), transparent 52%),
+        radial-gradient(ellipse 55% 42% at 108% 88%, rgba(244, 200, 210, 0.1), transparent 48%),
+        radial-gradient(ellipse 45% 38% at -5% 72%, rgba(201, 168, 120, 0.08), transparent 46%);
+      opacity: 0.85;
+      animation: ambienceDrift 22s var(--ease-soft) infinite alternate;
+    }
+    @keyframes ambienceDrift {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.75; }
+      100% { transform: translate3d(0, 2%, 0) scale(1.04); opacity: 0.95; }
+    }
+    main,
+    .tabs,
+    .skip {
+      position: relative;
+      z-index: 1;
     }
     @media (orientation: landscape) and (max-height: 480px) {
       body { font-size: 1.05rem; }
@@ -112,12 +141,25 @@
       border: 1px solid transparent;
       text-align: center;
       line-height: 1.2;
+      transition:
+        color 0.45s var(--ease-soft),
+        background 0.5s var(--ease-soft),
+        border-color 0.45s ease,
+        box-shadow 0.55s var(--ease-soft),
+        transform 0.35s var(--ease-out);
     }
     .tabs a[aria-current="true"] {
       color: var(--ink);
       background: var(--paper);
       border-color: var(--line);
-      box-shadow: var(--shadow);
+      box-shadow:
+        var(--shadow),
+        0 0 0 1px rgba(154, 115, 69, 0.12),
+        0 0 24px rgba(201, 168, 120, 0.22);
+      transform: translateY(-2px);
+    }
+    .tabs a:active {
+      transform: scale(0.96);
     }
 
     main {
@@ -133,10 +175,25 @@
       position: relative;
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow:
+        var(--shadow),
+        0 0 0 1px rgba(255, 252, 248, 0.35) inset,
+        0 24px 60px rgba(45, 32, 22, 0.12);
       margin-bottom: 1.25rem;
       aspect-ratio: 4 / 5;
       max-height: min(72vh, calc(var(--vh, 100dvh) * 0.72));
+      opacity: 0;
+      transform: translateY(18px) scale(0.97);
+      filter: saturate(0.92);
+      transition:
+        opacity 1.1s var(--ease-rich),
+        transform 1.15s var(--ease-rich),
+        filter 1.4s ease;
+    }
+    .hero.is-revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: saturate(1.05);
     }
     .hero img {
       width: 100%;
@@ -144,12 +201,33 @@
       object-fit: cover;
       object-position: center 22%;
       display: block;
+      transform: scale(1.1) translateY(8px);
+      opacity: 0.85;
+      transition: opacity 1s var(--ease-soft);
+    }
+    .hero.is-revealed img {
+      animation: heroKen var(--dur-hero) var(--ease-rich) forwards;
+    }
+    @keyframes heroKen {
+      0% {
+        transform: scale(1.12) translateY(12px);
+        opacity: 0.88;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
     }
     .hero__veil {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, transparent 42%, rgba(20, 14, 10, 0.55) 100%);
+      background: linear-gradient(180deg, transparent 38%, rgba(20, 14, 10, 0.12) 62%, rgba(20, 14, 10, 0.58) 100%);
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s var(--ease-soft) 0.15s;
+    }
+    .hero.is-revealed .hero__veil {
+      opacity: 1;
     }
     .hero__text {
       position: absolute;
@@ -166,8 +244,12 @@
       font-size: 0.65rem;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      opacity: 0.95;
       margin: 0 0 0.35rem;
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    .hero.is-revealed .hero__kicker {
+      animation: heroLine 0.85s var(--ease-out) 0.2s forwards;
     }
     .hero__names {
       font-family: var(--font-caps);
@@ -176,13 +258,53 @@
       letter-spacing: 0.04em;
       margin: 0;
       line-height: 1.2;
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+    }
+    .hero.is-revealed .hero__names {
+      animation: heroTitle 1.05s var(--ease-rich) 0.38s forwards;
     }
     .hero__date {
       margin: 0.4rem 0 0;
       font-size: 0.95rem;
-      opacity: 0.95;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .hero.is-revealed .hero__date {
+      animation: heroLine 0.9s var(--ease-out) 0.62s forwards;
+    }
+    @keyframes heroLine {
+      to {
+        opacity: 0.96;
+        transform: translateY(0);
+      }
+    }
+    @keyframes heroTitle {
+      0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.94);
+        letter-spacing: 0.2em;
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        letter-spacing: 0.04em;
+      }
     }
 
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px) scale(0.985);
+      transition: none;
+    }
+    .reveal.is-revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition:
+        opacity var(--dur-reveal) var(--ease-rich),
+        transform 1.05s var(--ease-rich),
+        box-shadow 0.8s var(--ease-soft);
+    }
     .card {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -191,7 +313,31 @@
       margin-bottom: 1rem;
       box-shadow: var(--shadow);
     }
+    .reveal.card.is-revealed {
+      box-shadow:
+        var(--shadow),
+        0 0 0 1px rgba(255, 252, 248, 0.65) inset,
+        0 0 40px rgba(201, 168, 120, 0.12);
+    }
+    .card.is-revealed .eyebrow::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      max-width: 3.5rem;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--gold), rgba(154, 115, 69, 0.2));
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      animation: eyebrowDraw 0.7s var(--ease-out) 0.35s forwards;
+    }
+    @keyframes eyebrowDraw {
+      to { transform: scaleX(1); }
+    }
     .eyebrow {
+      position: relative;
       font-family: var(--font-caps);
       font-size: 0.62rem;
       letter-spacing: 0.22em;
@@ -206,6 +352,15 @@
       letter-spacing: 0.08em;
       margin: 0 0 0.65rem;
       color: var(--ink);
+    }
+    .reveal.card:not(.is-revealed) h2 {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    .reveal.card.is-revealed h2 {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.7s var(--ease-soft) 0.15s, transform 0.75s var(--ease-rich) 0.15s;
     }
     h3 {
       font-family: var(--font-caps);
@@ -230,6 +385,26 @@
       border-radius: 10px;
       padding: 0.65rem 0.25rem;
       border: 1px solid var(--line);
+      opacity: 0;
+      transform: translateY(12px) scale(0.94);
+    }
+    .card.is-revealed .countdown div:nth-child(1) {
+      animation: chipRise 0.55s var(--ease-out) 0.12s forwards;
+    }
+    .card.is-revealed .countdown div:nth-child(2) {
+      animation: chipRise 0.55s var(--ease-out) 0.22s forwards;
+    }
+    .card.is-revealed .countdown div:nth-child(3) {
+      animation: chipRise 0.55s var(--ease-out) 0.32s forwards;
+    }
+    .card.is-revealed .countdown div:nth-child(4) {
+      animation: chipRise 0.55s var(--ease-out) 0.42s forwards;
+    }
+    @keyframes chipRise {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
     .countdown .n {
       font-family: var(--font-caps);
@@ -237,6 +412,15 @@
       font-weight: 600;
       display: block;
       line-height: 1.2;
+      transition: transform 0.35s var(--ease-out), color 0.3s ease;
+    }
+    .countdown .n.is-tick {
+      animation: nPulse 0.45s var(--ease-soft);
+    }
+    @keyframes nPulse {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.08); color: var(--gold); }
+      100% { transform: scale(1); }
     }
     .countdown .u {
       font-size: 0.62rem;
@@ -251,6 +435,13 @@
       border-radius: var(--radius);
       overflow: hidden;
       background: #fffefb;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s var(--ease-soft) 0.2s, transform 0.75s var(--ease-rich) 0.2s;
+    }
+    .card.is-revealed .cal {
+      opacity: 1;
+      transform: translateY(0);
     }
     .cal__head {
       font-family: var(--font-caps);
@@ -282,6 +473,18 @@
       background: var(--gold-soft);
       font-weight: 600;
       border: 1px solid var(--gold);
+      position: relative;
+    }
+    .card.is-revealed .cal__day--wed {
+      animation: weddingDayGlow 2.8s var(--ease-soft) 0.6s infinite alternate;
+    }
+    @keyframes weddingDayGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(154, 115, 69, 0.35);
+      }
+      100% {
+        box-shadow: 0 0 16px 2px rgba(201, 168, 120, 0.45);
+      }
     }
 
     .invite-lede {
@@ -304,6 +507,25 @@
       line-height: 1;
       font-weight: 600;
       color: var(--gold);
+      display: inline-block;
+      text-shadow: 0 2px 24px rgba(154, 115, 69, 0.25);
+    }
+    .card.is-revealed .big-date .day {
+      animation: dayReveal 1s var(--ease-rich) 0.15s both, dayShimmer 4s ease-in-out 1.2s infinite alternate;
+    }
+    @keyframes dayReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.85);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    @keyframes dayShimmer {
+      0% { filter: brightness(1); }
+      100% { filter: brightness(1.12); }
     }
     .big-date .rest {
       font-size: 1.05rem;
@@ -348,6 +570,20 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1.05rem;
+      transition:
+        transform 0.35s var(--ease-out),
+        box-shadow 0.45s var(--ease-soft),
+        border-color 0.3s ease,
+        background 0.35s ease;
+    }
+    .phones a:active {
+      transform: scale(0.98);
+    }
+    .card.is-revealed .phones a:nth-child(1) {
+      animation: chipRise 0.5s var(--ease-out) 0.2s both;
+    }
+    .card.is-revealed .phones a:nth-child(2) {
+      animation: chipRise 0.5s var(--ease-out) 0.32s both;
     }
 
     .map-btn {
@@ -358,7 +594,8 @@
       padding: 0.75rem 1rem;
       border-radius: 12px;
       border: 1px solid var(--gold);
-      background: linear-gradient(180deg, #fffdf8, #f5ebe0);
+      background: linear-gradient(135deg, #fffdf8 0%, #f8efe4 45%, #f0e4d4 100%);
+      background-size: 200% 200%;
       color: var(--ink);
       font-family: var(--font-caps);
       font-size: 0.72rem;
@@ -366,6 +603,40 @@
       text-transform: uppercase;
       text-decoration: none;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.4s var(--ease-out),
+        box-shadow 0.5s var(--ease-soft),
+        border-color 0.35s ease;
+    }
+    .map-btn::after {
+      content: "";
+      position: absolute;
+      inset: -40% -60%;
+      background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0s;
+    }
+    @media (hover: hover) {
+      .card.is-revealed .map-btn:hover::after {
+        transform: translateX(100%);
+        transition: transform 0.85s var(--ease-soft);
+      }
+    }
+    .card.is-revealed .map-btn:focus-visible::after {
+      transform: translateX(100%);
+      transition: transform 0.85s var(--ease-soft);
+    }
+    .map-btn:active {
+      transform: scale(0.985);
+    }
+    .card.is-revealed .map-btn {
+      animation: mapBtnFloat 5s ease-in-out infinite alternate;
+    }
+    @keyframes mapBtnFloat {
+      0% { box-shadow: 0 4px 14px rgba(45, 32, 22, 0.08); }
+      100% { box-shadow: 0 8px 26px rgba(154, 115, 69, 0.18); }
     }
 
     .music-row {
@@ -388,10 +659,21 @@
       text-transform: uppercase;
       color: var(--ink);
       cursor: pointer;
+      transition:
+        transform 0.35s var(--ease-out),
+        box-shadow 0.5s var(--ease-soft),
+        border-color 0.35s ease,
+        background 0.45s ease;
     }
     .music-row button[aria-pressed="true"] {
       background: var(--gold-soft);
       border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(201, 168, 120, 0.35);
+      animation: musicGlow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes musicGlow {
+      0% { box-shadow: 0 0 12px rgba(201, 168, 120, 0.25); }
+      100% { box-shadow: 0 0 28px rgba(201, 168, 120, 0.4); }
     }
 
     footer {
@@ -399,6 +681,118 @@
       font-size: 0.85rem;
       color: var(--muted);
       padding: 1.5rem 0 0.5rem;
+    }
+
+    .card.is-revealed .event {
+      animation: eventFade 0.65s var(--ease-out) both;
+    }
+    .card.is-revealed .event:nth-of-type(1) { animation-delay: 0.08s; }
+    .card.is-revealed .event:nth-of-type(2) { animation-delay: 0.18s; }
+    .card.is-revealed .event:nth-of-type(3) { animation-delay: 0.28s; }
+    .card.is-revealed .event:nth-of-type(4) { animation-delay: 0.38s; }
+    @keyframes eventFade {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .invite-lede,
+    .venue,
+    .big-date .dow,
+    .big-date .rest {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.7s var(--ease-soft), transform 0.75s var(--ease-rich);
+    }
+    .card.is-revealed .invite-lede {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.12s;
+    }
+    .card.is-revealed .big-date .dow {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.2s;
+    }
+    .card.is-revealed .venue {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.45s;
+    }
+    .card.is-revealed .big-date .rest {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.55s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::before,
+      .hero img,
+      .hero.is-revealed .hero__veil,
+      .hero.is-revealed .hero__kicker,
+      .hero.is-revealed .hero__names,
+      .hero.is-revealed .hero__date,
+      .card.is-revealed .cal__day--wed,
+      .card.is-revealed .big-date .day,
+      .card.is-revealed .map-btn,
+      .music-row button[aria-pressed="true"] {
+        animation: none !important;
+      }
+      body::before {
+        opacity: 0.55;
+        transform: none;
+      }
+      .hero,
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+      }
+      .hero img {
+        opacity: 1;
+        transform: none;
+      }
+      .hero__kicker,
+      .hero__names,
+      .hero__date {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+      .countdown div,
+      .cal,
+      .invite-lede,
+      .venue,
+      .big-date .dow,
+      .big-date .rest {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+      }
+      .tabs a {
+        transition: none;
+      }
+      .tabs a[aria-current="true"] {
+        transform: none;
+      }
+      .reveal.card h2 {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .card.is-revealed .event {
+        animation: none !important;
+      }
+      .map-btn::after {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -414,7 +808,7 @@
   </nav>
 
   <main>
-    <section id="cover" class="hero" aria-label="Rutuja and Saurabh">
+    <section id="cover" class="hero reveal" aria-label="Rutuja and Saurabh">
       <img
         src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
         width="2048"
@@ -431,7 +825,7 @@
       </div>
     </section>
 
-    <section id="families" class="card" aria-labelledby="families-h">
+    <section id="families" class="card reveal" aria-labelledby="families-h">
       <p class="eyebrow" id="families-h">Together with our families</p>
       <p>
         The Patil and Pawar families request the <em>honour of your presence</em> as they celebrate the wedding of their beloved children—with gratitude, they invite you to witness this union, share in the joy of the day, and bless the couple as they begin their journey together.
@@ -442,7 +836,7 @@
       </div>
     </section>
 
-    <section class="card" aria-labelledby="count-h">
+    <section class="card reveal" id="timing" aria-labelledby="count-h">
       <p class="eyebrow" id="count-h">Counting down to</p>
       <h2 style="text-align:center;margin-bottom:0.25rem">Forever</h2>
       <div class="countdown" id="countdown" aria-live="polite">
@@ -465,7 +859,7 @@
       </div>
     </section>
 
-    <section id="invite" class="card" aria-labelledby="invite-h">
+    <section id="invite" class="card reveal" aria-labelledby="invite-h">
       <p class="eyebrow" id="invite-h">Ceremony</p>
       <p class="invite-lede">Together with their families, <strong>Rutuja</strong> and <strong>Saurabh</strong> cordially invite you to grace the auspicious occasion of their marriage.</p>
       <div class="big-date">
@@ -481,7 +875,7 @@
       <p style="text-align:center;margin-top:0.85rem;font-family:var(--font-caps);font-size:0.72rem;letter-spacing:0.15em;">Reception to follow</p>
     </section>
 
-    <section id="events" class="card" aria-labelledby="events-h">
+    <section id="events" class="card reveal" aria-labelledby="events-h">
       <p class="eyebrow" id="events-h">Schedule</p>
       <h2>Functions &amp; ceremonies</h2>
       <article class="event">
@@ -503,7 +897,7 @@
       </article>
     </section>
 
-    <section id="family" class="card" aria-labelledby="family-h">
+    <section id="family" class="card reveal" aria-labelledby="family-h">
       <p class="eyebrow" id="family-h">From the family</p>
       <p>We warmly invite you to bless Rutuja and Saurabh and to join us for their wedding and for every ceremony that surrounds it. Your presence would bring our family great joy.</p>
       <div class="signers">
@@ -519,7 +913,7 @@
       </div>
     </section>
 
-    <section id="venues" class="card" aria-labelledby="venues-h">
+    <section id="venues" class="card reveal" aria-labelledby="venues-h">
       <p class="eyebrow" id="venues-h">Directions</p>
       <h2>Where we gather</h2>
       <p>Open a venue in Google Maps.</p>
@@ -535,7 +929,7 @@
       </article>
     </section>
 
-    <footer>
+    <footer class="reveal">
       With love · Rutuja &amp; Saurabh
     </footer>
   </main>
@@ -546,13 +940,28 @@
 
   <script>
   (function () {
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     /* Countdown to wedding day (local midnight, 3 May 2026) */
     var wedding = new Date(2026, 4, 3, 0, 0, 0, 0).getTime();
     var dEl = document.getElementById("cd-d");
     var hEl = document.getElementById("cd-h");
     var mEl = document.getElementById("cd-m");
     var sEl = document.getElementById("cd-s");
+    var prevCd = { d: "", h: "", m: "", s: "" };
     function pad(n) { return n < 10 ? "0" + n : String(n); }
+    function flashTick(el) {
+      if (!el || reduceMotion) return;
+      el.classList.remove("is-tick");
+      void el.offsetWidth;
+      el.classList.add("is-tick");
+    }
+    [dEl, hEl, mEl, sEl].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("animationend", function (ev) {
+        if (ev.animationName === "nPulse") el.classList.remove("is-tick");
+      });
+    });
     function tick() {
       var diff = wedding - Date.now();
       if (diff <= 0) {
@@ -569,13 +978,50 @@
       sec -= h * 3600;
       var m = Math.floor(sec / 60);
       var s = sec - m * 60;
-      dEl.textContent = String(d);
-      hEl.textContent = pad(h);
-      mEl.textContent = pad(m);
-      sEl.textContent = pad(s);
+      var D = String(d);
+      var H = pad(h);
+      var M = pad(m);
+      var S = pad(s);
+      if (!reduceMotion && prevCd.d !== "") {
+        if (prevCd.d !== D) flashTick(dEl);
+        if (prevCd.h !== H) flashTick(hEl);
+        if (prevCd.m !== M) flashTick(mEl);
+        if (prevCd.s !== S) flashTick(sEl);
+      }
+      prevCd = { d: D, h: H, m: M, s: S };
+      dEl.textContent = D;
+      hEl.textContent = H;
+      mEl.textContent = M;
+      sEl.textContent = S;
     }
     tick();
     setInterval(tick, 1000);
+
+    /* Scroll reveals */
+    var revealEls = document.querySelectorAll(".reveal");
+    if (reduceMotion) {
+      revealEls.forEach(function (el) {
+        el.classList.add("is-revealed");
+      });
+    } else {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          var hero = document.getElementById("cover");
+          if (hero) hero.classList.add("is-revealed");
+        });
+      });
+      var revIo = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) e.target.classList.add("is-revealed");
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -7% 0px" }
+      );
+      revealEls.forEach(function (el) {
+        if (el.id !== "cover") revIo.observe(el);
+      });
+    }
 
     var audio = document.getElementById("bg-music");
     var btn = document.getElementById("music-toggle");
