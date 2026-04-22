@@ -13,7 +13,7 @@
   <link rel="manifest" href="invite-mobile.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
   <link rel="preload" href="assets/ganesh-design.png" as="image" type="image/png">
   <link rel="preload" href="assets/WhatsApp%20Image%202026-04-22%20at%2010.20.26.jpeg" as="image" type="image/jpeg">
@@ -128,7 +128,7 @@
       body { font-size: 1.05rem; }
     }
 
-    /* ── Opening sequence: motif → family note → scroll invite ── */
+    /* ── Opening sequence: envelope → Ganesh motif → family note → scroll invite ── */
     #mobile-intro {
       position: fixed;
       inset: 0;
@@ -607,6 +607,629 @@
     .mobile-intro-continue:active {
       transform: translateX(-50%) scale(0.97);
     }
+
+    /* Intro envelope gate — design, dimensions & card from envelope.html (scoped) */
+    #intro-simple-envelope {
+      --ev-gold: #c9a84c;
+      --ev-gold-l: #e8d49a;
+      --ev-gold-d: #8f6a3a;
+      --ev-ink: #3d3429;
+      --ev-ink-soft: #5c5147;
+      --ev-cream: #fefaf1;
+      --ev-paper: #fffdf8;
+      --ev-line-fine: rgba(143, 106, 58, 0.09);
+      --ev-line-fine2: rgba(143, 106, 58, 0.045);
+      --ev-rose-mist: rgba(244, 167, 185, 0.08);
+      --ev-gold-mist: rgba(201, 168, 76, 0.12);
+      position: absolute;
+      inset: 0;
+      z-index: 126;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: max(env(safe-area-inset-top, 0px), calc(clamp(2.85rem, 12dvh, 6.75rem) + clamp(0.55rem, 2dvh, 1.1rem))) 0.75rem max(4.5rem, env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+      pointer-events: auto;
+      /* invitation-bg.png first: art is the hero; only a soft veil for readability */
+      background-color: #fdf9f4;
+      background-image:
+        radial-gradient(ellipse 98% 88% at 50% 44%, rgba(255, 253, 250, 0.22) 0%, transparent 58%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.12) 0%, transparent 40%, rgba(255, 248, 244, 0.08) 100%),
+        url("assets/invitation-bg.png");
+      background-size: 100% 100%, 100% 100%, cover;
+      background-position: center, center, center top;
+      background-repeat: no-repeat;
+      color: var(--ev-ink);
+      box-shadow:
+        inset 0 0 min(100px, 18vw) rgba(255, 252, 248, 0.38),
+        inset 0 0 120vmax rgba(201, 168, 120, 0.04),
+        inset 0 0 0 1px rgba(220, 190, 150, 0.22);
+      transition: opacity 0.5s ease, visibility 0s linear 0s;
+    }
+    #intro-simple-envelope::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(212, 185, 150, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.28;
+    }
+    #intro-simple-envelope::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 50% at 50% 100%, rgba(244, 200, 210, 0.06) 0%, transparent 45%),
+        linear-gradient(180deg, transparent 60%, rgba(255, 252, 248, 0.14) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Warm ambience + lamp drift (same idea as #mobile-intro .mobile-intro__glow + ::after — visible above art) */
+    #intro-simple-envelope .intro-env-ambience {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    #intro-simple-envelope .intro-env-ambience::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 120% 90% at 50% 50%, rgba(255, 253, 248, 0.48) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 70% at 50% 100%, rgba(201, 168, 76, 0.08) 0%, transparent 45%),
+        radial-gradient(ellipse 80% 60% at 0% 50%, rgba(244, 167, 185, 0.06) 0%, transparent 40%),
+        radial-gradient(ellipse 55% 40% at 100% 12%, rgba(201, 168, 76, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 252, 248, 0.38) 0%, transparent 42%);
+      opacity: 0.94;
+      transform: scale(1);
+      transform-origin: 50% 45%;
+      animation: intro-env-ambience-glow 9s var(--ease-soft) infinite alternate;
+    }
+    @keyframes intro-env-ambience-glow {
+      0% {
+        opacity: 0.86;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0.98;
+        transform: scale(1.035);
+      }
+    }
+    #intro-simple-envelope .intro-env-ambience::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 0;
+      background:
+        radial-gradient(
+          ellipse min(118%, 160vw) min(78%, 100dvh) at 50% -14%,
+          rgba(255, 244, 220, 0.58) 0%,
+          rgba(255, 214, 165, 0.3) 18%,
+          rgba(255, 188, 120, 0.14) 38%,
+          transparent 62%
+        ),
+        radial-gradient(ellipse 72% 48% at 50% 108%, rgba(255, 170, 95, 0.1) 0%, transparent 52%),
+        radial-gradient(ellipse 38% 32% at 18% 22%, rgba(255, 230, 190, 0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 36% 30% at 84% 26%, rgba(255, 220, 175, 0.14) 0%, transparent 55%);
+      mix-blend-mode: soft-light;
+      opacity: 0.9;
+      animation: lampLoaderMotion 7.5s ease-in-out infinite;
+      animation-delay: -1.35s;
+    }
+    /* Falling petals over parchment (same motif as post-intro pages) */
+    #intro-simple-envelope .intro-env-blossom {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    #mobile-intro.intro-simple-env-done #intro-simple-envelope {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+    }
+    #intro-simple-envelope .scene {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: min(430px, 96vw);
+      padding: 0 clamp(10px, 3.5vw, 18px);
+      box-sizing: border-box;
+      perspective: 920px;
+      perspective-origin: 50% 42%;
+      gap: 0;
+      margin-top: clamp(22px, 4.8dvh, 48px);
+    }
+    #intro-simple-envelope .hero-invite {
+      text-align: center;
+      margin-top: clamp(28px, 7dvh, 92px);
+      margin-bottom: 0;
+      max-width: min(420px, 94vw);
+      width: 100%;
+      padding: 0 0.5rem max(4px, env(safe-area-inset-bottom, 0px));
+      position: relative;
+      flex-shrink: 0;
+    }
+    #intro-simple-envelope .hero-invite::before {
+      content: "";
+      display: block;
+      width: min(112px, 30vw);
+      height: 1px;
+      margin: 0 auto 14px;
+      background: linear-gradient(90deg, transparent, rgba(176, 141, 87, 0.55), transparent);
+    }
+    #intro-simple-envelope .hero-invite::after {
+      content: "";
+      display: block;
+      width: 5px;
+      height: 5px;
+      margin: 16px auto 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255, 252, 245, 0.95), rgba(176, 141, 87, 0.4));
+      box-shadow: 0 0 0 1px rgba(176, 141, 87, 0.12), 0 2px 8px rgba(176, 141, 87, 0.08);
+      opacity: 0.9;
+    }
+    #intro-simple-envelope .hero-kicker {
+      font-family: "Cinzel", serif;
+      font-size: clamp(9px, 1.9vw, 11px);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(100, 72, 52, 0.88);
+      text-shadow: 0 0 18px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.9);
+      margin-bottom: 10px;
+      animation: intro-env-hero-k 4s ease-in-out infinite;
+    }
+    @keyframes intro-env-hero-k {
+      0%, 100% { opacity: 0.72; }
+      50% { opacity: 1; }
+    }
+    #intro-simple-envelope .hero-script {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(2.35rem, 10.5vw, 3.65rem);
+      font-weight: 400;
+      color: #5a483e;
+      line-height: 1.12;
+      text-shadow:
+        0 0 28px rgba(255, 253, 250, 0.98),
+        0 0 14px rgba(255, 252, 248, 0.95),
+        0 2px 0 rgba(255, 255, 255, 0.9),
+        0 3px 20px rgba(200, 150, 130, 0.1);
+    }
+    #intro-simple-envelope .hero-script-amp {
+      color: #9a6e38;
+      font-size: 0.78em;
+      margin: 0 0.08em;
+      text-shadow:
+        0 0 20px rgba(255, 253, 250, 0.95),
+        0 1px 0 rgba(255, 250, 236, 0.9);
+    }
+    #intro-simple-envelope .hero-tagline {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: clamp(13px, 3.1vw, 17px);
+      color: rgba(74, 58, 50, 0.92);
+      letter-spacing: 0.03em;
+      margin-top: 12px;
+      line-height: 1.45;
+      text-shadow: 0 0 16px rgba(255, 253, 250, 0.92), 0 1px 0 rgba(255, 252, 248, 0.85);
+      animation: intro-env-hero-t 5s ease-in-out infinite;
+    }
+    @keyframes intro-env-hero-t {
+      0%, 100% { opacity: 0.82; }
+      50% { opacity: 1; }
+    }
+    #intro-simple-envelope .env-wrap {
+      position: relative;
+      width: min(430px, 92vw);
+      height: min(288px, 60vw);
+      max-height: min(288px, 52dvh);
+      flex-shrink: 0;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease;
+      will-change: transform;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    #intro-simple-envelope .env-wrap:not(.open) {
+      animation: intro-env-breathe 4.5s ease-in-out infinite;
+    }
+    #intro-simple-envelope .env-wrap.open {
+      animation: none;
+    }
+    @keyframes intro-env-breathe {
+      0%, 100% { filter: brightness(1) saturate(1.03); }
+      50% { filter: brightness(1.05) saturate(1.06); }
+    }
+    #intro-simple-envelope .env-wrap:focus {
+      outline: none;
+    }
+    #intro-simple-envelope .env-wrap:focus-visible {
+      outline: 2px solid rgba(176, 141, 87, 0.65);
+      outline-offset: 8px;
+      border-radius: 12px;
+    }
+    #intro-simple-envelope .env-body {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background:
+        radial-gradient(ellipse 88% 58% at 50% 8%, rgba(255, 252, 248, 0.95) 0%, transparent 42%),
+        radial-gradient(ellipse 72% 55% at 92% 88%, rgba(244, 200, 210, 0.2) 0%, transparent 48%),
+        radial-gradient(ellipse 68% 50% at 6% 82%, rgba(232, 210, 175, 0.28) 0%, transparent 46%),
+        linear-gradient(125deg, rgba(255, 255, 255, 0.45) 0%, transparent 38%),
+        linear-gradient(158deg, #fdf8f2 0%, #f5ebe3 32%, #eddcd2 68%, #e5d2c8 100%);
+      box-shadow:
+        0 0 0 1.5px rgba(200, 165, 105, 0.55),
+        0 0 0 3px rgba(255, 252, 248, 0.95),
+        0 0 0 5px rgba(220, 190, 140, 0.28),
+        0 22px 50px rgba(200, 150, 130, 0.2),
+        0 10px 24px rgba(220, 180, 165, 0.14),
+        0 2px 0 rgba(255, 255, 255, 0.65),
+        inset 0 2px 8px rgba(255, 255, 255, 0.85),
+        inset 0 -2px 8px rgba(212, 175, 160, 0.12),
+        inset 0 0 0 1px rgba(255, 250, 245, 0.5);
+    }
+    #intro-simple-envelope .fold-l,
+    #intro-simple-envelope .fold-r,
+    #intro-simple-envelope .fold-b {
+      position: absolute;
+      inset: 0;
+    }
+    #intro-simple-envelope .fold-l {
+      background: linear-gradient(to right, rgba(200, 160, 145, 0.22) 0%, transparent 55%);
+      clip-path: polygon(0 0, 0 100%, 54% 50%);
+    }
+    #intro-simple-envelope .fold-r {
+      background: linear-gradient(to left, rgba(200, 160, 145, 0.22) 0%, transparent 55%);
+      clip-path: polygon(100% 0, 100% 100%, 46% 50%);
+    }
+    #intro-simple-envelope .fold-b {
+      background: linear-gradient(to top, rgba(190, 150, 140, 0.26) 0%, transparent 55%);
+      clip-path: polygon(0 100%, 100% 100%, 50% 45%);
+    }
+    #intro-simple-envelope .crease-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 0.5px;
+      background: linear-gradient(to right, transparent, rgba(184, 145, 88, 0.45), transparent);
+      transform: translateY(-50%);
+    }
+    #intro-simple-envelope .crease-v {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 0.5px;
+      background: linear-gradient(to bottom, transparent, rgba(200, 170, 120, 0.28), transparent);
+      transform: translateX(-50%);
+    }
+    #intro-simple-envelope .inner-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background:
+        radial-gradient(ellipse 95% 72% at 50% 108%, rgba(220, 190, 140, 0.12) 0%, transparent 55%);
+      transition: background 1.2s ease 0.4s;
+      pointer-events: none;
+    }
+    #intro-simple-envelope .env-wrap.open .inner-glow {
+      background:
+        radial-gradient(ellipse 95% 72% at 50% 108%, rgba(255, 244, 228, 0.45) 0%, rgba(255, 220, 200, 0.12) 40%, rgba(232, 200, 160, 0.14) 50%, transparent 62%);
+    }
+    #intro-simple-envelope .stamp {
+      position: absolute;
+      top: 10px;
+      right: 13px;
+      width: 40px;
+      height: 48px;
+      border: 1.5px solid rgba(184, 145, 88, 0.55);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: linear-gradient(168deg, rgba(255, 252, 248, 0.98) 0%, rgba(248, 235, 226, 0.96) 45%, rgba(240, 220, 208, 0.94) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -1px 4px rgba(212, 175, 155, 0.2),
+        0 2px 12px rgba(200, 160, 120, 0.2);
+    }
+    #intro-simple-envelope .stamp-inner {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(200, 165, 105, 0.42);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(143, 106, 58, 0.88);
+      font-size: 15px;
+      background: rgba(255, 252, 248, 0.75);
+    }
+    #intro-simple-envelope .stamp-initials {
+      font-family: "Cinzel", serif;
+      font-size: clamp(6.5px, 1.85vw, 8px);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      line-height: 1;
+      padding-left: 0.2em;
+      color: rgba(143, 106, 58, 0.88);
+    }
+    #intro-simple-envelope .stamp-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5px;
+      width: 30px;
+    }
+    #intro-simple-envelope .stamp-line {
+      height: 1.5px;
+      background: rgba(184, 145, 88, 0.38);
+      border-radius: 1px;
+    }
+    #intro-simple-envelope .stamp-line:nth-child(2) {
+      width: 72%;
+    }
+    #intro-simple-envelope .stamp-line:nth-child(3) {
+      width: 50%;
+    }
+    #intro-simple-envelope .shimmer-sweep {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: linear-gradient(108deg, transparent 22%, rgba(255, 248, 228, 0.35) 50%, transparent 78%);
+      background-size: 220% 100%;
+      animation: intro-env-sh-sw 3.8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 6;
+    }
+    @keyframes intro-env-sh-sw {
+      0% { background-position: 220% 0; }
+      100% { background-position: -220% 0; }
+    }
+    #intro-simple-envelope .flap-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 57%;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 1.9s cubic-bezier(0.36, 0, 0.07, 1);
+      z-index: 4;
+    }
+    #intro-simple-envelope .flap-face {
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 90%);
+      background:
+        linear-gradient(168deg, rgba(255, 255, 255, 0.35) 0%, transparent 38%),
+        linear-gradient(178deg, #fff9f4 0%, #f2e2d6 38%, #e8d4c8 72%, #dec6ba 100%);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    #intro-simple-envelope .flap-face::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 90%);
+      background: linear-gradient(155deg, rgba(255, 252, 248, 0.55) 0%, transparent 50%);
+    }
+    #intro-simple-envelope .flap-face::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 90%);
+      background: linear-gradient(to bottom, rgba(232, 200, 150, 0.35) 0%, rgba(244, 200, 200, 0.12) 28%, rgba(200, 165, 110, 0.14) 40%, transparent 48%);
+    }
+    #intro-simple-envelope .env-wrap.open .flap-top {
+      transform: rotateX(-188deg);
+    }
+    #intro-simple-envelope .seal-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: pointer;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    }
+    #intro-simple-envelope .seal-wrap svg {
+      width: 76px;
+      height: 76px;
+      display: block;
+      filter: drop-shadow(0 5px 16px rgba(184, 140, 100, 0.28)) drop-shadow(0 2px 6px rgba(200, 160, 120, 0.18)) drop-shadow(0 1px 0 rgba(255, 252, 248, 0.5));
+    }
+    #intro-simple-envelope .env-wrap.open .seal-wrap {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.35) rotate(45deg);
+      pointer-events: none;
+    }
+    #intro-simple-envelope .seal-crack {
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    #intro-simple-envelope .seal-wrap.cracking .seal-crack {
+      opacity: 1;
+    }
+    #intro-simple-envelope .card-wrap {
+      position: absolute;
+      top: 14%;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 87%;
+      z-index: 3;
+      opacity: 0;
+      transition: transform 1.7s cubic-bezier(0.18, 1.05, 0.36, 1) 1s, opacity 0.55s ease 0.78s;
+    }
+    #intro-simple-envelope .env-wrap.open .card-wrap {
+      transform: translateX(-50%) translateY(-118%);
+      opacity: 1;
+    }
+    #intro-simple-envelope .card {
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, 0.55) 0%, transparent 42%),
+        linear-gradient(152deg, #fffdf8 0%, #fdf6e8 52%, #f3ead8 100%);
+      border-radius: 6px;
+      padding: 16px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(200, 165, 105, 0.42),
+        0 0 0 3px rgba(255, 252, 248, 0.9),
+        0 14px 36px rgba(200, 160, 130, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.92),
+        inset 0 -2px 6px rgba(212, 185, 165, 0.08),
+        inset 0 0 48px rgba(232, 200, 160, 0.06);
+    }
+    #intro-simple-envelope .card::before,
+    #intro-simple-envelope .card::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: rgba(176, 141, 87, 0.42);
+      border-style: solid;
+    }
+    #intro-simple-envelope .card::before {
+      top: 7px;
+      left: 7px;
+      border-width: 1.5px 0 0 1.5px;
+    }
+    #intro-simple-envelope .card::after {
+      bottom: 7px;
+      right: 7px;
+      border-width: 0 1.5px 1.5px 0;
+    }
+    #intro-simple-envelope .card-in {
+      border: 1px solid rgba(176, 141, 87, 0.28);
+      border-radius: 2px;
+      padding: clamp(22px, 6vw, 34px) clamp(16px, 5vw, 28px);
+      position: relative;
+      min-height: clamp(100px, 22vw, 130px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse 85% 75% at 50% 45%, rgba(255, 252, 248, 0.35) 0%, transparent 62%);
+    }
+    #intro-simple-envelope .card-in::before,
+    #intro-simple-envelope .card-in::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: rgba(176, 141, 87, 0.35);
+      border-style: solid;
+    }
+    #intro-simple-envelope .card-in::before {
+      top: -1px;
+      right: -1px;
+      border-width: 1px 1px 0 0;
+    }
+    #intro-simple-envelope .card-in::after {
+      bottom: -1px;
+      left: -1px;
+      border-width: 0 0 1px 1px;
+    }
+    #intro-simple-envelope .rs-monogram {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.06em;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(34px, 11vw, 52px);
+      letter-spacing: 0.04em;
+      color: var(--ev-ink);
+      line-height: 1;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 28px rgba(176, 141, 87, 0.12);
+    }
+    #intro-simple-envelope .rs-monogram .rs-amp {
+      font-family: "Great Vibes", cursive;
+      font-weight: 400;
+      font-size: 0.52em;
+      color: var(--ev-gold-d);
+      margin: 0 0.04em;
+      transform: translateY(0.06em);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), 0 6px 18px rgba(176, 141, 87, 0.15);
+    }
+    #intro-simple-envelope .hint-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: clamp(18px, 3.2dvh, 28px);
+      width: 100%;
+      z-index: 3;
+      transition: opacity 0.6s ease;
+      flex-shrink: 0;
+    }
+    #intro-simple-envelope .hint-wrap.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #intro-simple-envelope .hint-arrows {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: intro-env-arr-b 2s ease-in-out infinite;
+    }
+    @keyframes intro-env-arr-b {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+    #intro-simple-envelope .hint-arrows span {
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-right: 1.5px solid rgba(143, 106, 58, 0.55);
+      border-top: 1.5px solid rgba(143, 106, 58, 0.55);
+      transform: rotate(-45deg);
+      margin-bottom: -9px;
+    }
+    #intro-simple-envelope .hint-arrows span:nth-child(1) {
+      opacity: 0.3;
+    }
+    #intro-simple-envelope .hint-arrows span:nth-child(2) {
+      opacity: 0.6;
+    }
+    #intro-simple-envelope .hint-arrows span:nth-child(3) {
+      opacity: 0.9;
+    }
+    #intro-simple-envelope .hint-txt {
+      font-family: "Cinzel", serif;
+      font-style: normal;
+      font-size: clamp(9px, 2.4vw, 11px);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: rgba(88, 68, 58, 0.75);
+      max-width: 22rem;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 0.75rem;
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 1.5;
+      text-shadow: 0 0 14px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.88);
+    }
+
     body:not(.intro-done) .tabs {
       visibility: hidden;
       pointer-events: none;
@@ -2813,6 +3436,43 @@
         opacity: 0.82;
         transform: none !important;
       }
+      #intro-simple-envelope .flap-top,
+      #intro-simple-envelope .card-wrap {
+        transition: none !important;
+      }
+      #intro-simple-envelope .env-wrap.open .flap-top {
+        transform: rotateX(-188deg) !important;
+      }
+      #intro-simple-envelope .env-wrap.open .card-wrap {
+        transform: translateX(-50%) translateY(-118%) !important;
+        opacity: 1 !important;
+      }
+      #intro-simple-envelope .env-wrap.open .seal-wrap {
+        opacity: 0 !important;
+        transform: translate(-50%, -50%) scale(0.35) rotate(45deg) !important;
+      }
+      #intro-simple-envelope .shimmer-sweep,
+      #intro-simple-envelope .hint-arrows,
+      #intro-simple-envelope .hero-kicker,
+      #intro-simple-envelope .hero-tagline {
+        animation: none !important;
+      }
+      #intro-simple-envelope .intro-env-ambience::before,
+      #intro-simple-envelope .intro-env-ambience::after {
+        animation: none !important;
+      }
+      #intro-simple-envelope .intro-env-ambience::before {
+        opacity: 0.92;
+        transform: none;
+      }
+      #intro-simple-envelope .intro-env-ambience::after {
+        opacity: 0.82;
+        transform: none;
+      }
+      #intro-simple-envelope .env-wrap:not(.open) {
+        animation: none !important;
+        filter: none !important;
+      }
       #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bg-img,
       #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh-wrap,
       #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh {
@@ -2851,7 +3511,96 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >A short opening with a Ganesh motif and blossoms, then a message from the families, then the full invitation. Use Continue to skip at any time.</span>
+      >Tap the envelope or swipe up on it to open. Then a Ganesh motif appears, then a message from the families, then the full invitation. Use Continue to skip at any time.</span>
+    <div
+      id="intro-simple-envelope"
+      class="intro-simple-envelope-gate"
+      role="group"
+      aria-label="Invitation envelope"
+    >
+      <div class="intro-env-blossom blossom-layer" aria-hidden="true">
+        <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
+        ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
+      </div>
+      <div class="intro-env-ambience" aria-hidden="true"></div>
+      <div class="scene">
+        <div
+          class="env-wrap"
+          id="intro-env-wrap"
+          tabindex="0"
+          role="button"
+          aria-label="Open invitation envelope: tap or swipe up"
+          aria-describedby="intro-hint-txt mobile-intro-hint"
+        >
+          <div class="env-body">
+            <div class="fold-l" aria-hidden="true"></div>
+            <div class="fold-r" aria-hidden="true"></div>
+            <div class="fold-b" aria-hidden="true"></div>
+            <div class="crease-h" aria-hidden="true"></div>
+            <div class="crease-v" aria-hidden="true"></div>
+            <div class="inner-glow" aria-hidden="true"></div>
+            <div class="stamp" aria-hidden="true">
+              <div class="stamp-inner"><span class="stamp-initials">RS</span></div>
+              <div class="stamp-lines">
+                <div class="stamp-line"></div>
+                <div class="stamp-line"></div>
+                <div class="stamp-line"></div>
+              </div>
+            </div>
+            <div class="shimmer-sweep" aria-hidden="true"></div>
+          </div>
+          <div class="flap-top" aria-hidden="true">
+            <div class="flap-face"></div>
+          </div>
+          <div class="seal-wrap" id="intro-seal-wrap" aria-hidden="true">
+            <svg viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="intro-seal-g1" cx="38%" cy="30%" r="68%">
+                  <stop offset="0%" stop-color="#fff4e0"/>
+                  <stop offset="42%" stop-color="#e8d4a8"/>
+                  <stop offset="100%" stop-color="#b8925a"/>
+                </radialGradient>
+                <radialGradient id="intro-seal-g2" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#f2e0b8"/>
+                  <stop offset="100%" stop-color="#b88850"/>
+                </radialGradient>
+              </defs>
+              <circle cx="38" cy="38" r="36" fill="url(#intro-seal-g1)"/>
+              <circle cx="38" cy="38" r="36" fill="none" stroke="#c4a060" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.5"/>
+              <circle cx="38" cy="38" r="29" fill="url(#intro-seal-g2)"/>
+              <circle cx="38" cy="38" r="25" fill="none" stroke="rgba(255,225,100,.48)" stroke-width="0.8"/>
+              <circle cx="38" cy="38" r="10.5" fill="none" stroke="rgba(143,106,58,0.2)" stroke-width="0.65"/>
+              <circle cx="38" cy="38" r="6.2" fill="none" stroke="rgba(184,145,88,0.22)" stroke-width="0.5"/>
+              <circle cx="38" cy="10" r="2" fill="rgba(255,235,110,.65)"/>
+              <circle cx="38" cy="66" r="2" fill="rgba(255,235,110,.65)"/>
+              <circle cx="10" cy="38" r="2" fill="rgba(255,235,110,.65)"/>
+              <circle cx="66" cy="38" r="2" fill="rgba(255,235,110,.65)"/>
+              <g class="seal-crack">
+                <line x1="38" y1="7" x2="44" y2="31" stroke="#8b6238" stroke-width="1.5" opacity="0.82"/>
+                <line x1="38" y1="7" x2="29" y2="28" stroke="#9a7040" stroke-width="1" opacity="0.62"/>
+                <line x1="44" y1="31" x2="53" y2="40" stroke="#a07848" stroke-width="0.8" opacity="0.48"/>
+              </g>
+            </svg>
+          </div>
+          <div class="card-wrap">
+            <div class="card">
+              <div class="card-in">
+                <div class="rs-monogram" aria-label="Initials R and S"><span class="rs-r">R</span><span class="rs-amp">&amp;</span><span class="rs-s">S</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hint-wrap" id="intro-hint-wrap">
+          <div class="hint-arrows" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="hint-txt" id="intro-hint-txt">Tap the envelope or swipe up</p>
+        </div>
+        <header class="hero-invite">
+          <p class="hero-kicker">The wedding of</p>
+          <p class="hero-script">Rutuja <span class="hero-script-amp">&amp;</span> Saurabh</p>
+          <p class="hero-tagline">A celebration of love · Sunday 3 May 2026 · Malegaon</p>
+        </header>
+      </div>
+    </div>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
     <div class="blossom-layer" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -3115,6 +3864,7 @@
     var envOpeningTimerA = null;
     var envOpeningTimerB = null;
     var envOpeningTimerC = null;
+    var simpleEnvFinalizeTimer = null;
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
@@ -3171,6 +3921,93 @@
       }
     }
 
+    function initSimpleEnvelopeGate() {
+      var gate = document.getElementById("intro-simple-envelope");
+      var wrap = document.getElementById("intro-env-wrap");
+      var seal = document.getElementById("intro-seal-wrap");
+      var hintWrap = document.getElementById("intro-hint-wrap");
+      if (!introShell || !gate || !wrap) {
+        runIntroMotifThenFamily();
+        return;
+      }
+      if (reduceMotion) {
+        introShell.classList.add("intro-simple-env-done");
+        wrap.classList.add("open");
+        delete wrap.dataset.envOpening;
+        if (hintWrap) hintWrap.classList.add("hidden");
+        runIntroMotifThenFamily();
+        return;
+      }
+
+      function afterEnvelopeAnimation() {
+        simpleEnvFinalizeTimer = null;
+        if (introFinished || !introShell) return;
+        introShell.classList.add("intro-simple-env-done");
+        runIntroMotifThenFamily();
+      }
+
+      function openSimpleEnvelope() {
+        if (introFinished || wrap.classList.contains("open") || wrap.dataset.envOpening === "1") return;
+        wrap.dataset.envOpening = "1";
+        tryAutoplayBackgroundMusic();
+        if (seal) seal.classList.add("cracking");
+        if (hintWrap) hintWrap.classList.add("hidden");
+        if (simpleEnvFinalizeTimer) window.clearTimeout(simpleEnvFinalizeTimer);
+        window.setTimeout(function () {
+          if (introFinished || !wrap) return;
+          if (seal) seal.classList.remove("cracking");
+          wrap.classList.add("open");
+          delete wrap.dataset.envOpening;
+          simpleEnvFinalizeTimer = window.setTimeout(afterEnvelopeAnimation, 3100);
+        }, 290);
+      }
+
+      var gestureY0 = null;
+      var gestureX0 = null;
+      var gesturePid = null;
+      function clearEnvelopeGesture() {
+        gestureY0 = null;
+        gestureX0 = null;
+        gesturePid = null;
+      }
+      wrap.addEventListener("pointerdown", function (e) {
+        if (introFinished || wrap.classList.contains("open")) return;
+        if (typeof e.button === "number" && e.button !== 0) return;
+        gestureY0 = e.clientY;
+        gestureX0 = e.clientX;
+        gesturePid = e.pointerId;
+        try {
+          wrap.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      });
+      wrap.addEventListener("pointerup", function (e) {
+        if (gesturePid == null || e.pointerId !== gesturePid) return;
+        if (gestureY0 == null || introFinished || wrap.classList.contains("open")) {
+          clearEnvelopeGesture();
+          return;
+        }
+        var dy = gestureY0 - e.clientY;
+        var dx = Math.abs((gestureX0 || 0) - e.clientX);
+        var pid = gesturePid;
+        clearEnvelopeGesture();
+        try {
+          wrap.releasePointerCapture(pid);
+        } catch (err2) {}
+        var swipeUp = dy >= 40 && dy >= dx * 0.55;
+        var tap = Math.abs(dy) <= 16 && dx <= 16;
+        if (swipeUp || tap) openSimpleEnvelope();
+      });
+      wrap.addEventListener("pointercancel", clearEnvelopeGesture);
+      wrap.addEventListener("lostpointercapture", clearEnvelopeGesture);
+      wrap.addEventListener("keydown", function (e) {
+        if (introFinished || wrap.classList.contains("open")) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openSimpleEnvelope();
+        }
+      });
+    }
+
     function runIntroMotifThenFamily() {
       if (!introShell || introFinished) return;
       clearIntroTimers();
@@ -3209,10 +4046,10 @@
     }
 
     function clearIntroTimers() {
-      [envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
+      [simpleEnvFinalizeTimer, envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
         if (id) window.clearTimeout(id);
       });
-      envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
+      simpleEnvFinalizeTimer = envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
     }
 
     function beginScrollReveals() {
@@ -3244,7 +4081,7 @@
       document.body.classList.add("intro-done");
       if (introShell) {
         introShell.classList.remove("env-opening-active", "env-opening-exit");
-        introShell.classList.add("env-opening-done");
+        introShell.classList.add("env-opening-done", "intro-simple-env-done");
         introShell.classList.add("is-hidden");
         introShell.setAttribute("aria-busy", "false");
         introShell.setAttribute("aria-hidden", "true");
@@ -3304,8 +4141,17 @@
           "env-opening-active",
           "env-opening-exit"
         );
-        introShell.classList.add("env-opening-done");
+        introShell.classList.add("env-opening-done", "intro-simple-env-done");
       }
+      var introWrap = document.getElementById("intro-env-wrap");
+      if (introWrap) {
+        introWrap.classList.add("open");
+        delete introWrap.dataset.envOpening;
+      }
+      var introHint = document.getElementById("intro-hint-wrap");
+      if (introHint) introHint.classList.add("hidden");
+      var introSeal = document.getElementById("intro-seal-wrap");
+      if (introSeal) introSeal.classList.remove("cracking");
       var openingEl = document.getElementById("mobile-env-opening");
       if (openingEl) openingEl.setAttribute("aria-hidden", "true");
       revealHeroAndScrollUI();
@@ -3342,7 +4188,7 @@
       tryAutoplayBackgroundMusic();
     } else {
       tryAutoplayBackgroundMusic();
-      runIntroMotifThenFamily();
+      initSimpleEnvelopeGate();
     }
 
     /* Countdown to wedding day (local midnight, 3 May 2026) */
