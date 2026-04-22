@@ -3,18 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="color-scheme" content="light">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Wedding Invite">
-<meta name="application-name" content="Wedding Invitation">
 <meta name="description" content="Digital wedding invitation.">
 <meta name="theme-color" content="#fefaf1">
-<meta name="msapplication-TileColor" content="#fefaf1">
-<meta name="msapplication-tap-highlight" content="no">
-<link rel="manifest" href="invite-mobile.webmanifest">
-<link rel="apple-touch-icon" href="assets/ganesh-design.png">
+<title>Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -5502,6 +5496,271 @@ body.is-cover-page .page-nav {
       100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 0.5rem
     );
     box-sizing: border-box;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE-FIRST ENHANCEMENTS  (≤ 600 px wide / short screens)
+   Preserves all existing design; strengthens readability,
+   touch targets, and layout density on phones.
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 600px) {
+
+  /* ── Body & base ── */
+  body {
+    font-size: clamp(1rem, 4vw, 1.05rem);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── Loader stage: tighter padding so all three hero cards fit ── */
+  .env-stage {
+    padding-top: max(env(safe-area-inset-top, 0px), clamp(0.4rem, 1.5dvh, 0.75rem));
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), clamp(0.4rem, 1.5dvh, 0.75rem));
+    padding-left: max(env(safe-area-inset-left, 0px), clamp(0.5rem, 2.5vw, 1rem));
+    padding-right: max(env(safe-area-inset-right, 0px), clamp(0.5rem, 2.5vw, 1rem));
+    gap: clamp(0.4rem, 1.5dvh, 0.8rem);
+  }
+
+  /* ── Envelope + trio: shrink to fit narrow / short screens ── */
+  .env-hero {
+    --env-trio-h: clamp(200px, 30dvh, 310px);
+    --env-cal-gap: clamp(1rem, 2.5vw, 1.75rem);
+    min-height: var(--env-trio-h);
+    gap: clamp(0.35rem, 1.2dvh, 0.65rem);
+  }
+
+  /* ── Calendar / countdown cards: fill width, bump tiny type ── */
+  .env-cal,
+  .env-countdown {
+    width: min(17rem, 92vw);
+    min-width: 0;
+    max-width: 96vw;
+  }
+
+  .env-cal__kicker,
+  .env-countdown__eyebrow {
+    font-size: clamp(0.6rem, 2vw, 0.74rem);
+    letter-spacing: 0.2em;
+  }
+
+  .env-cal__year,
+  .env-countdown__unit {
+    font-size: clamp(0.55rem, 1.8vw, 0.68rem);
+  }
+
+  .env-cal__month,
+  .env-countdown__title {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+  }
+
+  .env-cal__cells {
+    font-size: clamp(1.1rem, 4.2vw, 1.45rem);
+  }
+
+  .env-cal__pad,
+  .env-cal__day {
+    min-height: 1.6rem;
+    padding: 0.2rem 0.1rem;
+    min-width: 1.6rem;
+  }
+
+  .env-countdown__value {
+    font-size: clamp(1.12rem, 4.2vw, 1.45rem);
+    min-width: 1.6rem;
+    padding: 0.2rem 0.1rem;
+  }
+
+  /* ── Family note on loader: tighter, more readable ── */
+  .env-envelope-note {
+    max-width: 95vw;
+    padding: clamp(0.8rem, 2.2dvh, 1.15rem) clamp(0.85rem, 3vw, 1.2rem);
+  }
+
+  .env-envelope-note__eyebrow {
+    font-size: clamp(0.58rem, 2vw, 0.72rem);
+  }
+
+  .env-envelope-note__lead {
+    font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+    line-height: 1.65;
+  }
+
+  /* ── Ganesh intro image: slightly smaller on short screens ── */
+  .env-opening__ganesh {
+    max-height: min(26dvh, 200px);
+  }
+
+  /* ── Page 1: invitation card ── */
+  #page1 {
+    --p1-col: min(22rem, calc(100vw - 1.5rem));
+    --p1-s3: clamp(0.65rem, 1.6dvh, 0.9rem);
+    --p1-s4: clamp(0.9rem, 2dvh, 1.2rem);
+    --p1-s5: clamp(1.1rem, 2.6dvh, 1.55rem);
+  }
+
+  #page1 .invite-sheet {
+    padding-top: clamp(2rem, 8dvh, 3.5rem);
+    padding-bottom: clamp(1.5rem, 6dvh, 3rem);
+  }
+
+  #page1 .invite-sheet__eyebrow {
+    font-size: clamp(0.84rem, 3.5vw, 1rem);
+  }
+
+  #page1 .invite-sheet__names {
+    font-size: clamp(2.5rem, 11vw, 3.6rem);
+  }
+
+  #page1 .invite-sheet__lede {
+    font-size: clamp(0.9rem, 3.5vw, 1.04rem);
+  }
+
+  #page1 .invite-sheet__dow {
+    font-size: clamp(0.65rem, 2vw, 0.78rem);
+  }
+
+  #page1 .invite-sheet__day {
+    font-size: clamp(3.2rem, 16vw, 5rem);
+  }
+
+  #page1 .invite-sheet__mon-year {
+    font-size: clamp(0.95rem, 3.8vw, 1.14rem);
+  }
+
+  #page1 .invite-sheet__time {
+    font-size: clamp(0.85rem, 3.2vw, 1rem);
+  }
+
+  #page1 .invite-sheet__venue {
+    font-size: clamp(0.85rem, 3.2vw, 1rem);
+  }
+
+  #page1 .invite-sheet__footer {
+    font-size: clamp(0.8rem, 3vw, 0.94rem);
+  }
+
+  /* ── Page 2: functions sheet ── */
+  #page2 {
+    --p2-col: min(22rem, calc(100vw - 1.5rem));
+  }
+
+  /* ── Page 3: family message ── */
+  #page3 {
+    --p3-col: min(22rem, calc(100vw - 1.5rem));
+  }
+
+  /* Larger tap targets for phone links */
+  .p3-sheet__contact a {
+    display: inline-block;
+    padding: 0.55rem 0.85rem;
+    min-height: 44px;
+    min-width: 44px;
+    line-height: 1.6;
+    border-radius: 8px;
+    background: rgba(176, 141, 87, 0.08);
+    border: 1px solid rgba(176, 141, 87, 0.22);
+    margin: 0.2rem 0;
+    text-decoration: none;
+  }
+
+  /* ── Page 4: venue maps ── */
+  #page4 {
+    --p4-col: min(22rem, calc(100vw - 1.5rem));
+  }
+
+  /* Venue map card link: full-width on mobile, large touch target ── */
+  .p4-map-card__link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem 1rem;
+    min-height: 44px;
+    font-size: clamp(0.85rem, 3.2vw, 0.96rem);
+    box-sizing: border-box;
+  }
+
+  /* Map preview tile: slightly shorter on phones */
+  .p4-map-card__preview {
+    height: clamp(5rem, 14dvh, 8rem);
+  }
+
+  /* ── Cover wings: less on narrow screens ── */
+  .cover-wing {
+    width: min(26vw, 108px);
+  }
+
+  /* ── Dot nav: slightly larger touch targets ── */
+  .page-nav .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* ── Scrollable inner sheets: prevent content clipping on very small screens ── */
+  .panel.panel--framed {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ── Extra-narrow phones (≤ 360 px) ── */
+@media (max-width: 360px) {
+  .env-hero {
+    --env-trio-h: clamp(180px, 28dvh, 260px);
+  }
+
+  .env-cal,
+  .env-countdown {
+    width: min(15.5rem, 92vw);
+  }
+
+  .env-cal__month,
+  .env-countdown__title {
+    font-size: clamp(1.25rem, 6vw, 1.55rem);
+  }
+
+  .env-cal__cells,
+  .env-countdown__value {
+    font-size: clamp(1rem, 4.2vw, 1.3rem);
+  }
+
+  #page1 .invite-sheet__day {
+    font-size: clamp(2.8rem, 16vw, 4.2rem);
+  }
+
+  #page1 .invite-sheet__names {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+}
+
+/* ── Landscape phones: very short viewport ── */
+@media (max-height: 500px) and (max-width: 900px) {
+
+  .env-stage {
+    padding-top: max(env(safe-area-inset-top, 0px), 0.25rem);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.25rem);
+    gap: 0.35rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .env-hero {
+    --env-trio-h: clamp(160px, 52dvh, 240px);
+  }
+
+  /* Landscape: show env + compact cards side-by-side if space allows */
+  .env-cal,
+  .env-countdown {
+    width: min(14rem, 44vw);
+  }
+
+  .env-envelope-note {
+    padding: 0.65rem 1rem;
+  }
+
+  .env-envelope-note__lead {
+    font-size: clamp(0.88rem, 2.5vw, 1rem);
   }
 }
 </style>
