@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant+Infant:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="preload" href="assets/invitation-bg.png" as="image" type="image/png">
+  <link rel="preload" href="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg" as="image">
   <link rel="preload" href="assets/ganesh-design.png" as="image" type="image/png">
   <script>
   (function () {
@@ -289,12 +289,14 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      min-height: 100dvh;
+      min-width: 100%;
       object-fit: cover;
-      object-position: center 42%;
-      transform: scale(1.06);
+      object-position: center 38%;
+      transform: scale(1.04);
       transform-origin: center center;
-      opacity: 0.5;
-      filter: saturate(1.06) brightness(1.03);
+      opacity: 1;
+      filter: saturate(1.05) brightness(0.97);
     }
     #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bg-img {
       animation: mintroBgDrift 9s ease-in-out infinite alternate;
@@ -309,8 +311,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 92% 88% at 50% 45%, rgba(254, 250, 241, 0.55) 0%, rgba(250, 244, 232, 0.38) 42%, rgba(42, 32, 22, 0.22) 100%),
-        linear-gradient(180deg, rgba(255, 252, 248, 0.2) 0%, rgba(22, 16, 12, 0.12) 100%);
+        radial-gradient(ellipse 95% 90% at 50% 48%, rgba(254, 250, 241, 0.35) 0%, rgba(42, 32, 22, 0.18) 72%, rgba(22, 16, 12, 0.35) 100%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.12) 0%, rgba(22, 16, 12, 0.2) 100%);
     }
     #mobile-intro .env-opening__content {
       position: relative;
@@ -1136,14 +1138,14 @@
     .countdown .n {
       font-family: var(--font-caps);
       font-size: clamp(1.15rem, 4.8vw, 1.42rem);
-      font-weight: 600;
+      font-weight: 700;
       display: block;
       line-height: 1.2;
       position: relative;
       z-index: 2;
-      color: var(--ink);
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
-      background: linear-gradient(180deg, #4a3d32 0%, var(--gold-mid) 48%, #6b5438 100%);
+      color: #1f1610;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.55);
+      background: linear-gradient(180deg, #1a120c 0%, #2c2218 28%, #3d2e22 52%, #2a1f16 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -1153,7 +1155,8 @@
       .countdown .n {
         -webkit-text-fill-color: unset;
         background: none;
-        color: var(--ink);
+        color: #1f1610;
+        text-shadow: 0 1px 0 rgba(255, 252, 248, 0.75);
       }
     }
     .countdown .n.is-tick {
@@ -2006,45 +2009,19 @@
       100% { box-shadow: 0 8px 26px rgba(154, 115, 69, 0.18); }
     }
 
-    /* Foreground audio — native controls, index-style frame */
-    .music-panel .music-lede {
-      font-size: 1.02rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-    .music-player-wrap {
-      border-radius: 14px;
-      padding: 14px 12px;
-      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, #faf4e8 100%);
-      border: 1px solid rgba(176, 141, 87, 0.35);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.85),
-        0 6px 22px rgba(45, 32, 22, 0.07);
-      transition: box-shadow 0.5s var(--ease-page-soft), transform 0.45s var(--ease-out);
-    }
-    .music-panel.is-revealed .music-player-wrap {
-      animation: musicFrameGlow 5s ease-in-out infinite alternate;
-    }
-    .music-panel.is-revealed h2 {
-      animation: richTitleBreath 8s ease-in-out 0.5s infinite alternate;
-    }
-    @keyframes musicFrameGlow {
-      0% {
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.85),
-          0 6px 22px rgba(45, 32, 22, 0.07);
-      }
-      100% {
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.85),
-          0 8px 28px rgba(201, 168, 120, 0.22);
-      }
-    }
-    .music-player-wrap audio {
-      width: 100%;
-      min-height: 56px;
-      display: block;
-      border-radius: 10px;
+    /* Background melody — no visible player (browser autoplay rules still require a tap) */
+    #bg-music {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+      opacity: 0;
+      pointer-events: none;
     }
 
     footer {
@@ -2098,8 +2075,6 @@
       #invite.is-revealed .invite-sheet__venue,
       #invite.is-revealed .invite-sheet__footer,
       .card.is-revealed .map-btn,
-      .music-panel.is-revealed .music-player-wrap,
-      .music-panel.is-revealed h2,
       #events.is-revealed > h2,
       #families.is-revealed > p:not(.eyebrow),
       footer.reveal.is-revealed,
@@ -2238,6 +2213,9 @@
   </style>
 </head>
 <body>
+  <audio id="bg-music" loop playsinline preload="auto" aria-hidden="true">
+    <source src="assets/background-music.mp3" type="audio/mpeg">
+  </audio>
   <a class="skip" href="#invite">Skip to invitation</a>
 
   <div
@@ -2249,7 +2227,7 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >A Ganesh motif on the invitation backdrop, then a message from the families, before the scroll invitation.</span>
+      >A full-screen photo of the couple, then a Ganesh motif, then a message from the families, before the scroll invitation.</span>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
     <div class="blossom-layer" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -2269,9 +2247,9 @@
         <div class="env-opening__bg" aria-hidden="true">
           <img
             class="env-opening__bg-img"
-            src="assets/invitation-bg.png"
-            width="682"
-            height="1024"
+            src="assets/WhatsApp Image 2026-04-22 at 10.20.26.jpeg"
+            width="2048"
+            height="2048"
             alt=""
             decoding="async"
             fetchpriority="high"
@@ -2296,7 +2274,6 @@
 
   <nav class="tabs" aria-label="Page sections">
     <a href="#cover" aria-current="true">Cover</a>
-    <a href="#music">Music</a>
     <a href="#invite">Invite</a>
     <a href="#events">Events</a>
     <a href="#family">Family</a>
@@ -2318,17 +2295,6 @@
         <p class="hero__kicker">The wedding of</p>
         <h1 class="hero__names">Rutuja <span class="hero__amp">&amp;</span> Saurabh</h1>
         <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
-      </div>
-    </section>
-
-    <section id="music" class="card invite-paper reveal music-panel" aria-labelledby="music-h">
-      <p class="eyebrow" id="music-h">Music</p>
-      <h2>Celebration melody</h2>
-      <p class="music-lede">Browsers only allow sound after you interact with the page; we try to start the melody when you continue past the opening, and you can always use the player below to play, pause, or change volume.</p>
-      <div class="music-player-wrap">
-        <audio id="bg-music" controls loop playsinline preload="auto">
-          <source src="assets/background-music.mp3" type="audio/mpeg">
-        </audio>
       </div>
     </section>
 
@@ -2455,7 +2421,6 @@
 
     <section id="venues" class="card invite-paper reveal" aria-labelledby="venues-h">
       <p class="eyebrow" id="venues-h">Directions</p>
-      <h2>Where we gather</h2>
       <p>Open a venue in Google Maps.</p>
       <article class="event" style="border:0;padding-top:0">
         <h3>Mandav &amp; Mehandi</h3>
@@ -2525,9 +2490,10 @@
     }
 
     /**
-     * True autoplay (sound without a tap) is blocked by Chrome, Safari, Firefox, etc.
-     * We call play() on the same turn as "Continue" / "Skip" when possible, and fall back
-     * to the first pointer or Enter/Space if the intro ended on a timer (no gesture left).
+     * Unmuted autoplay without a gesture is blocked by browsers. We start audio on the first
+     * tap anywhere on the opening (Ganesh / family sequence), again when you reach the main
+     * invite (Continue / Skip in the same gesture), and fall back to the next pointer / Enter /
+     * Space if the intro ended on a timer.
      */
     function tryAutoplayBackgroundMusic() {
       var el = document.getElementById("bg-music");
@@ -2660,6 +2626,14 @@
     }
 
     if (introShell) {
+      introShell.addEventListener(
+        "pointerdown",
+        function () {
+          if (introFinished || document.body.classList.contains("intro-done")) return;
+          tryAutoplayBackgroundMusic();
+        },
+        true
+      );
       var contBtn = document.getElementById("mobile-intro-continue");
       if (contBtn) contBtn.addEventListener("click", skipIntro);
     }
@@ -2769,7 +2743,7 @@
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
-    var sectionIds = ["cover", "music", "invite", "events", "family", "venues"];
+    var sectionIds = ["cover", "invite", "events", "family", "venues"];
     function syncTabsFromHash() {
       var id = (location.hash || "#cover").replace("#", "");
       if (sectionIds.indexOf(id) < 0) id = "cover";
