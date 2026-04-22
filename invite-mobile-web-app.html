@@ -747,9 +747,10 @@
       padding: 0 clamp(10px, 3.5vw, 18px);
       box-sizing: border-box;
       perspective: 800px;
-      perspective-origin: 50% 44%;
+      perspective-origin: 50% 52%;
       gap: 0;
-      margin-top: clamp(30px, 6dvh, 58px);
+      /* Sit lower in the viewport so the card lift on open stays on-screen */
+      margin-top: clamp(48px, 11dvh, 96px);
     }
     #intro-simple-envelope .hero-invite {
       text-align: center;
@@ -1119,7 +1120,7 @@
     #intro-simple-envelope .env-wrap.open .card-wrap {
       transform:
         translateX(-50%)
-        translateY(calc(-1 * min(102%, 34dvh)))
+        translateY(calc(-1 * min(68%, 20dvh)))
         translateZ(10px)
         rotateX(-1.25deg);
       opacity: 1;
@@ -1490,7 +1491,7 @@
     @media (orientation: portrait) {
       #intro-simple-envelope .scene {
         max-width: min(332px, 92vw);
-        margin-top: clamp(22px, 5dvh, 48px);
+        margin-top: clamp(40px, 9dvh, 84px);
         perspective: 720px;
       }
       #intro-simple-envelope .env-wrap {
@@ -1526,7 +1527,7 @@
     }
     @media (orientation: portrait) and (max-height: 700px) {
       #intro-simple-envelope .scene {
-        margin-top: clamp(14px, 3.5dvh, 32px);
+        margin-top: clamp(28px, 6.5dvh, 56px);
         perspective: 680px;
       }
       #intro-simple-envelope .env-wrap {
@@ -3531,7 +3532,7 @@
       100% { box-shadow: 0 8px 26px rgba(154, 115, 69, 0.18); }
     }
 
-    /* Background melody — no visible player (browser autoplay rules still require a tap) */
+    /* Background melody — hidden element; use #music-toggle to pause/play */
     #bg-music {
       position: absolute;
       width: 1px;
@@ -3544,6 +3545,65 @@
       border: 0;
       opacity: 0;
       pointer-events: none;
+    }
+    /* Floating control — above bottom tabs, after intro */
+    .music-fab {
+      position: fixed;
+      right: max(12px, env(safe-area-inset-right, 0px));
+      bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      z-index: 55;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(176, 141, 87, 0.55);
+      background: linear-gradient(165deg, #fffdf8 0%, #f4ead8 55%, #e8dcc8 100%);
+      box-shadow:
+        0 0 0 1px rgba(255, 252, 248, 0.9) inset,
+        0 6px 20px rgba(45, 32, 22, 0.12);
+      color: #5a4028;
+      font-size: 1.15rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease,
+        opacity 0.35s ease;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    body.intro-done .music-fab {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .music-fab:active {
+      transform: scale(0.94);
+    }
+    .music-fab.is-playing {
+      box-shadow:
+        0 0 0 1px rgba(255, 252, 248, 0.9) inset,
+        0 0 0 2px rgba(201, 168, 120, 0.35),
+        0 8px 24px rgba(176, 141, 87, 0.22);
+    }
+    .music-fab .music-fab__glyph {
+      line-height: 1;
+    }
+    .music-fab .music-fab__glyph--pause {
+      display: none;
+      font-size: 0.85rem;
+      letter-spacing: -0.12em;
+      font-weight: 600;
+    }
+    .music-fab.is-playing .music-fab__glyph--play {
+      display: none;
+    }
+    .music-fab.is-playing .music-fab__glyph--pause {
+      display: inline;
     }
 
     footer {
@@ -3754,7 +3814,7 @@
         transform: rotateX(-188deg) !important;
       }
       #intro-simple-envelope .env-wrap.open .card-wrap {
-        transform: translateX(-50%) translateY(calc(-1 * min(102%, 34dvh))) translateZ(0) rotateX(0deg) !important;
+        transform: translateX(-50%) translateY(calc(-1 * min(68%, 20dvh))) translateZ(0) rotateX(0deg) !important;
         opacity: 1 !important;
         filter: none !important;
       }
@@ -3980,6 +4040,17 @@
     <a href="#venues">Venues</a>
   </nav>
 
+  <button
+    type="button"
+    class="music-fab"
+    id="music-toggle"
+    aria-controls="bg-music"
+    aria-label="Background music: paused. Tap to play."
+  >
+    <span class="music-fab__glyph music-fab__glyph--play" aria-hidden="true">♫</span>
+    <span class="music-fab__glyph music-fab__glyph--pause" aria-hidden="true">‖</span>
+  </button>
+
   <main>
     <div class="blossom-layer blossom-layer--site" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -4190,6 +4261,8 @@
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
+    var musicTourInited = false;
+    var musicTourIo = null;
 
     function detachBgMusicGestureListeners() {
       if (!bgMusicGestureListeners) return;
@@ -4452,6 +4525,7 @@
           syncTabsFromScrollPosition();
         });
       });
+      initMusicTourPauseOnce();
     }
 
     function runIntroFamilyThenFinish() {
@@ -4623,6 +4697,69 @@
 
     var tabs = document.querySelectorAll(".tabs a");
     var sectionIds = ["cover", "timing", "invite", "events", "family", "venues"];
+
+    function initMusicFabAndVisibility() {
+      var a = document.getElementById("bg-music");
+      var btn = document.getElementById("music-toggle");
+      if (!a || !btn) return;
+      function syncFab() {
+        var playing = !a.paused;
+        btn.classList.toggle("is-playing", playing);
+        btn.setAttribute(
+          "aria-label",
+          playing ? "Background music: playing. Tap to pause." : "Background music: paused. Tap to play."
+        );
+      }
+      a.addEventListener("play", syncFab);
+      a.addEventListener("pause", syncFab);
+      btn.addEventListener("click", function () {
+        if (a.paused) {
+          tryAutoplayBackgroundMusic();
+        } else {
+          a.pause();
+        }
+      });
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden && !a.paused) a.pause();
+      });
+      syncFab();
+    }
+
+    function initMusicTourPauseOnce() {
+      if (musicTourInited || typeof IntersectionObserver === "undefined") return;
+      musicTourInited = true;
+      var audio = document.getElementById("bg-music");
+      var seen = {};
+      var need = sectionIds.length;
+      var nSeen = 0;
+      function markSeen(id) {
+        if (seen[id]) return;
+        seen[id] = true;
+        nSeen++;
+        if (nSeen >= need && audio && !audio.paused) {
+          audio.pause();
+          if (musicTourIo) {
+            musicTourIo.disconnect();
+            musicTourIo = null;
+          }
+        }
+      }
+      musicTourIo = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            var id = e.target.id;
+            if (sectionIds.indexOf(id) >= 0) markSeen(id);
+          });
+        },
+        { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
+      );
+      sectionIds.forEach(function (sid) {
+        var sec = document.getElementById(sid);
+        if (sec) musicTourIo.observe(sec);
+      });
+    }
+
     function setTabsCurrent(id) {
       tabs.forEach(function (a) {
         a.setAttribute("aria-current", a.getAttribute("href") === "#" + id ? "true" : "false");
@@ -4667,6 +4804,10 @@
     window.addEventListener("hashchange", syncTabsFromHash);
     syncTabsFromHash();
     scheduleScrollTabSync();
+    initMusicFabAndVisibility();
+    if (document.body.classList.contains("intro-done")) {
+      initMusicTourPauseOnce();
+    }
 
     var skipEl = document.querySelector("a.skip");
     if (skipEl && introShell) {
