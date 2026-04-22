@@ -4442,6 +4442,8 @@
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
+    /** After leaving the tab/window, do not auto-play until the guest taps the music control. */
+    var bgMusicSuppressAutoplayUntilUserTap = false;
     var idleAutoScrollTimer = null;
     var idleAutoScrollArmed = false;
     var idleAutoScrollSuppressUntil = 0;
@@ -4458,6 +4460,8 @@
     function armBackgroundMusicOnFirstGesture() {
       if (bgMusicGestureListeners) return;
       function tryPlay() {
+        if (document.hidden || document.visibilityState !== "visible") return;
+        if (bgMusicSuppressAutoplayUntilUserTap) return;
         var el = document.getElementById("bg-music");
         if (!el) {
           detachBgMusicGestureListeners();
@@ -4492,6 +4496,8 @@
     function tryAutoplayBackgroundMusic() {
       var el = document.getElementById("bg-music");
       if (!el) return;
+      if (document.hidden || document.visibilityState !== "visible") return;
+      if (bgMusicSuppressAutoplayUntilUserTap) return;
       var p = el.play();
       if (p && typeof p.then === "function") {
         p.catch(function () {
@@ -4898,17 +4904,43 @@
       a.addEventListener("pause", syncFab);
       btn.addEventListener("click", function () {
         if (a.paused) {
+          bgMusicSuppressAutoplayUntilUserTap = false;
           tryAutoplayBackgroundMusic();
         } else {
           a.pause();
         }
       });
-      /* Pause when leaving the tab, window, or navigating away (in-page scroll does not hide). */
+      /* Pause off-tab; block implicit resume until the guest taps the music control again. */
       document.addEventListener("visibilitychange", function () {
-        if (document.hidden && !a.paused) a.pause();
+        if (document.hidden) {
+          if (!a.paused) {
+            a.pause();
+            bgMusicSuppressAutoplayUntilUserTap = true;
+          }
+        } else if (bgMusicSuppressAutoplayUntilUserTap) {
+          a.pause();
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              if (
+                document.visibilityState === "visible" &&
+                bgMusicSuppressAutoplayUntilUserTap &&
+                !a.paused
+              ) {
+                a.pause();
+              }
+            });
+          });
+        }
       });
       window.addEventListener("pagehide", function () {
-        if (!a.paused) a.pause();
+        if (!a.paused) {
+          a.pause();
+          bgMusicSuppressAutoplayUntilUserTap = true;
+        }
+      });
+      window.addEventListener("pageshow", function (ev) {
+        if (ev.persisted && !a.paused) a.pause();
+        if (ev.persisted) bgMusicSuppressAutoplayUntilUserTap = true;
       });
       syncFab();
     }
