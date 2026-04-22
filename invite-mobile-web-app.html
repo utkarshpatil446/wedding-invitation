@@ -576,11 +576,14 @@
 
     /* ── First beat: envelope on same parchment as rest of invite; opens on swipe up only ── */
     .intro-envelope-gate {
-      --env-kraft-mid: #b8926a;
-      --env-kraft-dark: #7d5c3e;
-      --env-kraft-light: #dcc4a4;
+      --env-cream-face: #faf6f0;
+      --env-cream-mid: #ebe3d4;
+      --env-cream-shadow: #d4c6b4;
+      --env-pocket-mid: #d8c8b4;
+      --env-pocket-deep: #b89a78;
+      --env-edge: rgba(176, 141, 87, 0.42);
       --env-ivory: #f7f0e4;
-      --env-shadow: rgba(22, 16, 12, 0.38);
+      --env-shadow: rgba(22, 16, 12, 0.32);
       position: absolute;
       inset: 0;
       z-index: 125;
@@ -637,13 +640,29 @@
     .intro-envelope-gate__shell {
       position: relative;
       width: min(90vw, 21.5rem);
-      height: clamp(14.25rem, 48vw, 17.75rem);
-      perspective: 1100px;
-      perspective-origin: 50% 65%;
+      height: clamp(15rem, 51vw, 18.25rem);
+      perspective: 1200px;
+      perspective-origin: 50% 62%;
       transform-style: preserve-3d;
-      filter: drop-shadow(0 18px 32px rgba(45, 32, 22, 0.14)) drop-shadow(0 4px 10px rgba(45, 32, 22, 0.08));
+      filter: drop-shadow(0 22px 36px rgba(45, 32, 22, 0.12)) drop-shadow(0 6px 14px rgba(45, 32, 22, 0.07));
       touch-action: none;
       -webkit-tap-highlight-color: transparent;
+    }
+    /* Mat behind the envelope — reads as stationery on the parchment */
+    .intro-envelope-gate__board {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: clamp(0.55rem, 2.2vw, 0.85rem);
+      border-radius: 22px;
+      transform-style: preserve-3d;
+      background:
+        linear-gradient(168deg, rgba(255, 253, 248, 0.72) 0%, rgba(250, 244, 232, 0.45) 48%, rgba(235, 224, 208, 0.35) 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 252, 248, 0.85),
+        0 0 0 1px rgba(176, 141, 87, 0.18),
+        0 18px 44px rgba(45, 32, 22, 0.07);
     }
     .intro-envelope-gate__shell:focus {
       outline: none;
@@ -653,52 +672,47 @@
       outline-offset: 4px;
       border-radius: 12px;
     }
-    /* Contact shadow on “table” */
+    /* Contact shadow under the mat */
     .intro-envelope-gate__ground {
       position: absolute;
       left: 50%;
-      bottom: -2%;
-      width: 92%;
-      height: 32%;
+      bottom: -3%;
+      width: 88%;
+      height: 28%;
       transform: translateX(-50%);
       z-index: 0;
-      background: radial-gradient(ellipse 52% 38% at 50% 50%, rgba(62, 48, 32, 0.22), transparent 72%);
-      filter: blur(16px);
-      opacity: 0.55;
+      background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(62, 48, 32, 0.18), transparent 74%);
+      filter: blur(18px);
+      opacity: 0.5;
       pointer-events: none;
     }
-    /* Main body — kraft fibres + light rake */
+    /* Main body — cream stock + subtle grain, ties to invite parchment */
     .intro-envelope-gate__back {
       position: absolute;
-      left: 2.5%;
-      right: 2.5%;
-      bottom: 1.5%;
-      height: 60%;
+      left: 4%;
+      right: 4%;
+      bottom: 5%;
+      height: 58%;
       z-index: 1;
-      border-radius: 3px 3px 5px 5px;
+      border-radius: 6px 6px 8px 8px;
+      border: 1px solid var(--env-edge);
       background:
+        url("assets/invitation-bg.png") center / 220% no-repeat,
         repeating-linear-gradient(
           92deg,
           transparent 0,
-          transparent 3px,
-          rgba(62, 48, 32, 0.045) 3px,
-          rgba(62, 48, 32, 0.045) 4px
+          transparent 4px,
+          rgba(120, 96, 72, 0.028) 4px,
+          rgba(120, 96, 72, 0.028) 5px
         ),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(48, 36, 24, 0.035) 2px,
-          rgba(48, 36, 24, 0.035) 3px
-        ),
-        linear-gradient(118deg, rgba(255, 252, 248, 0.2) 0%, transparent 38%, rgba(42, 32, 22, 0.12) 100%),
-        linear-gradient(180deg, var(--env-kraft-light) 0%, var(--env-kraft-mid) 38%, #9e764e 72%, var(--env-kraft-dark) 100%);
+        linear-gradient(165deg, var(--env-cream-face) 0%, var(--env-cream-mid) 52%, var(--env-cream-shadow) 100%);
+      background-blend-mode: multiply, normal, normal;
       box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 0.5),
-        inset 0 -18px 36px rgba(42, 32, 22, 0.18),
-        inset 2px 0 0 rgba(255, 252, 248, 0.12),
-        inset -2px 0 0 rgba(42, 32, 22, 0.08),
-        0 1px 0 rgba(62, 48, 32, 0.35);
+        inset 0 1px 0 rgba(255, 252, 248, 0.9),
+        inset 0 -20px 40px rgba(62, 48, 32, 0.06),
+        inset 1px 0 0 rgba(255, 252, 248, 0.35),
+        inset -1px 0 0 rgba(62, 48, 32, 0.04),
+        0 1px 0 rgba(176, 141, 87, 0.25);
       pointer-events: none;
     }
     .intro-envelope-gate__back::after {
@@ -706,75 +720,50 @@
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      background: linear-gradient(180deg, transparent 55%, rgba(42, 32, 22, 0.14) 100%);
+      background:
+        radial-gradient(ellipse 50% 42% at 0% 100%, rgba(62, 48, 32, 0.1), transparent 58%),
+        radial-gradient(ellipse 50% 42% at 100% 100%, rgba(62, 48, 32, 0.1), transparent 58%),
+        linear-gradient(180deg, transparent 48%, rgba(42, 32, 22, 0.07) 100%);
       pointer-events: none;
     }
-    /* Side gussets — folded wings */
-    .intro-envelope-gate__gusset {
-      position: absolute;
-      bottom: 1.5%;
-      width: 52%;
-      height: 56%;
-      z-index: 2;
-      pointer-events: none;
-      box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.18);
-    }
-    .intro-envelope-gate__gusset--l {
-      left: 2.5%;
-      background: linear-gradient(125deg, #8f6a45 0%, #b8926a 42%, #9a7448 100%);
-      clip-path: polygon(0 22%, 0 100%, 72% 100%, 100% 38%);
-      box-shadow:
-        inset 2px 0 6px rgba(255, 252, 248, 0.12),
-        inset -6px 0 14px rgba(28, 20, 14, 0.2),
-        -3px 0 10px rgba(28, 20, 14, 0.15);
-    }
-    .intro-envelope-gate__gusset--r {
-      right: 2.5%;
-      background: linear-gradient(235deg, #8f6a45 0%, #b8926a 42%, #9a7448 100%);
-      clip-path: polygon(100% 22%, 100% 100%, 28% 100%, 0 38%);
-      box-shadow:
-        inset -2px 0 6px rgba(255, 252, 248, 0.12),
-        inset 6px 0 14px rgba(28, 20, 14, 0.2),
-        3px 0 10px rgba(28, 20, 14, 0.15);
-    }
-    /* Inner throat — ivory lining above the slot */
+    /* Inner throat — narrow slot lining */
     .intro-envelope-gate__throat {
       position: absolute;
-      left: 14%;
-      right: 14%;
-      bottom: 36%;
-      height: 18%;
+      left: 16%;
+      right: 16%;
+      bottom: 37%;
+      height: 14%;
       z-index: 3;
-      border-radius: 4px 4px 2px 2px;
+      border-radius: 3px 3px 2px 2px;
       background: linear-gradient(
         180deg,
-        rgba(28, 22, 16, 0.55) 0%,
-        rgba(245, 236, 220, 0.95) 28%,
-        var(--env-ivory) 55%,
-        #e8dcc8 100%
+        rgba(42, 32, 22, 0.35) 0%,
+        rgba(250, 244, 232, 0.92) 32%,
+        var(--env-ivory) 58%,
+        #e2d4be 100%
       );
       box-shadow:
-        inset 0 3px 8px rgba(255, 252, 248, 0.65),
-        inset 0 -2px 6px rgba(62, 48, 32, 0.12);
+        inset 0 2px 6px rgba(255, 252, 248, 0.75),
+        inset 0 -1px 4px rgba(62, 48, 32, 0.08);
       pointer-events: none;
     }
-    /* Front V-pocket — separate planes of light */
+    /* Front V-pocket — symmetric classic cut */
     .intro-envelope-gate__pocket {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 1.5%;
-      height: 52%;
+      left: 4%;
+      right: 4%;
+      bottom: 5%;
+      height: 50%;
       z-index: 5;
-      clip-path: polygon(0 100%, 12% 38%, 50% 4%, 88% 38%, 100% 100%);
+      clip-path: polygon(0 100%, 11% 34%, 50% 2%, 89% 34%, 100% 100%);
       background:
-        linear-gradient(128deg, rgba(255, 252, 248, 0.35) 0%, transparent 45%),
-        linear-gradient(228deg, rgba(42, 32, 22, 0.15) 0%, transparent 40%),
-        linear-gradient(180deg, #dcc4a4 0%, #c4a06e 38%, #a67c52 78%, #8a623e 100%);
+        linear-gradient(125deg, rgba(255, 252, 248, 0.45) 0%, transparent 42%),
+        linear-gradient(235deg, rgba(62, 48, 32, 0.08) 0%, transparent 38%),
+        linear-gradient(180deg, var(--env-cream-mid) 0%, var(--env-pocket-mid) 42%, var(--env-pocket-deep) 100%);
       box-shadow:
-        inset 0 14px 28px rgba(28, 20, 14, 0.14),
-        inset 0 -2px 0 rgba(255, 252, 248, 0.28),
-        0 -1px 0 rgba(62, 48, 32, 0.2);
+        inset 0 12px 26px rgba(28, 20, 14, 0.08),
+        inset 0 -2px 0 rgba(255, 252, 248, 0.45),
+        0 -1px 0 rgba(176, 141, 87, 0.22);
       pointer-events: none;
     }
     .intro-envelope-gate__pocket::before {
@@ -789,10 +778,10 @@
     /* Card sits inside cavity (below pocket + flap) until opened */
     .intro-envelope-gate__card {
       position: absolute;
-      left: 10%;
-      right: 10%;
-      bottom: 17%;
-      height: 70%;
+      left: 11%;
+      right: 11%;
+      bottom: 19%;
+      height: 66%;
       z-index: 4;
       transform-origin: 50% 100%;
       transform: translateY(46%) scale(0.9) rotateX(1deg);
@@ -848,27 +837,27 @@
       text-transform: uppercase;
       color: var(--muted);
     }
-    /* Triangular flap — outer + inner lip */
+    /* Triangular flap — cream stock, gold-foil edge read */
     .intro-envelope-gate__flap {
       position: absolute;
-      left: 2.5%;
-      right: 2.5%;
+      left: 4%;
+      right: 4%;
       top: 0;
-      height: 54%;
+      height: 52%;
       z-index: 6;
       transform: rotateX(0deg);
       transform-origin: 50% 0%;
       transform-style: preserve-3d;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      clip-path: polygon(0 100%, 50% 5%, 100% 100%);
+      clip-path: polygon(0 100%, 50% 3.5%, 100% 100%);
       background:
-        linear-gradient(90deg, rgba(42, 32, 22, 0.06) 0%, transparent 30%, transparent 70%, rgba(42, 32, 22, 0.06) 100%),
-        linear-gradient(180deg, #e4d2b8 0%, #c9a87e 35%, #a67c52 70%, #8a663a 100%);
+        linear-gradient(90deg, rgba(62, 48, 32, 0.04) 0%, transparent 28%, transparent 72%, rgba(62, 48, 32, 0.04) 100%),
+        linear-gradient(180deg, #fffdf8 0%, var(--env-cream-face) 28%, var(--env-cream-mid) 72%, var(--env-pocket-mid) 100%);
       box-shadow:
-        inset 0 -3px 6px rgba(255, 252, 248, 0.35),
-        inset 0 1px 0 rgba(255, 252, 248, 0.45),
-        0 10px 26px rgba(45, 32, 22, 0.14);
+        inset 0 -4px 8px rgba(255, 252, 248, 0.55),
+        inset 0 1px 0 rgba(255, 252, 248, 0.95),
+        0 10px 28px rgba(45, 32, 22, 0.1);
       transition: transform 0.78s var(--ease-rich);
     }
     .intro-envelope-gate__flap::before {
@@ -877,8 +866,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 22%;
-      background: linear-gradient(180deg, rgba(62, 48, 32, 0.25), transparent);
+      height: 18%;
+      background: linear-gradient(180deg, rgba(176, 141, 87, 0.22), transparent);
       clip-path: polygon(0 100%, 50% 0, 100% 100%);
       pointer-events: none;
     }
@@ -889,22 +878,22 @@
     .intro-envelope-gate__wax {
       position: absolute;
       left: 50%;
-      top: 70%;
-      width: 2.5rem;
-      height: 2.5rem;
-      margin-left: -1.25rem;
-      margin-top: -1.25rem;
+      top: 72%;
+      width: 2.35rem;
+      height: 2.35rem;
+      margin-left: -1.175rem;
+      margin-top: -1.175rem;
       z-index: 1;
-      border-radius: 46% 54% 48% 52% / 52% 46% 54% 48%;
+      border-radius: 48% 52% 50% 50% / 50% 48% 52% 50%;
       background:
-        radial-gradient(circle at 32% 28%, rgba(255, 220, 200, 0.75) 0%, transparent 35%),
-        radial-gradient(circle at 70% 72%, rgba(80, 28, 22, 0.35) 0%, transparent 45%),
-        radial-gradient(ellipse 100% 100% at 50% 50%, #c06052 0%, #8a3828 48%, #5c2218 88%);
+        radial-gradient(circle at 30% 26%, rgba(255, 232, 218, 0.85) 0%, transparent 32%),
+        radial-gradient(circle at 72% 74%, rgba(72, 22, 18, 0.38) 0%, transparent 42%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #b8483c 0%, #842a22 45%, #4c1814 92%);
       box-shadow:
-        0 3px 6px rgba(0, 0, 0, 0.35),
-        0 1px 0 rgba(255, 255, 255, 0.25) inset,
-        0 -2px 4px rgba(0, 0, 0, 0.2) inset;
-      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+        0 4px 10px rgba(12, 6, 4, 0.32),
+        0 1px 0 rgba(255, 255, 255, 0.22) inset,
+        0 -3px 6px rgba(0, 0, 0, 0.22) inset;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
       transition: opacity 0.4s ease, transform 0.5s var(--ease-out);
     }
     .intro-envelope-gate__wax::after {
@@ -2588,7 +2577,7 @@
       .intro-envelope-gate__wax,
       .intro-envelope-gate__shell,
       .intro-envelope-gate__ground,
-      .intro-envelope-gate__gusset,
+      .intro-envelope-gate__board,
       .intro-envelope-gate__throat,
       .intro-envelope-gate__pocket,
       .intro-envelope-gate__pocket::before,
@@ -2639,20 +2628,20 @@
           aria-label="Closed invitation envelope"
           aria-describedby="intro-envelope-gate-hint"
         >
-          <div class="intro-envelope-gate__ground" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__back" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__gusset intro-envelope-gate__gusset--l" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__gusset intro-envelope-gate__gusset--r" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__throat" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__card">
-            <div class="intro-envelope-gate__card-face">
-              <span class="intro-envelope-gate__card-initials" aria-hidden="true">R &amp; S</span>
-              <span class="intro-envelope-gate__card-line">Invitation</span>
+          <div class="intro-envelope-gate__board">
+            <div class="intro-envelope-gate__ground" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__back" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__throat" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__card">
+              <div class="intro-envelope-gate__card-face">
+                <span class="intro-envelope-gate__card-initials" aria-hidden="true">R &amp; S</span>
+                <span class="intro-envelope-gate__card-line">Invitation</span>
+              </div>
             </div>
-          </div>
-          <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
-          <div class="intro-envelope-gate__flap" aria-hidden="true">
-            <div class="intro-envelope-gate__wax" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__flap" aria-hidden="true">
+              <div class="intro-envelope-gate__wax" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
         <p class="intro-envelope-gate__hint" id="intro-envelope-gate-hint">Swipe up on the envelope</p>
