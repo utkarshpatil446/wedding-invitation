@@ -127,7 +127,7 @@
       body { font-size: 1.05rem; }
     }
 
-    /* ── Opening sequence: Ganesha blessing → family note → scroll invite ── */
+    /* ── Opening sequence: parchment envelope → family note → scroll invite ── */
     #mobile-intro {
       position: fixed;
       inset: 0;
@@ -184,13 +184,8 @@
       transform-origin: 50% 45%;
       transition: opacity 1.15s ease, transform 1.45s cubic-bezier(0.28, 0.9, 0.32, 1);
     }
-    #mobile-intro.env-opening-active:not(.env-opening-exit) .mobile-intro__glow {
-      opacity: 0.88;
-      transform: scale(1.05);
-    }
-    #mobile-intro.env-opening-exit .mobile-intro__glow,
     #mobile-intro.env-intro-family-active .mobile-intro__glow {
-      opacity: 0.72;
+      opacity: 0.82;
       transform: scale(1.03);
     }
     #mobile-intro::after {
@@ -253,124 +248,6 @@
       gap: clamp(0.85rem, 2.8dvh, 1.65rem);
       box-sizing: border-box;
       pointer-events: none;
-    }
-    #mobile-intro .env-opening {
-      position: fixed;
-      inset: 0;
-      z-index: 4;
-      padding-top: env(safe-area-inset-top, 0px);
-      padding-right: env(safe-area-inset-right, 0px);
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      padding-left: env(safe-area-inset-left, 0px);
-      display: flex;
-      flex-direction: column;
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
-      isolation: isolate;
-      transition: opacity 0.42s cubic-bezier(0.33, 1, 0.68, 1), visibility 0s linear 0.42s;
-    }
-    #mobile-intro .env-opening__bless-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 88% 80% at 50% 38%, rgba(255, 248, 230, 0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 70% 55% at 50% 42%, rgba(176, 141, 87, 0.12) 0%, transparent 62%),
-        radial-gradient(ellipse 120% 90% at 50% 100%, rgba(12, 8, 6, 0.92) 0%, rgba(28, 22, 16, 0.75) 48%, #0a0806 100%);
-    }
-    #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bless-bg {
-      animation: blessBgBreath 8s ease-in-out infinite alternate;
-    }
-    @keyframes blessBgBreath {
-      0% { filter: brightness(1) saturate(1); }
-      100% { filter: brightness(1.06) saturate(1.08); }
-    }
-    #mobile-intro .env-opening__scrim {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 88% 82% at 50% 44%, rgba(254, 250, 241, 0.14) 0%, rgba(42, 32, 22, 0.35) 72%, rgba(8, 6, 4, 0.55) 100%),
-        linear-gradient(180deg, rgba(255, 252, 248, 0.06) 0%, rgba(10, 8, 6, 0.35) 100%);
-    }
-    #mobile-intro .env-opening__content {
-      position: relative;
-      z-index: 2;
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(0.85rem, 2.4dvh, 1.5rem);
-      padding: clamp(0.75rem, 3vw, 1.5rem);
-      width: 100%;
-      min-height: 100%;
-      box-sizing: border-box;
-    }
-    #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening {
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1), visibility 0s linear 0s;
-    }
-    #mobile-intro.env-opening-active.env-opening-exit .env-opening {
-      opacity: 0;
-      visibility: visible;
-      transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    #mobile-intro.env-opening-done .env-opening {
-      opacity: 0;
-      visibility: hidden;
-      transition: none;
-    }
-    .ganesha-blessing {
-      position: relative;
-      width: min(12.5rem, 76vw);
-      max-width: 100%;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      color: rgba(230, 200, 140, 0.92);
-      opacity: 0;
-      transform: translateY(18px) scale(0.9);
-      filter: blur(10px);
-    }
-    #mobile-intro.env-opening-active:not(.env-opening-exit) .ganesha-blessing {
-      animation: ganeshaBlessReveal 1.05s cubic-bezier(0.2, 1, 0.34, 1) 0.1s forwards;
-    }
-    @keyframes ganeshaBlessReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-      }
-    }
-    .ganesha-blessing__svg {
-      width: 100%;
-      height: auto;
-      max-height: min(44dvh, 300px);
-      overflow: visible;
-      user-select: none;
-      pointer-events: none;
-    }
-    #mobile-intro.env-opening-active:not(.env-opening-exit) .ganesha-blessing__svg {
-      animation: ganeshaBlessGlow 2.35s ease-in-out 0.3s infinite alternate;
-    }
-    @keyframes ganeshaBlessGlow {
-      0% {
-        filter:
-          drop-shadow(0 0 6px rgba(255, 230, 190, 0.35))
-          drop-shadow(0 0 20px rgba(201, 168, 120, 0.22));
-      }
-      100% {
-        filter:
-          drop-shadow(0 0 12px rgba(255, 240, 210, 0.55))
-          drop-shadow(0 0 36px rgba(201, 168, 120, 0.42))
-          drop-shadow(0 0 52px rgba(176, 141, 87, 0.22));
-      }
     }
     #mobile-intro .env-intro-family {
       position: fixed;
@@ -581,6 +458,282 @@
     }
     .mobile-intro-continue:active {
       transform: translateX(-50%) scale(0.97);
+    }
+    #mobile-intro.intro-parchment-pending .mobile-intro-continue {
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* Parchment envelope (inspired by envelope.html flap + card lift; palette matches invite cards + invitation-bg) */
+    .intro-parchment-gate {
+      --pe-cream: #faf6f0;
+      --pe-cream-mid: #ebe3d4;
+      --pe-cream-deep: #d8cbb8;
+      --pe-gold: rgba(176, 141, 87, 0.42);
+      --pe-ink: rgba(61, 52, 41, 0.92);
+      position: absolute;
+      inset: 0;
+      z-index: 125;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: max(0.65rem, env(safe-area-inset-top, 0px)) 1rem max(1rem, env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+      overflow: hidden;
+      transition: opacity 0.5s var(--ease-out), visibility 0s linear 0s;
+      touch-action: manipulation;
+    }
+    .intro-parchment-gate.intro-parchment-gate--gone {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+    }
+    .intro-parchment-gate__backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .intro-parchment-gate__backdrop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 95% 85% at 50% 45%, rgba(254, 250, 241, 0.5) 0%, rgba(250, 244, 232, 0.25) 48%, rgba(42, 32, 22, 0.35) 100%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.2) 0%, rgba(22, 16, 12, 0.12) 100%);
+      pointer-events: none;
+    }
+    .intro-parchment-gate__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 42%;
+      transform: scale(1.05);
+      opacity: 0.42;
+      filter: saturate(1.06) brightness(0.96);
+    }
+    .intro-parchment-gate__inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 22rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.75rem, 2.2dvh, 1.15rem);
+    }
+    .intro-parchment-gate__title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 5vw, 1.75rem);
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: var(--pe-ink);
+      text-align: center;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.95);
+    }
+    .intro-parchment-gate__title span {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--p1-gold-deep);
+    }
+    .intro-parchment-gate__subtitle {
+      margin: 0;
+      font-family: var(--font-caps);
+      font-size: 0.52rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(92, 81, 71, 0.88);
+      text-align: center;
+    }
+    .intro-parchment-gate__stage3d {
+      perspective: 1100px;
+      perspective-origin: 50% 42%;
+      width: min(88vw, 20.5rem);
+      padding: 0.25rem 0 0.5rem;
+    }
+    .parchment-envelope {
+      position: relative;
+      width: 100%;
+      height: clamp(15rem, 48vw, 17.5rem);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+      filter: drop-shadow(0 18px 36px rgba(38, 28, 18, 0.14));
+    }
+    .parchment-envelope:focus {
+      outline: none;
+    }
+    .parchment-envelope:focus-visible {
+      outline: 2px solid rgba(176, 141, 87, 0.65);
+      outline-offset: 6px;
+      border-radius: 14px;
+    }
+    .parchment-envelope__body {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: 6%;
+      height: 58%;
+      border-radius: 6px 6px 8px 8px;
+      border: 1px solid var(--pe-gold);
+      background:
+        repeating-linear-gradient(92deg, transparent 0, transparent 5px, rgba(120, 96, 72, 0.02) 5px, rgba(120, 96, 72, 0.02) 6px),
+        linear-gradient(168deg, var(--pe-cream) 0%, var(--pe-cream-mid) 55%, var(--pe-cream-deep) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.95),
+        inset 0 -14px 28px rgba(62, 48, 32, 0.05);
+      transform: translateZ(0);
+    }
+    .parchment-envelope__pocket {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: 6%;
+      height: 52%;
+      z-index: 2;
+      clip-path: polygon(0 100%, 10% 32%, 50% 4%, 90% 32%, 100% 100%);
+      background: linear-gradient(180deg, var(--pe-cream-mid) 0%, #d2c4b0 48%, #bca68e 100%);
+      box-shadow:
+        inset 0 8px 20px rgba(28, 20, 14, 0.05),
+        inset 0 -1px 0 rgba(255, 252, 248, 0.45);
+      pointer-events: none;
+      transition: transform 0.65s var(--ease-out);
+    }
+    .parchment-envelope.is-open .parchment-envelope__pocket {
+      transform: translateY(3px) scale(0.992);
+    }
+    .parchment-envelope__card {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 14%;
+      height: 48%;
+      z-index: 3;
+      transform-origin: 50% 100%;
+      transform: translateY(52%) scale(0.9) rotateX(4deg);
+      border-radius: 8px;
+      border: 1px solid rgba(154, 115, 69, 0.42);
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(176, 141, 87, 0.03) 1px, rgba(176, 141, 87, 0.03) 2px),
+        linear-gradient(152deg, #fffdf8 0%, #faf4e8 46%, #ebe3d4 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        0 4px 0 rgba(176, 141, 87, 0.18),
+        0 14px 32px rgba(45, 32, 22, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.75rem;
+      box-sizing: border-box;
+      pointer-events: none;
+      transition:
+        transform 1.85s cubic-bezier(0.22, 1, 0.32, 1) 0.45s,
+        box-shadow 1.2s ease 0.5s;
+    }
+    .parchment-envelope.is-open .parchment-envelope__card {
+      z-index: 6;
+      transform: translateY(calc(-1 * min(42vh, 13.5rem))) scale(1) rotateX(0deg);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        0 6px 0 rgba(176, 141, 87, 0.22),
+        0 28px 56px rgba(28, 20, 14, 0.18);
+    }
+    .parchment-envelope__initials {
+      font-family: var(--font-script);
+      font-size: clamp(1.65rem, 7vw, 2.15rem);
+      color: var(--p1-gold-deep);
+      line-height: 1;
+      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.9));
+    }
+    .parchment-envelope__line {
+      font-family: var(--font-caps);
+      font-size: 0.44rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .parchment-envelope__flap {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      top: 0;
+      height: 52%;
+      z-index: 4;
+      transform-origin: 50% 0;
+      transform-style: preserve-3d;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      clip-path: polygon(0 100%, 50% 5%, 100% 100%);
+      background:
+        linear-gradient(180deg, #fffdf8 0%, var(--pe-cream) 35%, var(--pe-cream-mid) 72%, #d8c8b4 100%);
+      border: 1px solid rgba(176, 141, 87, 0.35);
+      box-shadow:
+        inset 0 -6px 12px rgba(255, 252, 248, 0.55),
+        inset 0 1px 0 rgba(255, 252, 248, 0.98),
+        0 10px 28px rgba(45, 32, 22, 0.1);
+      pointer-events: none;
+      transition: transform 1.9s cubic-bezier(0.25, 0.82, 0.28, 1);
+    }
+    .parchment-envelope__flap::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 14%;
+      width: 2.35rem;
+      height: 2.35rem;
+      margin-left: -1.175rem;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255, 252, 248, 0.85) 0%, transparent 38%),
+        radial-gradient(circle at 50% 50%, rgba(176, 141, 87, 0.35) 0%, rgba(143, 106, 58, 0.55) 45%, rgba(90, 62, 38, 0.5) 100%);
+      box-shadow:
+        0 2px 8px rgba(38, 28, 18, 0.15),
+        inset 0 1px 0 rgba(255, 252, 248, 0.5);
+      border: 1px solid rgba(176, 141, 87, 0.4);
+    }
+    .parchment-envelope.is-open .parchment-envelope__flap {
+      transform: rotateX(-178deg);
+    }
+    .intro-parchment-gate__hint {
+      margin: 0;
+      font-family: var(--font-caps);
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(92, 81, 71, 0.85);
+      text-align: center;
+      cursor: pointer;
+    }
+    .intro-parchment-gate__hint::after {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      margin: 0.45rem auto 0;
+      border-right: 2px solid rgba(176, 141, 87, 0.75);
+      border-bottom: 2px solid rgba(176, 141, 87, 0.75);
+      transform: rotate(-135deg);
+      animation: parchmentHintNudge 1.6s ease-in-out infinite;
+    }
+    .intro-parchment-gate:has(.parchment-envelope.is-open) .intro-parchment-gate__hint {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    @keyframes parchmentHintNudge {
+      0%, 100% { transform: rotate(-135deg) translateY(0); opacity: 0.65; }
+      50% { transform: rotate(-135deg) translateY(-6px); opacity: 1; }
     }
 
     body:not(.intro-done) .tabs {
@@ -2863,23 +3016,28 @@
       .map-btn::after {
         display: none;
       }
-      #mobile-intro::after,
-      #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bless-bg,
-      #mobile-intro.env-opening-active:not(.env-opening-exit) .ganesha-blessing,
-      #mobile-intro.env-opening-active:not(.env-opening-exit) .ganesha-blessing__svg {
-        animation: none !important;
-      }
       #mobile-intro::after {
+        animation: none !important;
         opacity: 0.82;
         transform: none !important;
       }
-      .ganesha-blessing {
-        opacity: 1 !important;
-        transform: none !important;
-        filter: none !important;
+      .parchment-envelope,
+      .parchment-envelope.is-open .parchment-envelope__flap,
+      .parchment-envelope.is-open .parchment-envelope__card,
+      .parchment-envelope.is-open .parchment-envelope__pocket {
+        transition: none !important;
       }
-      .ganesha-blessing__svg {
-        filter: drop-shadow(0 0 14px rgba(201, 168, 120, 0.4)) !important;
+      .parchment-envelope.is-open .parchment-envelope__flap {
+        transform: rotateX(-178deg) !important;
+      }
+      .parchment-envelope.is-open .parchment-envelope__card {
+        transform: translateY(calc(-1 * min(42vh, 13.5rem))) scale(1) rotateX(0deg) !important;
+      }
+      .parchment-envelope.is-open .parchment-envelope__pocket {
+        transform: translateY(3px) scale(0.992) !important;
+      }
+      .intro-parchment-gate__hint::after {
+        animation: none !important;
       }
       .petal {
         animation: none;
@@ -2909,7 +3067,48 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >A brief glowing outline of Lord Ganesha appears in blessing, then fades into a message from the families and the invitation. You can use Continue to skip at any time.</span>
+      >Tap or swipe up on the envelope to open it; the invitation card rises, then a message from the families appears, followed by the full invitation. You can use Continue to skip at any time.</span>
+    <div
+      id="intro-parchment-gate"
+      class="intro-parchment-gate"
+      role="group"
+      aria-label="Invitation envelope"
+    >
+      <div class="intro-parchment-gate__backdrop" aria-hidden="true">
+        <img
+          class="intro-parchment-gate__bg"
+          src="assets/invitation-bg.png"
+          width="682"
+          height="1024"
+          alt=""
+          decoding="async"
+          fetchpriority="high"
+        >
+      </div>
+      <div class="intro-parchment-gate__inner">
+        <p class="intro-parchment-gate__title">Rutuja <span>&amp;</span> Saurabh</p>
+        <p class="intro-parchment-gate__subtitle">Wedding · May 2026</p>
+        <div class="intro-parchment-gate__stage3d">
+          <div
+            class="parchment-envelope"
+            tabindex="0"
+            role="button"
+            aria-label="Closed invitation envelope — tap or swipe up to open"
+            aria-describedby="intro-parchment-hint"
+          >
+            <div class="parchment-envelope__body" aria-hidden="true"></div>
+            <div class="parchment-envelope__pocket" aria-hidden="true"></div>
+            <div class="parchment-envelope__card">
+              <span class="parchment-envelope__initials" aria-hidden="true">R &amp; S</span>
+              <span class="parchment-envelope__line">Invitation</span>
+            </div>
+            <div class="parchment-envelope__flap" aria-hidden="true"></div>
+          </div>
+        </div>
+        <p class="intro-parchment-gate__hint" id="intro-parchment-hint">Tap or swipe up to open</p>
+        <button type="button" class="visually-hidden" id="intro-parchment-a11y">Open invitation envelope</button>
+      </div>
+    </div>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
     <div class="blossom-layer" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -2923,27 +3122,6 @@
           <p class="env-envelope-note__lead">
             The Patil and Pawar families request the <em>honour of your presence</em> as they celebrate the wedding of their beloved children—with hearts full of gratitude, they invite you to witness this sacred union, to share in the joy of the day, and to bless the couple as they begin their journey together, carrying tradition, hope, and the warmth of everyone they hold dear.
           </p>
-        </div>
-      </div>
-      <div id="mobile-env-opening" class="env-opening" aria-hidden="false">
-        <div class="env-opening__bless-bg" aria-hidden="true"></div>
-        <div class="env-opening__scrim" aria-hidden="true"></div>
-        <div class="env-opening__content">
-          <div class="ganesha-blessing" role="img" aria-label="Ganesha blessing — glowing outline">
-            <svg class="ganesha-blessing__svg" viewBox="0 0 200 248" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <g fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M88 26 L100 8 L112 26 M100 8 L100 34"/>
-                <path d="M62 48c-22 10-34 36-28 64 4 22 20 40 42 46 4 1 8 1 12 0"/>
-                <path d="M138 48c22 10 34 36 28 64-4 22-20 40-42 46"/>
-                <ellipse cx="100" cy="78" rx="36" ry="32"/>
-                <path d="M64 72c-26-4-42 16-38 46 2 18 14 32 32 36"/>
-                <path d="M82 88 Q72 118 78 152 Q82 182 100 198 Q118 182 122 152 Q128 118 118 88"/>
-                <path d="M118 94l22-8"/>
-                <path d="M132 118c28-6 46 10 44 38-2 24-22 42-50 38" opacity="0.9"/>
-                <path d="M100 198v28c0 8-6 14-14 14" opacity="0.85"/>
-              </g>
-            </svg>
-          </div>
         </div>
       </div>
     </div>
@@ -3171,11 +3349,10 @@
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var introShell = document.getElementById("mobile-intro");
     var introFam = document.getElementById("mobile-intro-family");
-    var envOpeningTimerA = null;
-    var envOpeningTimerB = null;
-    var envOpeningTimerC = null;
     var famExitTimer = null;
     var famFinishTimer = null;
+    var envelopeAfterOpenTimer = null;
+    var parchmentGateComplete = false;
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
@@ -3217,9 +3394,9 @@
     }
 
     /**
-     * Unmuted autoplay without a gesture is blocked by browsers. We try when the intro runs,
-     * again during the family message and main invite (Continue / Skip), and arm gesture
-     * listeners if playback is still blocked.
+     * Unmuted autoplay without a gesture is blocked by browsers. We try when you open the
+     * envelope, again during the family message and main invite (Continue / Skip), and arm
+     * gesture listeners if playback is still blocked.
      */
     function tryAutoplayBackgroundMusic() {
       var el = document.getElementById("bg-music");
@@ -3232,20 +3409,96 @@
       }
     }
 
-    function initBlessingIntro() {
-      if (!introShell || introFinished) return;
+    function dismissParchmentGateUi() {
+      var gate = document.getElementById("intro-parchment-gate");
+      if (introShell) introShell.classList.remove("intro-parchment-pending");
+      if (gate) {
+        gate.classList.add("intro-parchment-gate--gone");
+        gate.setAttribute("aria-hidden", "true");
+      }
+    }
+
+    function passParchmentGateAndContinue() {
+      if (parchmentGateComplete || introFinished) return;
+      parchmentGateComplete = true;
+      var gate = document.getElementById("intro-parchment-gate");
+      var shell = gate ? gate.querySelector(".parchment-envelope") : null;
+      if (shell) {
+        shell.setAttribute("tabindex", "-1");
+        shell.removeAttribute("role");
+      }
       tryAutoplayBackgroundMusic();
-      window.requestAnimationFrame(function () {
+      if (introShell) introShell.classList.remove("intro-parchment-pending");
+      if (reduceMotion) {
+        if (shell) shell.classList.add("is-open");
+        dismissParchmentGateUi();
+        runIntroFamilyThenFinish();
+        return;
+      }
+      if (shell) shell.classList.add("is-open");
+      envelopeAfterOpenTimer = window.setTimeout(function () {
+        envelopeAfterOpenTimer = null;
         if (introFinished) return;
-        runBlessingOpeningThenFamily();
+        dismissParchmentGateUi();
+        runIntroFamilyThenFinish();
+      }, 2600);
+    }
+
+    function initParchmentEnvelopeGate() {
+      if (!introShell) return;
+      var gate = document.getElementById("intro-parchment-gate");
+      var shell = gate ? gate.querySelector(".parchment-envelope") : null;
+      var a11yBtn = document.getElementById("intro-parchment-a11y");
+      if (!gate || !shell) {
+        runIntroFamilyThenFinish();
+        return;
+      }
+      parchmentGateComplete = false;
+      introShell.classList.add("intro-parchment-pending");
+
+      function onOpenGate() {
+        if (parchmentGateComplete || introFinished) return;
+        passParchmentGateAndContinue();
+      }
+
+      var dragY0 = null;
+      var swipeThreshold = 56;
+      shell.addEventListener("pointerdown", function (e) {
+        if (parchmentGateComplete || introFinished) return;
+        dragY0 = e.clientY;
       });
+      shell.addEventListener("pointerup", function (e) {
+        if (parchmentGateComplete || introFinished) return;
+        if (dragY0 == null) return;
+        var dy = dragY0 - e.clientY;
+        dragY0 = null;
+        if (dy >= swipeThreshold) onOpenGate();
+      });
+      shell.addEventListener("pointercancel", function () {
+        dragY0 = null;
+      });
+      shell.addEventListener("click", onOpenGate);
+      shell.addEventListener("keydown", function (e) {
+        if (parchmentGateComplete || introFinished) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpenGate();
+        }
+      });
+      var hintEl = document.getElementById("intro-parchment-hint");
+      if (hintEl) hintEl.addEventListener("click", onOpenGate);
+      if (a11yBtn) {
+        a11yBtn.addEventListener("click", function () {
+          if (!parchmentGateComplete && !introFinished) onOpenGate();
+        });
+      }
     }
 
     function clearIntroTimers() {
-      [envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
+      [envelopeAfterOpenTimer, famExitTimer, famFinishTimer].forEach(function (id) {
         if (id) window.clearTimeout(id);
       });
-      envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
+      envelopeAfterOpenTimer = famExitTimer = famFinishTimer = null;
     }
 
     function beginScrollReveals() {
@@ -3273,6 +3526,8 @@
     function revealHeroAndScrollUI() {
       if (introFinished) return;
       introFinished = true;
+      parchmentGateComplete = true;
+      dismissParchmentGateUi();
       clearIntroTimers();
       document.body.classList.add("intro-done");
       if (introShell) {
@@ -3299,7 +3554,7 @@
 
     function runIntroFamilyThenFinish() {
       if (!introShell || introFinished) return;
-      introShell.classList.remove("env-intro-family-active", "env-intro-family--exit", "env-opening-active", "env-opening-exit");
+      introShell.classList.remove("env-intro-family-active", "env-intro-family--exit");
       if (introFam) introFam.setAttribute("aria-hidden", "false");
       introShell.classList.add("env-intro-family-active");
       var introFadeInMs = reduceMotion ? 0 : 220;
@@ -3318,46 +3573,14 @@
       }, introFadeInMs + introDwellMs + introFadeOutMs);
     }
 
-    function runBlessingOpeningThenFamily() {
-      if (!introShell || introFinished) return;
-      clearIntroTimers();
-      tryAutoplayBackgroundMusic();
-      if (reduceMotion) {
-        introShell.classList.remove("env-opening-active", "env-opening-exit");
-        introShell.classList.add("env-opening-done");
-        runIntroFamilyThenFinish();
-        return;
-      }
-      var tActive = 40;
-      var fadeInMs = 450;
-      var dwellMs = 1280;
-      var fadeOutMs = 480;
-      envOpeningTimerA = window.setTimeout(function () {
-        envOpeningTimerA = null;
-        if (!introShell || introFinished) return;
-        introShell.classList.add("env-opening-active");
-      }, tActive);
-      envOpeningTimerB = window.setTimeout(function () {
-        envOpeningTimerB = null;
-        if (!introShell || introFinished) return;
-        introShell.classList.add("env-opening-exit");
-      }, tActive + fadeInMs + dwellMs);
-      envOpeningTimerC = window.setTimeout(function () {
-        envOpeningTimerC = null;
-        if (!introShell || introFinished) return;
-        introShell.classList.remove("env-opening-active", "env-opening-exit");
-        introShell.classList.add("env-opening-done");
-        runIntroFamilyThenFinish();
-      }, tActive + fadeInMs + dwellMs + fadeOutMs);
-    }
-
     function skipIntro() {
       if (introFinished) return;
       clearIntroTimers();
       if (introShell) {
-        introShell.classList.remove("env-opening-active", "env-opening-exit", "env-intro-family-active", "env-intro-family--exit");
-        introShell.classList.add("env-opening-done");
+        introShell.classList.remove("env-intro-family-active", "env-intro-family--exit", "intro-parchment-pending");
       }
+      var shell = document.querySelector("#intro-parchment-gate .parchment-envelope");
+      if (shell) shell.classList.add("is-open");
       revealHeroAndScrollUI();
     }
 
@@ -3391,7 +3614,7 @@
       }
       tryAutoplayBackgroundMusic();
     } else {
-      initBlessingIntro();
+      initParchmentEnvelopeGate();
     }
 
     /* Countdown to wedding day (local midnight, 3 May 2026) */
