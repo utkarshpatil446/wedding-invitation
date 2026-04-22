@@ -600,14 +600,15 @@
       opacity: 0;
     }
 
-    /* ── First beat: traditional double doors (teak / brass) — tap to open both leaves ── */
-    .intro-door-gate {
-      --door-wood-dark: #2c1810;
-      --door-wood-mid: #5c3018;
-      --door-wood-light: #7a4422;
-      --door-brass: #c9a227;
-      --door-brass-deep: #7a5a1e;
-      --door-stone: #6a5a4c;
+    /* ── First beat: luxury envelope + rich flap + card pull animation (tap or swipe up) ── */
+    .intro-envelope-gate {
+      --env-cream-face: #faf6f0;
+      --env-cream-mid: #ebe3d4;
+      --env-cream-shadow: #d4c6b4;
+      --env-pocket-mid: #d8c8b4;
+      --env-pocket-deep: #b89a78;
+      --env-edge: rgba(176, 141, 87, 0.42);
+      --env-ivory: #f7f0e4;
       position: absolute;
       inset: 0;
       z-index: 125;
@@ -618,15 +619,15 @@
       padding: max(0.75rem, env(safe-area-inset-top, 0px)) 1rem max(1rem, env(safe-area-inset-bottom, 0px));
       box-sizing: border-box;
       transition: opacity 0.55s var(--ease-out), visibility 0s linear 0s;
-      touch-action: manipulation;
+      touch-action: none;
     }
-    .intro-door-gate.intro-door-gate--gone {
+    .intro-envelope-gate.intro-envelope-gate--gone {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
       transition: opacity 0.45s ease, visibility 0s linear 0.45s;
     }
-    .intro-door-gate__inner {
+    .intro-envelope-gate__inner {
       width: 100%;
       max-width: 23rem;
       display: flex;
@@ -634,11 +635,11 @@
       align-items: center;
       gap: clamp(1rem, 3.2vw, 1.35rem);
     }
-    .intro-door-gate__labels {
+    .intro-envelope-gate__labels {
       text-align: center;
       color: var(--ink);
     }
-    .intro-door-gate__names {
+    .intro-envelope-gate__names {
       margin: 0;
       font-family: var(--font-display);
       font-size: clamp(1.4rem, 5.4vw, 1.85rem);
@@ -646,13 +647,13 @@
       letter-spacing: 0.03em;
       line-height: 1.2;
     }
-    .intro-door-gate__names span {
+    .intro-envelope-gate__names span {
       font-style: italic;
       font-weight: 400;
       opacity: 0.88;
       color: var(--p1-gold-deep);
     }
-    .intro-door-gate__sub {
+    .intro-envelope-gate__sub {
       margin: 0.4rem 0 0;
       font-family: var(--font-caps);
       font-size: 0.52rem;
@@ -660,292 +661,345 @@
       text-transform: uppercase;
       color: var(--muted);
     }
-    .intro-door-gate__shell {
+    .intro-envelope-gate__shell {
       position: relative;
-      width: min(92vw, 21.5rem);
-      height: clamp(17rem, 56vw, 21.25rem);
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
-      perspective: 2000px;
-      perspective-origin: 50% 36%;
+      width: min(88vw, 20.85rem);
+      height: clamp(15.25rem, 52vw, 18.6rem);
+      perspective: 1400px;
+      perspective-origin: 50% 56%;
       transform-style: preserve-3d;
-      filter: drop-shadow(0 28px 48px rgba(18, 10, 6, 0.42)) drop-shadow(0 8px 20px rgba(62, 42, 28, 0.2));
+      filter: drop-shadow(0 24px 40px rgba(45, 32, 22, 0.14)) drop-shadow(0 8px 18px rgba(45, 32, 22, 0.08));
       transition: filter 0.85s var(--ease-rich);
+      cursor: pointer;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
     }
-    .intro-door-gate.is-open .intro-door-gate__shell {
-      filter: drop-shadow(0 36px 56px rgba(18, 10, 6, 0.35)) drop-shadow(0 12px 28px rgba(90, 62, 40, 0.18));
+    .intro-envelope-gate.is-open .intro-envelope-gate__shell {
+      filter: drop-shadow(0 32px 52px rgba(45, 32, 22, 0.18)) drop-shadow(0 14px 28px rgba(176, 141, 87, 0.12));
     }
-    .intro-door-gate__shell:focus {
+    .intro-envelope-gate__shell:focus {
       outline: none;
     }
-    .intro-door-gate__shell:focus-visible {
-      outline: 2px solid rgba(201, 168, 120, 0.85);
-      outline-offset: 6px;
+    .intro-envelope-gate__shell:focus-visible {
+      outline: 2px solid rgba(176, 141, 87, 0.65);
+      outline-offset: 5px;
       border-radius: 14px;
     }
-    .intro-door-gate__stage {
+    .intro-envelope-gate__board {
+      --env-x: 5.25%;
+      --env-floor: 5.75%;
+      --env-body-h: 54.5%;
+      --env-pocket-h: 47.5%;
+      --env-card-pad: 3.5%;
+      --env-card-b: 6.75%;
+      --env-card-h: 45.5%;
+      --env-flap-h: 47.5%;
       position: relative;
       width: 100%;
       height: 100%;
+      box-sizing: border-box;
+      padding: clamp(0.55rem, 2.2vw, 0.85rem);
+      border-radius: 22px;
       transform-style: preserve-3d;
+      background:
+        linear-gradient(168deg, rgba(255, 253, 248, 0.78) 0%, rgba(250, 244, 232, 0.5) 48%, rgba(235, 224, 208, 0.4) 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 252, 248, 0.88),
+        0 0 0 1px rgba(176, 141, 87, 0.2),
+        0 20px 48px rgba(45, 32, 22, 0.08);
     }
-    /* Carved stone arch + warm pediment */
-    .intro-door-gate__pediment {
+    .intro-envelope-gate__ground {
+      position: absolute;
+      left: 50%;
+      bottom: -3%;
+      width: 88%;
+      height: 28%;
+      transform: translateX(-50%);
+      z-index: 0;
+      background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(62, 48, 32, 0.16), transparent 74%);
+      filter: blur(18px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .intro-envelope-gate__back {
+      position: absolute;
+      left: var(--env-x);
+      right: var(--env-x);
+      bottom: var(--env-floor);
+      height: var(--env-body-h);
+      z-index: 1;
+      border-radius: 6px 6px 8px 8px;
+      border: 1px solid var(--env-edge);
+      background:
+        url("assets/invitation-bg.png") center / 220% no-repeat,
+        repeating-linear-gradient(
+          92deg,
+          transparent 0,
+          transparent 4px,
+          rgba(120, 96, 72, 0.028) 4px,
+          rgba(120, 96, 72, 0.028) 5px
+        ),
+        linear-gradient(165deg, var(--env-cream-face) 0%, var(--env-cream-mid) 52%, var(--env-cream-shadow) 100%);
+      background-blend-mode: multiply, normal, normal;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.9),
+        inset 0 -20px 40px rgba(62, 48, 32, 0.06),
+        inset 1px 0 0 rgba(255, 252, 248, 0.35),
+        inset -1px 0 0 rgba(62, 48, 32, 0.04),
+        0 1px 0 rgba(176, 141, 87, 0.25);
+      pointer-events: none;
+    }
+    .intro-envelope-gate__back::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse 50% 42% at 0% 100%, rgba(62, 48, 32, 0.1), transparent 58%),
+        radial-gradient(ellipse 50% 42% at 100% 100%, rgba(62, 48, 32, 0.1), transparent 58%),
+        linear-gradient(180deg, transparent 48%, rgba(42, 32, 22, 0.07) 100%);
+      pointer-events: none;
+    }
+    .intro-envelope-gate__throat {
+      position: absolute;
+      left: calc(var(--env-x) + 8.5%);
+      right: calc(var(--env-x) + 8.5%);
+      bottom: calc(var(--env-floor) + var(--env-pocket-h) - 12.5%);
+      height: 11.5%;
+      z-index: 3;
+      border-radius: 3px 3px 2px 2px;
+      background: linear-gradient(
+        180deg,
+        rgba(42, 32, 22, 0.35) 0%,
+        rgba(250, 244, 232, 0.92) 32%,
+        var(--env-ivory) 58%,
+        #e2d4be 100%
+      );
+      box-shadow:
+        inset 0 2px 6px rgba(255, 252, 248, 0.75),
+        inset 0 -1px 4px rgba(62, 48, 32, 0.08);
+      pointer-events: none;
+    }
+    .intro-envelope-gate__pocket {
+      position: absolute;
+      left: var(--env-x);
+      right: var(--env-x);
+      bottom: var(--env-floor);
+      height: var(--env-pocket-h);
+      z-index: 5;
+      clip-path: polygon(0 100%, 11% 33%, 50% 2.25%, 89% 33%, 100% 100%);
+      background:
+        linear-gradient(125deg, rgba(255, 252, 248, 0.45) 0%, transparent 42%),
+        linear-gradient(235deg, rgba(62, 48, 32, 0.08) 0%, transparent 38%),
+        linear-gradient(180deg, var(--env-cream-mid) 0%, var(--env-pocket-mid) 42%, var(--env-pocket-deep) 100%);
+      box-shadow:
+        inset 0 12px 26px rgba(28, 20, 14, 0.08),
+        inset 0 -2px 0 rgba(255, 252, 248, 0.45),
+        0 -1px 0 rgba(176, 141, 87, 0.22);
+      pointer-events: none;
+      transition: transform 0.75s var(--ease-rich), filter 0.65s ease;
+    }
+    .intro-envelope-gate.is-open .intro-envelope-gate__pocket {
+      transform: translateY(2px) scale(0.995);
+      filter: brightness(1.03);
+    }
+    .intro-envelope-gate__pocket::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: inherit;
+      background: linear-gradient(90deg, transparent 48%, rgba(255, 252, 248, 0.12) 50%, transparent 52%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .intro-envelope-gate__card {
+      position: absolute;
+      left: calc(var(--env-x) + var(--env-card-pad));
+      right: calc(var(--env-x) + var(--env-card-pad));
+      bottom: var(--env-card-b);
+      height: var(--env-card-h);
+      z-index: 4;
+      transform-origin: 50% 100%;
+      transform: translateY(42%) scale(0.88) rotateX(1.6deg);
+      transition: box-shadow 0.85s ease 0.2s;
+      border-radius: 5px 5px 4px 4px;
+      box-shadow:
+        0 1px 0 rgba(255, 252, 248, 0.75),
+        0 3px 0 rgba(176, 141, 87, 0.2),
+        0 12px 28px rgba(45, 32, 22, 0.12);
+      pointer-events: none;
+      filter: saturate(0.98);
+    }
+    .intro-envelope-gate.is-open .intro-envelope-gate__card {
+      animation: envCardPull 1.52s cubic-bezier(0.2, 0.88, 0.24, 1) 0.22s both;
+    }
+    .intro-envelope-gate__card-face {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(176, 141, 87, 0.04) 1px, rgba(176, 141, 87, 0.04) 2px),
+        radial-gradient(ellipse 90% 55% at 50% -5%, rgba(255, 252, 248, 0.9) 0%, transparent 55%),
+        linear-gradient(152deg, #fffdf8 0%, #faf4e8 45%, #ebe3d4 100%);
+      border: 1px solid rgba(154, 115, 69, 0.42);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.85rem;
+      box-sizing: border-box;
+      box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.95);
+    }
+    .intro-envelope-gate__card-initials {
+      font-family: var(--font-script);
+      font-size: clamp(1.75rem, 7.5vw, 2.25rem);
+      color: var(--p1-gold-deep);
+      line-height: 1;
+      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.8));
+    }
+    .intro-envelope-gate__card-line {
+      font-family: var(--font-caps);
+      font-size: 0.46rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .intro-envelope-gate__flap {
+      position: absolute;
+      left: var(--env-x);
+      right: var(--env-x);
+      top: 0;
+      height: var(--env-flap-h);
+      z-index: 6;
+      transform: rotateX(0deg);
+      transform-origin: 50% 0%;
+      transform-style: preserve-3d;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      clip-path: polygon(0 100%, 50% 3.25%, 100% 100%);
+      background:
+        linear-gradient(90deg, rgba(62, 48, 32, 0.04) 0%, transparent 28%, transparent 72%, rgba(62, 48, 32, 0.04) 100%),
+        linear-gradient(180deg, #fffdf8 0%, var(--env-cream-face) 28%, var(--env-cream-mid) 72%, var(--env-pocket-mid) 100%);
+      box-shadow:
+        inset 0 -4px 8px rgba(255, 252, 248, 0.55),
+        inset 0 1px 0 rgba(255, 252, 248, 0.95),
+        0 10px 28px rgba(45, 32, 22, 0.1);
+      transition: transform 0.92s var(--ease-rich);
+    }
+    .intro-envelope-gate__flap::before {
+      content: "";
       position: absolute;
       left: 0;
       right: 0;
-      top: 0;
-      height: 24%;
-      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-      background:
-        linear-gradient(180deg, rgba(255, 252, 240, 0.22) 0%, transparent 42%),
-        linear-gradient(145deg, #9a8574 0%, #6e5c4e 38%, #4a3d34 78%, #352a24 100%);
-      border: 1px solid rgba(42, 32, 26, 0.55);
-      box-shadow:
-        inset 0 2px 0 rgba(255, 252, 248, 0.18),
-        inset 0 -12px 28px rgba(0, 0, 0, 0.28),
-        0 4px 0 rgba(24, 16, 12, 0.45);
-      z-index: 2;
-      pointer-events: none;
-    }
-    .intro-door-gate__pediment::after {
-      content: "";
-      position: absolute;
-      left: 12%;
-      right: 12%;
       bottom: 0;
-      height: 28%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, transparent, rgba(201, 168, 120, 0.35) 50%, transparent);
-      opacity: 0.65;
-    }
-    /* Door opening (dark interior + warm light) */
-    .intro-door-gate__well {
-      position: absolute;
-      left: 5.5%;
-      right: 5.5%;
-      top: 20%;
-      bottom: 9%;
-      display: flex;
-      flex-direction: row;
-      transform-style: preserve-3d;
-      border-radius: 2px 2px 0 0;
-      background: linear-gradient(180deg, #1a0e0a 0%, #0d0604 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(0, 0, 0, 0.85),
-        inset 0 0 48px rgba(0, 0, 0, 0.75),
-        inset 0 12px 36px rgba(255, 200, 140, 0.08);
-      overflow: visible;
-    }
-    .intro-door-gate__glow {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+      height: 18%;
+      background: linear-gradient(180deg, rgba(176, 141, 87, 0.22), transparent);
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
       pointer-events: none;
-      background:
-        radial-gradient(ellipse 72% 65% at 50% 58%, rgba(255, 232, 200, 0.42) 0%, transparent 58%),
-        radial-gradient(ellipse 55% 50% at 50% 100%, rgba(176, 141, 87, 0.2) 0%, transparent 55%),
-        url("assets/invitation-bg.png") center / cover no-repeat;
-      opacity: 0.38;
-      transition: opacity 1s ease, transform 1.1s var(--ease-rich);
     }
-    .intro-door-gate.is-open .intro-door-gate__glow {
-      opacity: 0.72;
-      transform: scale(1.04);
+    .intro-envelope-gate.is-open .intro-envelope-gate__flap {
+      transform: rotateX(-178deg);
     }
-    .intro-door-gate__welcome {
+    .intro-envelope-gate__wax {
       position: absolute;
       left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      top: 71%;
+      width: 2.35rem;
+      height: 2.35rem;
+      margin-left: -1.175rem;
+      margin-top: -1.175rem;
       z-index: 1;
-      text-align: center;
-      pointer-events: none;
-      opacity: 0.88;
-      transition: opacity 0.6s ease 0.15s;
-    }
-    .intro-door-gate.is-open .intro-door-gate__welcome {
-      opacity: 1;
-    }
-    .intro-door-gate__welcome-initials {
-      font-family: var(--font-script);
-      font-size: clamp(2rem, 9vw, 2.75rem);
-      color: #f5e6c8;
-      text-shadow: 0 0 24px rgba(255, 220, 160, 0.55), 0 2px 8px rgba(0, 0, 0, 0.6);
-      line-height: 1;
-    }
-    .intro-door-gate__welcome-line {
-      margin-top: 0.35rem;
-      font-family: var(--font-caps);
-      font-size: 0.48rem;
-      letter-spacing: 0.36em;
-      text-transform: uppercase;
-      color: rgba(250, 244, 232, 0.72);
-    }
-    /* Each door leaf */
-    .intro-door-gate__leaf {
-      position: relative;
-      flex: 1 1 50%;
-      min-width: 0;
-      height: 100%;
-      transform-style: preserve-3d;
-      z-index: 2;
-      transition: transform 1.05s var(--ease-rich);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-    }
-    .intro-door-gate__leaf--l {
-      transform-origin: left center;
-    }
-    .intro-door-gate__leaf--r {
-      transform-origin: right center;
-    }
-    .intro-door-gate.is-open .intro-door-gate__leaf--l {
-      transform: rotateY(-78deg);
-    }
-    .intro-door-gate.is-open .intro-door-gate__leaf--r {
-      transform: rotateY(78deg);
-    }
-    /* Vertical seam / meeting edge highlight */
-    .intro-door-gate__leaf--l {
-      border-right: 1px solid rgba(0, 0, 0, 0.35);
-    }
-    .intro-door-gate__leaf--r {
-      border-left: 1px solid rgba(255, 252, 248, 0.06);
-    }
-    .intro-door-gate__leaf-face {
-      position: absolute;
-      inset: 1px 2px 2px;
-      border-radius: 2px 2px 1px 1px;
+      border-radius: 48% 52% 50% 50% / 50% 48% 52% 50%;
       background:
-        repeating-linear-gradient(88deg, transparent 0, transparent 5px, rgba(0, 0, 0, 0.04) 5px, rgba(0, 0, 0, 0.04) 6px),
-        repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255, 252, 248, 0.02) 3px, rgba(255, 252, 248, 0.02) 4px),
-        linear-gradient(118deg, #6b3a1c 0%, var(--door-wood-mid) 28%, #4a2412 55%, var(--door-wood-dark) 88%);
-      border: 1px solid rgba(20, 10, 6, 0.9);
+        radial-gradient(circle at 30% 26%, rgba(255, 232, 218, 0.85) 0%, transparent 32%),
+        radial-gradient(circle at 72% 74%, rgba(72, 22, 18, 0.38) 0%, transparent 42%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #b8483c 0%, #842a22 45%, #4c1814 92%);
       box-shadow:
-        inset 0 1px 0 rgba(255, 220, 180, 0.12),
-        inset 0 -14px 28px rgba(0, 0, 0, 0.35),
-        inset 5px 0 12px rgba(0, 0, 0, 0.15),
-        inset -4px 0 10px rgba(255, 200, 160, 0.04),
-        0 2px 0 rgba(0, 0, 0, 0.25);
-      transform: translateZ(2px);
-      pointer-events: none;
+        0 4px 10px rgba(12, 6, 4, 0.32),
+        0 1px 0 rgba(255, 255, 255, 0.22) inset,
+        0 -3px 6px rgba(0, 0, 0, 0.22) inset;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
+      transition: opacity 0.45s ease 0.08s, transform 0.55s var(--ease-out);
     }
-    /* Recessed panel grid (carved look) */
-    .intro-door-gate__leaf-face::before {
+    .intro-envelope-gate__wax::after {
       content: "";
       position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 14%;
-      bottom: 22%;
-      border-radius: 2px;
-      background:
-        linear-gradient(180deg, rgba(0, 0, 0, 0.28) 0%, transparent 14%, transparent 48%, rgba(0, 0, 0, 0.22) 50%, transparent 64%, transparent 86%, rgba(0, 0, 0, 0.2) 100%),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0%, transparent 12%, transparent 46%, rgba(255, 252, 248, 0.04) 50%, transparent 54%, transparent 88%, rgba(0, 0, 0, 0.16) 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(0, 0, 0, 0.45),
-        inset 0 3px 10px rgba(0, 0, 0, 0.35),
-        inset 0 -2px 6px rgba(180, 130, 80, 0.06);
-    }
-    /* Brass studs + vertical strip */
-    .intro-door-gate__leaf-face::after {
-      content: "";
-      position: absolute;
-      top: 12%;
-      bottom: 18%;
-      width: 5px;
-      border-radius: 1px;
-      background: linear-gradient(180deg, var(--door-brass) 0%, var(--door-brass-deep) 45%, #4a3410 100%);
-      box-shadow:
-        1px 0 0 rgba(255, 248, 220, 0.35),
-        inset -1px 0 2px rgba(0, 0, 0, 0.35);
-    }
-    .intro-door-gate__leaf--l .intro-door-gate__leaf-face::after {
-      left: 8%;
-    }
-    .intro-door-gate__leaf--r .intro-door-gate__leaf-face::after {
-      right: 8%;
-    }
-    /* Round brass pulls toward the meeting stile */
-    .intro-door-gate__knob {
-      position: absolute;
-      top: 50%;
-      width: 1.15rem;
-      height: 1.15rem;
-      margin-top: -0.575rem;
-      border-radius: 50%;
-      z-index: 3;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 32% 28%, #fff4d4 0%, transparent 38%),
-        radial-gradient(circle at 70% 78%, rgba(40, 24, 8, 0.45) 0%, transparent 42%),
-        linear-gradient(145deg, #f0d78a 0%, var(--door-brass) 35%, #8a6220 72%, #c9a84a 100%);
-      box-shadow:
-        0 3px 8px rgba(0, 0, 0, 0.45),
-        0 1px 0 rgba(255, 252, 248, 0.45) inset,
-        0 -2px 4px rgba(0, 0, 0, 0.35) inset;
-      border: 1px solid rgba(60, 42, 14, 0.5);
-    }
-    .intro-door-gate__leaf--l .intro-door-gate__knob {
-      right: 12%;
-    }
-    .intro-door-gate__leaf--r .intro-door-gate__knob {
-      left: 12%;
-    }
-    /* Stone threshold */
-    .intro-door-gate__sill {
-      position: absolute;
-      left: 2%;
-      right: 2%;
-      bottom: 0;
-      height: 8%;
-      border-radius: 0 0 4px 4px;
-      background: linear-gradient(180deg, #7a6a5c 0%, #4a4038 55%, #2e2822 100%);
-      border: 1px solid rgba(24, 18, 14, 0.6);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 0.12),
-        0 6px 14px rgba(0, 0, 0, 0.35);
-      z-index: 3;
+      inset: 22%;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      opacity: 0.5;
       pointer-events: none;
     }
-    .intro-door-gate__hint {
+    .intro-envelope-gate.is-open .intro-envelope-gate__wax {
+      opacity: 0;
+      transform: scale(0.45) rotate(-14deg) translateY(8px);
+    }
+    .intro-envelope-gate__hint {
       margin: 0;
       font-family: var(--font-caps);
       font-size: 0.52rem;
-      letter-spacing: 0.26em;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
       color: var(--muted);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.5rem;
       cursor: pointer;
     }
-    .intro-door-gate__hint::after {
+    .intro-envelope-gate__hint::after {
       content: "";
-      width: 2.25rem;
-      height: 2.25rem;
-      border-radius: 50%;
-      border: 2px solid rgba(176, 141, 87, 0.55);
-      box-shadow: 0 0 0 1px rgba(255, 252, 248, 0.35) inset, 0 4px 12px rgba(176, 141, 87, 0.15);
-      animation: doorHintPulse 1.85s ease-in-out infinite;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid rgba(176, 141, 87, 0.7);
+      border-bottom: 2px solid rgba(176, 141, 87, 0.7);
+      transform: rotate(-135deg);
+      margin-top: 0.1rem;
+      animation: envHintNudge 1.65s ease-in-out infinite;
     }
-    .intro-door-gate.is-open .intro-door-gate__hint {
+    .intro-envelope-gate.is-open .intro-envelope-gate__hint {
       opacity: 0;
       transition: opacity 0.35s ease;
       pointer-events: none;
     }
-    @keyframes doorHintPulse {
+    @keyframes envHintNudge {
       0%,
       100% {
-        transform: scale(1);
-        opacity: 0.5;
+        transform: rotate(-135deg) translateY(0);
+        opacity: 0.65;
       }
       50% {
-        transform: scale(1.06);
+        transform: rotate(-135deg) translateY(-8px);
         opacity: 1;
+      }
+    }
+    @keyframes envCardPull {
+      0% {
+        transform: translateY(42%) scale(0.88) rotateX(1.6deg);
+        filter: saturate(0.96) brightness(0.98);
+        box-shadow:
+          0 1px 0 rgba(255, 252, 248, 0.75),
+          0 3px 0 rgba(176, 141, 87, 0.2),
+          0 12px 28px rgba(45, 32, 22, 0.12);
+      }
+      14% {
+        transform: translateY(36%) scale(0.9) rotateX(1.1deg);
+      }
+      32% {
+        transform: translateY(30%) scale(0.92) rotateX(0.65deg);
+      }
+      55% {
+        transform: translateY(8%) scale(0.97) rotateX(0.25deg);
+      }
+      100% {
+        transform: translateY(calc(-1 * min(52vh, 17.5rem))) scale(1) rotateX(0deg);
+        filter: saturate(1.1) brightness(1.02);
+        box-shadow:
+          0 1px 0 rgba(255, 252, 248, 0.98),
+          0 5px 0 rgba(176, 141, 87, 0.22),
+          0 36px 72px rgba(22, 16, 12, 0.38),
+          0 0 48px rgba(201, 168, 120, 0.18);
       }
     }
     body:not(.intro-done) .tabs {
@@ -1138,6 +1192,19 @@
       overflow: hidden;
       pointer-events: none;
     }
+    /* Lift shadows / faces without clipping highlights */
+    .hero__media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 75% 95% at 72% 48%, rgba(255, 248, 232, 0.42) 0%, transparent 52%),
+        radial-gradient(ellipse 65% 90% at 28% 52%, rgba(255, 244, 228, 0.22) 0%, transparent 48%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.12) 0%, transparent 35%, transparent 70%, rgba(255, 248, 236, 0.1) 100%);
+      mix-blend-mode: soft-light;
+    }
     .hero__photo {
       display: block;
       width: 100%;
@@ -1146,7 +1213,7 @@
       object-position: center 22%;
       transform: scale(1.06);
       transform-origin: 50% 40%;
-      filter: brightness(1) contrast(1.06) saturate(1.1);
+      filter: brightness(1.16) contrast(1.1) saturate(1.08) drop-shadow(0 0 1px rgba(255, 252, 248, 0.15));
       transition:
         transform 2.1s var(--ease-rich),
         filter 1.5s var(--ease-soft);
@@ -1154,7 +1221,7 @@
     }
     .hero.is-revealed .hero__photo {
       transform: scale(1.02);
-      filter: brightness(1.04) contrast(1.1) saturate(1.16);
+      filter: brightness(1.24) contrast(1.12) saturate(1.12) drop-shadow(0 0 2px rgba(255, 252, 248, 0.2));
     }
     /* Soft blend from photo into the copy panel */
     .hero__photo-fade {
@@ -1176,11 +1243,11 @@
     .hero__photo-vignette {
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 95% 70% at 50% 18%, transparent 32%, rgba(22, 16, 12, 0.18) 100%),
-        linear-gradient(90deg, rgba(22, 16, 12, 0.2) 0%, transparent 14%, transparent 86%, rgba(22, 16, 12, 0.2) 100%);
+        radial-gradient(ellipse 95% 70% at 50% 18%, transparent 38%, rgba(22, 16, 12, 0.1) 100%),
+        linear-gradient(90deg, rgba(22, 16, 12, 0.1) 0%, transparent 12%, transparent 88%, rgba(22, 16, 12, 0.1) 100%);
     }
     .hero__copy {
       position: relative;
@@ -2651,7 +2718,7 @@
       .hero.is-revealed .hero__photo {
         transform: none !important;
         transition: none !important;
-        filter: brightness(1) contrast(1.04) saturate(1.06) !important;
+        filter: brightness(1.18) contrast(1.08) saturate(1.08) !important;
       }
       .hero.is-revealed .hero__names::after {
         animation: none !important;
@@ -2770,20 +2837,28 @@
       .mobile-intro__glow {
         transition: none !important;
       }
-      .intro-door-gate__leaf,
-      .intro-door-gate__glow,
-      .intro-door-gate__shell,
-      .intro-door-gate__pediment,
-      .intro-door-gate__well,
-      .intro-door-gate,
-      .intro-door-gate.intro-door-gate--gone {
+      .intro-envelope-gate__card,
+      .intro-envelope-gate__flap,
+      .intro-envelope-gate__wax,
+      .intro-envelope-gate__pocket,
+      .intro-envelope-gate__shell,
+      .intro-envelope-gate__ground,
+      .intro-envelope-gate__board,
+      .intro-envelope-gate__throat,
+      .intro-envelope-gate__pocket::before,
+      .intro-envelope-gate,
+      .intro-envelope-gate.intro-envelope-gate--gone {
         transition: none !important;
         animation: none !important;
       }
-      .intro-door-gate__shell {
-        filter: drop-shadow(0 14px 22px rgba(12, 8, 6, 0.4));
+      .intro-envelope-gate.is-open .intro-envelope-gate__card {
+        transform: translateY(calc(-1 * min(46vh, 15.5rem))) scale(1) rotateX(0deg) !important;
+        filter: saturate(1.05) brightness(1) !important;
       }
-      .intro-door-gate__hint::after {
+      .intro-envelope-gate__shell {
+        filter: drop-shadow(0 14px 22px rgba(12, 8, 6, 0.28));
+      }
+      .intro-envelope-gate__hint::after {
         animation: none !important;
       }
     }
@@ -2804,47 +2879,43 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >Tap the traditional doors to open them, then a Ganesh motif on the invitation backdrop, a message from the families, and the scroll invitation.</span>
+      >Tap or swipe up on the envelope to open it; the card lifts out, then a Ganesh motif, a message from the families, and the scroll invitation.</span>
     <div
-      id="intro-door-gate"
-      class="intro-door-gate invite-paper"
+      id="intro-envelope-gate"
+      class="intro-envelope-gate invite-paper"
       role="group"
-      aria-label="Invitation entrance"
+      aria-label="Invitation envelope"
     >
-      <div class="intro-door-gate__inner">
-        <div class="intro-door-gate__labels">
-          <p class="intro-door-gate__names">Rutuja <span>&amp;</span> Saurabh</p>
-          <p class="intro-door-gate__sub">Wedding · May 2026</p>
+      <div class="intro-envelope-gate__inner">
+        <div class="intro-envelope-gate__labels">
+          <p class="intro-envelope-gate__names">Rutuja <span>&amp;</span> Saurabh</p>
+          <p class="intro-envelope-gate__sub">Wedding · May 2026</p>
         </div>
         <div
-          class="intro-door-gate__shell"
+          class="intro-envelope-gate__shell"
           tabindex="0"
           role="button"
-          aria-label="Traditional doors to the invitation — tap to open"
-          aria-describedby="intro-door-gate-hint"
+          aria-label="Closed invitation envelope — tap or swipe up to open"
+          aria-describedby="intro-envelope-gate-hint"
         >
-          <div class="intro-door-gate__stage">
-            <div class="intro-door-gate__pediment" aria-hidden="true"></div>
-            <div class="intro-door-gate__well">
-              <div class="intro-door-gate__glow" aria-hidden="true"></div>
-              <div class="intro-door-gate__welcome" aria-hidden="true">
-                <div class="intro-door-gate__welcome-initials">R &amp; S</div>
-                <div class="intro-door-gate__welcome-line">Invitation</div>
-              </div>
-              <div class="intro-door-gate__leaf intro-door-gate__leaf--l">
-                <div class="intro-door-gate__leaf-face"></div>
-                <div class="intro-door-gate__knob" aria-hidden="true"></div>
-              </div>
-              <div class="intro-door-gate__leaf intro-door-gate__leaf--r">
-                <div class="intro-door-gate__leaf-face"></div>
-                <div class="intro-door-gate__knob" aria-hidden="true"></div>
+          <div class="intro-envelope-gate__board">
+            <div class="intro-envelope-gate__ground" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__back" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__throat" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__card">
+              <div class="intro-envelope-gate__card-face">
+                <span class="intro-envelope-gate__card-initials" aria-hidden="true">R &amp; S</span>
+                <span class="intro-envelope-gate__card-line">Invitation</span>
               </div>
             </div>
-            <div class="intro-door-gate__sill" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
+            <div class="intro-envelope-gate__flap" aria-hidden="true">
+              <div class="intro-envelope-gate__wax" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
-        <p class="intro-door-gate__hint" id="intro-door-gate-hint">Tap the doors to enter</p>
-        <button type="button" class="visually-hidden" id="intro-door-a11y">Open invitation</button>
+        <p class="intro-envelope-gate__hint" id="intro-envelope-gate-hint">Tap or swipe up on the envelope</p>
+        <button type="button" class="visually-hidden" id="intro-envelope-a11y">Open invitation</button>
       </div>
     </div>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
@@ -3129,7 +3200,7 @@
 
     /**
      * Unmuted autoplay without a gesture is blocked by browsers. We start audio when you open
-     * the doors (tap), again on the Ganesh / family intro, when you reach the main
+     * the envelope (tap / swipe), again on the Ganesh / family intro, when you reach the main
      * invite (Continue / Skip), and fall back to the next pointer / Enter / Space if needed.
      */
     function tryAutoplayBackgroundMusic() {
@@ -3144,10 +3215,10 @@
     }
 
     function dismissEnvelopeGateUi() {
-      var gate = document.getElementById("intro-door-gate");
+      var gate = document.getElementById("intro-envelope-gate");
       if (introShell) introShell.classList.remove("intro-envelope-pending");
       if (gate) {
-        gate.classList.add("intro-door-gate--gone");
+        gate.classList.add("intro-envelope-gate--gone");
         gate.setAttribute("aria-hidden", "true");
       }
     }
@@ -3155,9 +3226,9 @@
     function passEnvelopeGateAndContinue() {
       if (envelopeGateComplete || introFinished) return;
       envelopeGateComplete = true;
-      var gate = document.getElementById("intro-door-gate");
+      var gate = document.getElementById("intro-envelope-gate");
       if (gate) {
-        var shellEl = gate.querySelector(".intro-door-gate__shell");
+        var shellEl = gate.querySelector(".intro-envelope-gate__shell");
         if (shellEl) {
           shellEl.setAttribute("tabindex", "-1");
           shellEl.removeAttribute("role");
@@ -3168,7 +3239,7 @@
       if (reduceMotion) {
         if (gate) {
           gate.classList.add("is-open");
-          gate.classList.add("intro-door-gate--gone");
+          gate.classList.add("intro-envelope-gate--gone");
         }
         runGaneshOpeningThenFamily();
         return;
@@ -3177,16 +3248,16 @@
       envelopeToGaneshTimer = window.setTimeout(function () {
         envelopeToGaneshTimer = null;
         if (introFinished) return;
-        if (gate) gate.classList.add("intro-door-gate--gone");
+        if (gate) gate.classList.add("intro-envelope-gate--gone");
         runGaneshOpeningThenFamily();
-      }, 1080);
+      }, 1780);
     }
 
     function initEnvelopeGate() {
       if (!introShell) return;
-      var gate = document.getElementById("intro-door-gate");
-      var shell = gate ? gate.querySelector(".intro-door-gate__shell") : null;
-      var a11yBtn = document.getElementById("intro-door-a11y");
+      var gate = document.getElementById("intro-envelope-gate");
+      var shell = gate ? gate.querySelector(".intro-envelope-gate__shell") : null;
+      var a11yBtn = document.getElementById("intro-envelope-a11y");
       if (!gate || !shell) {
         runGaneshOpeningThenFamily();
         return;
@@ -3194,24 +3265,40 @@
       envelopeGateComplete = false;
       introShell.classList.add("intro-envelope-pending");
 
-      function onActivateDoor() {
+      function onOpenGate() {
         if (envelopeGateComplete || introFinished) return;
         passEnvelopeGateAndContinue();
       }
 
-      shell.addEventListener("click", onActivateDoor);
+      var dragY0 = null;
+      var swipeThreshold = 56;
+      shell.addEventListener("pointerdown", function (e) {
+        if (envelopeGateComplete || introFinished) return;
+        dragY0 = e.clientY;
+      });
+      shell.addEventListener("pointerup", function (e) {
+        if (envelopeGateComplete || introFinished) return;
+        if (dragY0 == null) return;
+        var dy = dragY0 - e.clientY;
+        dragY0 = null;
+        if (dy >= swipeThreshold) onOpenGate();
+      });
+      shell.addEventListener("pointercancel", function () {
+        dragY0 = null;
+      });
+      shell.addEventListener("click", onOpenGate);
       shell.addEventListener("keydown", function (e) {
         if (envelopeGateComplete || introFinished) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          onActivateDoor();
+          onOpenGate();
         }
       });
-      var hintEl = document.getElementById("intro-door-gate-hint");
-      if (hintEl) hintEl.addEventListener("click", onActivateDoor);
+      var hintEl = document.getElementById("intro-envelope-gate-hint");
+      if (hintEl) hintEl.addEventListener("click", onOpenGate);
       if (a11yBtn) {
         a11yBtn.addEventListener("click", function () {
-          if (!envelopeGateComplete && !introFinished) onActivateDoor();
+          if (!envelopeGateComplete && !introFinished) onOpenGate();
         });
       }
     }
