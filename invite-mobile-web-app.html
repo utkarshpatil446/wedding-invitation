@@ -574,8 +574,13 @@
       opacity: 0;
     }
 
-    /* ── First beat: envelope + invitation card (swipe up or tap to open) ── */
+    /* ── First beat: realistic kraft envelope + card (swipe up or tap) ── */
     .intro-envelope-gate {
+      --env-kraft-mid: #b8926a;
+      --env-kraft-dark: #7d5c3e;
+      --env-kraft-light: #dcc4a4;
+      --env-ivory: #f7f0e4;
+      --env-shadow: rgba(22, 16, 12, 0.45);
       position: absolute;
       inset: 0;
       z-index: 125;
@@ -586,8 +591,9 @@
       padding: max(0.75rem, env(safe-area-inset-top, 0px)) 1rem max(1rem, env(safe-area-inset-bottom, 0px));
       box-sizing: border-box;
       background:
-        radial-gradient(ellipse 88% 70% at 50% 38%, rgba(255, 252, 245, 0.97) 0%, rgba(250, 242, 228, 0.94) 42%, rgba(232, 218, 198, 0.98) 100%),
-        linear-gradient(165deg, #2a2018 0%, #4a3828 100%);
+        radial-gradient(ellipse 72% 55% at 50% 88%, rgba(42, 32, 24, 0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 120% 80% at 50% 20%, rgba(255, 252, 245, 0.55) 0%, transparent 48%),
+        linear-gradient(168deg, #1e1612 0%, #3d2e24 38%, #5c4836 72%, #2a2018 100%);
       transition: opacity 0.55s var(--ease-out), visibility 0s linear 0s;
       touch-action: none;
     }
@@ -599,183 +605,339 @@
     }
     .intro-envelope-gate__inner {
       width: 100%;
-      max-width: 22rem;
+      max-width: 23rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.15rem;
+      gap: 1.35rem;
     }
     .intro-envelope-gate__labels {
       text-align: center;
-      color: var(--ink);
+      color: rgba(255, 252, 245, 0.94);
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
     }
     .intro-envelope-gate__names {
       margin: 0;
       font-family: var(--font-display);
-      font-size: clamp(1.35rem, 5.2vw, 1.75rem);
+      font-size: clamp(1.4rem, 5.4vw, 1.85rem);
       font-weight: 500;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
       line-height: 1.2;
     }
     .intro-envelope-gate__names span {
       font-style: italic;
       font-weight: 400;
-      opacity: 0.88;
+      opacity: 0.9;
+      color: rgba(255, 236, 210, 0.95);
     }
     .intro-envelope-gate__sub {
-      margin: 0.35rem 0 0;
+      margin: 0.4rem 0 0;
       font-family: var(--font-caps);
-      font-size: 0.55rem;
-      letter-spacing: 0.28em;
+      font-size: 0.52rem;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(232, 218, 198, 0.75);
     }
     .intro-envelope-gate__shell {
       position: relative;
-      width: min(82vw, 20rem);
-      height: clamp(11.5rem, 36vw, 13.5rem);
-      perspective: 900px;
-      perspective-origin: 50% 70%;
+      width: min(90vw, 21.5rem);
+      height: clamp(14.25rem, 48vw, 17.75rem);
+      perspective: 1100px;
+      perspective-origin: 50% 65%;
       transform-style: preserve-3d;
+      filter: drop-shadow(0 22px 28px rgba(12, 8, 6, 0.42)) drop-shadow(0 6px 12px rgba(12, 8, 6, 0.22));
     }
+    /* Contact shadow on “table” */
+    .intro-envelope-gate__ground {
+      position: absolute;
+      left: 50%;
+      bottom: -2%;
+      width: 92%;
+      height: 32%;
+      transform: translateX(-50%);
+      z-index: 0;
+      background: radial-gradient(ellipse 52% 38% at 50% 50%, rgba(8, 6, 4, 0.5), transparent 72%);
+      filter: blur(18px);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    /* Main body — kraft fibres + light rake */
     .intro-envelope-gate__back {
       position: absolute;
-      left: 4%;
-      right: 4%;
-      bottom: 0;
-      height: 58%;
-      border-radius: 4px 4px 10px 10px;
-      background: linear-gradient(180deg, #c9a882 0%, #a67c52 42%, #8a663a 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.35), 0 12px 28px rgba(35, 26, 18, 0.22);
+      left: 2.5%;
+      right: 2.5%;
+      bottom: 1.5%;
+      height: 60%;
+      z-index: 1;
+      border-radius: 3px 3px 5px 5px;
+      background:
+        repeating-linear-gradient(
+          92deg,
+          transparent 0,
+          transparent 3px,
+          rgba(62, 48, 32, 0.045) 3px,
+          rgba(62, 48, 32, 0.045) 4px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(48, 36, 24, 0.035) 2px,
+          rgba(48, 36, 24, 0.035) 3px
+        ),
+        linear-gradient(118deg, rgba(255, 252, 248, 0.2) 0%, transparent 38%, rgba(42, 32, 22, 0.12) 100%),
+        linear-gradient(180deg, var(--env-kraft-light) 0%, var(--env-kraft-mid) 38%, #9e764e 72%, var(--env-kraft-dark) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.5),
+        inset 0 -18px 36px rgba(42, 32, 22, 0.18),
+        inset 2px 0 0 rgba(255, 252, 248, 0.12),
+        inset -2px 0 0 rgba(42, 32, 22, 0.08),
+        0 1px 0 rgba(62, 48, 32, 0.35);
+      pointer-events: none;
     }
+    .intro-envelope-gate__back::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, transparent 55%, rgba(42, 32, 22, 0.14) 100%);
+      pointer-events: none;
+    }
+    /* Side gussets — folded wings */
+    .intro-envelope-gate__gusset {
+      position: absolute;
+      bottom: 1.5%;
+      width: 52%;
+      height: 56%;
+      z-index: 2;
+      pointer-events: none;
+      box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.18);
+    }
+    .intro-envelope-gate__gusset--l {
+      left: 2.5%;
+      background: linear-gradient(125deg, #8f6a45 0%, #b8926a 42%, #9a7448 100%);
+      clip-path: polygon(0 22%, 0 100%, 72% 100%, 100% 38%);
+      box-shadow:
+        inset 2px 0 6px rgba(255, 252, 248, 0.12),
+        inset -6px 0 14px rgba(28, 20, 14, 0.2),
+        -3px 0 10px rgba(28, 20, 14, 0.15);
+    }
+    .intro-envelope-gate__gusset--r {
+      right: 2.5%;
+      background: linear-gradient(235deg, #8f6a45 0%, #b8926a 42%, #9a7448 100%);
+      clip-path: polygon(100% 22%, 100% 100%, 28% 100%, 0 38%);
+      box-shadow:
+        inset -2px 0 6px rgba(255, 252, 248, 0.12),
+        inset 6px 0 14px rgba(28, 20, 14, 0.2),
+        3px 0 10px rgba(28, 20, 14, 0.15);
+    }
+    /* Inner throat — ivory lining above the slot */
+    .intro-envelope-gate__throat {
+      position: absolute;
+      left: 14%;
+      right: 14%;
+      bottom: 36%;
+      height: 18%;
+      z-index: 3;
+      border-radius: 4px 4px 2px 2px;
+      background: linear-gradient(
+        180deg,
+        rgba(28, 22, 16, 0.55) 0%,
+        rgba(245, 236, 220, 0.95) 28%,
+        var(--env-ivory) 55%,
+        #e8dcc8 100%
+      );
+      box-shadow:
+        inset 0 3px 8px rgba(255, 252, 248, 0.65),
+        inset 0 -2px 6px rgba(62, 48, 32, 0.12);
+      pointer-events: none;
+    }
+    /* Front V-pocket — separate planes of light */
     .intro-envelope-gate__pocket {
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
-      height: 0;
-      border-left: min(41vw, 10rem) solid transparent;
-      border-right: min(41vw, 10rem) solid transparent;
-      border-bottom: clamp(4.5rem, 28vw, 5.5rem) solid #b08d57;
-      filter: drop-shadow(0 4px 0 rgba(62, 48, 32, 0.18));
-      z-index: 1;
+      bottom: 1.5%;
+      height: 52%;
+      z-index: 4;
+      clip-path: polygon(0 100%, 12% 38%, 50% 4%, 88% 38%, 100% 100%);
+      background:
+        linear-gradient(128deg, rgba(255, 252, 248, 0.35) 0%, transparent 45%),
+        linear-gradient(228deg, rgba(42, 32, 22, 0.15) 0%, transparent 40%),
+        linear-gradient(180deg, #dcc4a4 0%, #c4a06e 38%, #a67c52 78%, #8a623e 100%);
+      box-shadow:
+        inset 0 14px 28px rgba(28, 20, 14, 0.14),
+        inset 0 -2px 0 rgba(255, 252, 248, 0.28),
+        0 -1px 0 rgba(62, 48, 32, 0.2);
+      pointer-events: none;
+    }
+    .intro-envelope-gate__pocket::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: inherit;
+      background: linear-gradient(90deg, transparent 48%, rgba(255, 252, 248, 0.12) 50%, transparent 52%);
+      opacity: 0.7;
       pointer-events: none;
     }
     .intro-envelope-gate__card {
       position: absolute;
-      left: 9%;
-      right: 9%;
-      bottom: 18%;
-      height: 72%;
-      z-index: 2;
+      left: 10%;
+      right: 10%;
+      bottom: 17%;
+      height: 70%;
+      z-index: 5;
       transform-origin: 50% 100%;
-      transform: translateY(12%) scale(0.96);
+      transform: translateY(11%) scale(0.965) rotateX(2deg);
       transition:
-        transform 0.78s var(--ease-rich),
-        box-shadow 0.6s ease;
-      border-radius: 6px;
+        transform 0.82s var(--ease-rich),
+        box-shadow 0.65s ease,
+        filter 0.5s ease;
+      border-radius: 5px 5px 4px 4px;
       box-shadow:
-        0 2px 0 rgba(255, 252, 248, 0.65),
-        0 18px 40px rgba(35, 26, 18, 0.2);
+        0 1px 0 rgba(255, 252, 248, 0.85),
+        0 3px 0 rgba(176, 141, 87, 0.25),
+        0 22px 44px var(--env-shadow);
       cursor: grab;
+      filter: saturate(1.02);
     }
     .intro-envelope-gate__card:active {
       cursor: grabbing;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__card {
-      transform: translateY(calc(-1 * min(46vh, 15rem))) scale(1);
+      transform: translateY(calc(-1 * min(48vh, 16rem))) scale(1) rotateX(0deg);
       box-shadow:
-        0 2px 0 rgba(255, 252, 248, 0.75),
-        0 28px 56px rgba(35, 26, 18, 0.28);
+        0 1px 0 rgba(255, 252, 248, 0.95),
+        0 4px 0 rgba(176, 141, 87, 0.2),
+        0 32px 64px rgba(22, 16, 12, 0.35);
+      filter: saturate(1.06);
     }
     .intro-envelope-gate__card-face {
       width: 100%;
       height: 100%;
       border-radius: inherit;
       background:
-        linear-gradient(145deg, rgba(255, 253, 248, 0.98) 0%, #faf4e8 48%, #ebe3d4 100%);
-      border: 1px solid rgba(176, 141, 87, 0.45);
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(176, 141, 87, 0.04) 1px, rgba(176, 141, 87, 0.04) 2px),
+        radial-gradient(ellipse 90% 55% at 50% -5%, rgba(255, 252, 248, 0.9) 0%, transparent 55%),
+        linear-gradient(152deg, #fffdf8 0%, #faf4e8 45%, #ebe3d4 100%);
+      border: 1px solid rgba(154, 115, 69, 0.42);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.35rem;
-      padding: 0.75rem;
+      gap: 0.4rem;
+      padding: 0.85rem;
       box-sizing: border-box;
+      box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.95);
     }
     .intro-envelope-gate__card-initials {
       font-family: var(--font-script);
-      font-size: clamp(1.6rem, 7vw, 2.1rem);
+      font-size: clamp(1.75rem, 7.5vw, 2.25rem);
       color: var(--p1-gold-deep);
       line-height: 1;
+      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.8));
     }
     .intro-envelope-gate__card-line {
       font-family: var(--font-caps);
-      font-size: 0.45rem;
-      letter-spacing: 0.35em;
+      font-size: 0.46rem;
+      letter-spacing: 0.38em;
       text-transform: uppercase;
       color: var(--muted);
     }
+    /* Triangular flap — outer + inner lip */
     .intro-envelope-gate__flap {
       position: absolute;
-      left: 4%;
-      right: 4%;
+      left: 2.5%;
+      right: 2.5%;
       top: 0;
-      height: 52%;
-      z-index: 3;
+      height: 54%;
+      z-index: 6;
       transform-origin: 50% 0%;
       transform-style: preserve-3d;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      background: linear-gradient(180deg, #d4b896 0%, #b08d57 55%, #9a7448 100%);
-      clip-path: polygon(0 100%, 50% 8%, 100% 100%);
-      box-shadow: inset 0 -2px 0 rgba(255, 252, 248, 0.25);
-      transition: transform 0.72s var(--ease-rich);
+      clip-path: polygon(0 100%, 50% 5%, 100% 100%);
+      background:
+        linear-gradient(90deg, rgba(42, 32, 22, 0.06) 0%, transparent 30%, transparent 70%, rgba(42, 32, 22, 0.06) 100%),
+        linear-gradient(180deg, #e4d2b8 0%, #c9a87e 35%, #a67c52 70%, #8a663a 100%);
+      box-shadow:
+        inset 0 -3px 6px rgba(255, 252, 248, 0.35),
+        inset 0 1px 0 rgba(255, 252, 248, 0.45),
+        0 10px 24px rgba(22, 16, 12, 0.22);
+      transition: transform 0.78s var(--ease-rich);
+    }
+    .intro-envelope-gate__flap::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 22%;
+      background: linear-gradient(180deg, rgba(62, 48, 32, 0.25), transparent);
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+      pointer-events: none;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__flap {
-      transform: rotateX(-168deg);
+      transform: rotateX(-172deg);
     }
+    /* Wax seal — slightly irregular, embossed */
     .intro-envelope-gate__wax {
       position: absolute;
       left: 50%;
-      top: 72%;
-      width: 2.25rem;
-      height: 2.25rem;
-      margin-left: -1.125rem;
-      margin-top: -1.125rem;
-      border-radius: 50%;
+      top: 70%;
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-left: -1.25rem;
+      margin-top: -1.25rem;
       z-index: 1;
-      background: radial-gradient(circle at 35% 30%, #e8b89a, #9a4a3a 58%, #6b2e28 100%);
+      border-radius: 46% 54% 48% 52% / 52% 46% 54% 48%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255, 220, 200, 0.75) 0%, transparent 35%),
+        radial-gradient(circle at 70% 72%, rgba(80, 28, 22, 0.35) 0%, transparent 45%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #c06052 0%, #8a3828 48%, #5c2218 88%);
       box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35);
-      transition: opacity 0.35s ease, transform 0.45s var(--ease-out);
+        0 3px 6px rgba(0, 0, 0, 0.35),
+        0 1px 0 rgba(255, 255, 255, 0.25) inset,
+        0 -2px 4px rgba(0, 0, 0, 0.2) inset;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+      transition: opacity 0.4s ease, transform 0.5s var(--ease-out);
+    }
+    .intro-envelope-gate__wax::after {
+      content: "";
+      position: absolute;
+      inset: 22%;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      opacity: 0.5;
+      pointer-events: none;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__wax {
       opacity: 0;
-      transform: scale(0.6);
+      transform: scale(0.55) rotate(-8deg);
     }
     .intro-envelope-gate__hint {
       margin: 0;
       font-family: var(--font-caps);
       font-size: 0.52rem;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(232, 218, 198, 0.82);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.5rem;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
     }
     .intro-envelope-gate__hint::after {
       content: "";
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid rgba(176, 141, 87, 0.75);
-      border-bottom: 2px solid rgba(176, 141, 87, 0.75);
+      width: 11px;
+      height: 11px;
+      border-right: 2px solid rgba(232, 200, 150, 0.85);
+      border-bottom: 2px solid rgba(232, 200, 150, 0.85);
       transform: rotate(-135deg);
-      margin-top: 0.15rem;
-      animation: envHintNudge 1.6s ease-in-out infinite;
+      margin-top: 0.1rem;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+      animation: envHintNudge 1.65s ease-in-out infinite;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__hint {
       opacity: 0;
@@ -785,34 +947,36 @@
       0%,
       100% {
         transform: rotate(-135deg) translateY(0);
-        opacity: 0.65;
+        opacity: 0.7;
       }
       50% {
-        transform: rotate(-135deg) translateY(-6px);
+        transform: rotate(-135deg) translateY(-7px);
         opacity: 1;
       }
     }
     .intro-envelope-gate__tap {
-      margin-top: 0.15rem;
+      margin-top: 0.1rem;
       min-height: 48px;
-      padding: 0 1.25rem;
+      padding: 0 1.4rem;
       border-radius: 999px;
-      border: 1px solid rgba(176, 141, 87, 0.5);
-      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, #f0e6d4 100%);
+      border: 1px solid rgba(201, 168, 120, 0.55);
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, #ebe0d0 45%, #dccbb4 100%);
       font-family: var(--font-caps);
       font-size: 0.52rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--ink);
       cursor: pointer;
-      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.9), 0 8px 20px rgba(45, 32, 22, 0.1);
+      box-shadow:
+        0 1px 0 rgba(255, 252, 248, 0.95) inset,
+        0 10px 26px rgba(12, 8, 6, 0.28);
       -webkit-tap-highlight-color: transparent;
     }
     .intro-envelope-gate__tap:active {
       transform: scale(0.98);
     }
     .intro-envelope-gate__tap:focus-visible {
-      outline: 2px solid var(--gold);
+      outline: 2px solid rgba(232, 200, 150, 0.95);
       outline-offset: 3px;
     }
 
@@ -2445,9 +2609,19 @@
       .intro-envelope-gate__card,
       .intro-envelope-gate__flap,
       .intro-envelope-gate__wax,
+      .intro-envelope-gate__shell,
+      .intro-envelope-gate__ground,
+      .intro-envelope-gate__gusset,
+      .intro-envelope-gate__throat,
+      .intro-envelope-gate__pocket,
+      .intro-envelope-gate__pocket::before,
       .intro-envelope-gate,
       .intro-envelope-gate.intro-envelope-gate--gone {
         transition: none !important;
+        animation: none !important;
+      }
+      .intro-envelope-gate__shell {
+        filter: drop-shadow(0 12px 18px rgba(12, 8, 6, 0.35));
       }
       .intro-envelope-gate__hint::after {
         animation: none !important;
@@ -2483,7 +2657,11 @@
           <p class="intro-envelope-gate__sub">Wedding · May 2026</p>
         </div>
         <div class="intro-envelope-gate__shell">
+          <div class="intro-envelope-gate__ground" aria-hidden="true"></div>
           <div class="intro-envelope-gate__back" aria-hidden="true"></div>
+          <div class="intro-envelope-gate__gusset intro-envelope-gate__gusset--l" aria-hidden="true"></div>
+          <div class="intro-envelope-gate__gusset intro-envelope-gate__gusset--r" aria-hidden="true"></div>
+          <div class="intro-envelope-gate__throat" aria-hidden="true"></div>
           <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
           <div class="intro-envelope-gate__card">
             <div class="intro-envelope-gate__card-face">
