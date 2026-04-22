@@ -570,6 +570,254 @@
     .mobile-intro-continue:active {
       transform: translateX(-50%) scale(0.97);
     }
+    #mobile-intro.intro-envelope-pending .mobile-intro-continue {
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* ── First beat: envelope + invitation card (swipe up or tap to open) ── */
+    .intro-envelope-gate {
+      position: absolute;
+      inset: 0;
+      z-index: 125;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: max(0.75rem, env(safe-area-inset-top, 0px)) 1rem max(1rem, env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+      background:
+        radial-gradient(ellipse 88% 70% at 50% 38%, rgba(255, 252, 245, 0.97) 0%, rgba(250, 242, 228, 0.94) 42%, rgba(232, 218, 198, 0.98) 100%),
+        linear-gradient(165deg, #2a2018 0%, #4a3828 100%);
+      transition: opacity 0.55s var(--ease-out), visibility 0s linear 0s;
+      touch-action: none;
+    }
+    .intro-envelope-gate.intro-envelope-gate--gone {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+    }
+    .intro-envelope-gate__inner {
+      width: 100%;
+      max-width: 22rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.15rem;
+    }
+    .intro-envelope-gate__labels {
+      text-align: center;
+      color: var(--ink);
+    }
+    .intro-envelope-gate__names {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 5.2vw, 1.75rem);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .intro-envelope-gate__names span {
+      font-style: italic;
+      font-weight: 400;
+      opacity: 0.88;
+    }
+    .intro-envelope-gate__sub {
+      margin: 0.35rem 0 0;
+      font-family: var(--font-caps);
+      font-size: 0.55rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .intro-envelope-gate__shell {
+      position: relative;
+      width: min(82vw, 20rem);
+      height: clamp(11.5rem, 36vw, 13.5rem);
+      perspective: 900px;
+      perspective-origin: 50% 70%;
+      transform-style: preserve-3d;
+    }
+    .intro-envelope-gate__back {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: 0;
+      height: 58%;
+      border-radius: 4px 4px 10px 10px;
+      background: linear-gradient(180deg, #c9a882 0%, #a67c52 42%, #8a663a 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 252, 248, 0.35), 0 12px 28px rgba(35, 26, 18, 0.22);
+    }
+    .intro-envelope-gate__pocket {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 0;
+      border-left: min(41vw, 10rem) solid transparent;
+      border-right: min(41vw, 10rem) solid transparent;
+      border-bottom: clamp(4.5rem, 28vw, 5.5rem) solid #b08d57;
+      filter: drop-shadow(0 4px 0 rgba(62, 48, 32, 0.18));
+      z-index: 1;
+      pointer-events: none;
+    }
+    .intro-envelope-gate__card {
+      position: absolute;
+      left: 9%;
+      right: 9%;
+      bottom: 18%;
+      height: 72%;
+      z-index: 2;
+      transform-origin: 50% 100%;
+      transform: translateY(12%) scale(0.96);
+      transition:
+        transform 0.78s var(--ease-rich),
+        box-shadow 0.6s ease;
+      border-radius: 6px;
+      box-shadow:
+        0 2px 0 rgba(255, 252, 248, 0.65),
+        0 18px 40px rgba(35, 26, 18, 0.2);
+      cursor: grab;
+    }
+    .intro-envelope-gate__card:active {
+      cursor: grabbing;
+    }
+    .intro-envelope-gate.is-open .intro-envelope-gate__card {
+      transform: translateY(calc(-1 * min(46vh, 15rem))) scale(1);
+      box-shadow:
+        0 2px 0 rgba(255, 252, 248, 0.75),
+        0 28px 56px rgba(35, 26, 18, 0.28);
+    }
+    .intro-envelope-gate__card-face {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(145deg, rgba(255, 253, 248, 0.98) 0%, #faf4e8 48%, #ebe3d4 100%);
+      border: 1px solid rgba(176, 141, 87, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.75rem;
+      box-sizing: border-box;
+    }
+    .intro-envelope-gate__card-initials {
+      font-family: var(--font-script);
+      font-size: clamp(1.6rem, 7vw, 2.1rem);
+      color: var(--p1-gold-deep);
+      line-height: 1;
+    }
+    .intro-envelope-gate__card-line {
+      font-family: var(--font-caps);
+      font-size: 0.45rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .intro-envelope-gate__flap {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      top: 0;
+      height: 52%;
+      z-index: 3;
+      transform-origin: 50% 0%;
+      transform-style: preserve-3d;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      background: linear-gradient(180deg, #d4b896 0%, #b08d57 55%, #9a7448 100%);
+      clip-path: polygon(0 100%, 50% 8%, 100% 100%);
+      box-shadow: inset 0 -2px 0 rgba(255, 252, 248, 0.25);
+      transition: transform 0.72s var(--ease-rich);
+    }
+    .intro-envelope-gate.is-open .intro-envelope-gate__flap {
+      transform: rotateX(-168deg);
+    }
+    .intro-envelope-gate__wax {
+      position: absolute;
+      left: 50%;
+      top: 72%;
+      width: 2.25rem;
+      height: 2.25rem;
+      margin-left: -1.125rem;
+      margin-top: -1.125rem;
+      border-radius: 50%;
+      z-index: 1;
+      background: radial-gradient(circle at 35% 30%, #e8b89a, #9a4a3a 58%, #6b2e28 100%);
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: opacity 0.35s ease, transform 0.45s var(--ease-out);
+    }
+    .intro-envelope-gate.is-open .intro-envelope-gate__wax {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    .intro-envelope-gate__hint {
+      margin: 0;
+      font-family: var(--font-caps);
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .intro-envelope-gate__hint::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(176, 141, 87, 0.75);
+      border-bottom: 2px solid rgba(176, 141, 87, 0.75);
+      transform: rotate(-135deg);
+      margin-top: 0.15rem;
+      animation: envHintNudge 1.6s ease-in-out infinite;
+    }
+    .intro-envelope-gate.is-open .intro-envelope-gate__hint {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    @keyframes envHintNudge {
+      0%,
+      100% {
+        transform: rotate(-135deg) translateY(0);
+        opacity: 0.65;
+      }
+      50% {
+        transform: rotate(-135deg) translateY(-6px);
+        opacity: 1;
+      }
+    }
+    .intro-envelope-gate__tap {
+      margin-top: 0.15rem;
+      min-height: 48px;
+      padding: 0 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(176, 141, 87, 0.5);
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, #f0e6d4 100%);
+      font-family: var(--font-caps);
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.9), 0 8px 20px rgba(45, 32, 22, 0.1);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .intro-envelope-gate__tap:active {
+      transform: scale(0.98);
+    }
+    .intro-envelope-gate__tap:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
     body:not(.intro-done) .tabs {
       visibility: hidden;
       pointer-events: none;
@@ -2347,6 +2595,16 @@
       .mobile-intro__glow {
         transition: none !important;
       }
+      .intro-envelope-gate__card,
+      .intro-envelope-gate__flap,
+      .intro-envelope-gate__wax,
+      .intro-envelope-gate,
+      .intro-envelope-gate.intro-envelope-gate--gone {
+        transition: none !important;
+      }
+      .intro-envelope-gate__hint::after {
+        animation: none !important;
+      }
     }
   </style>
 </head>
@@ -2365,7 +2623,35 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >A Ganesh motif on the invitation backdrop, then a message from the families, before the scroll invitation.</span>
+      >Open the envelope by swiping up on the card or using the Open button, then a Ganesh motif on the invitation backdrop, a message from the families, and the scroll invitation.</span>
+    <div
+      id="intro-envelope-gate"
+      class="intro-envelope-gate"
+      role="group"
+      aria-label="Invitation envelope"
+    >
+      <div class="intro-envelope-gate__inner">
+        <div class="intro-envelope-gate__labels">
+          <p class="intro-envelope-gate__names">Rutuja <span>&amp;</span> Saurabh</p>
+          <p class="intro-envelope-gate__sub">Wedding · May 2026</p>
+        </div>
+        <div class="intro-envelope-gate__shell">
+          <div class="intro-envelope-gate__back" aria-hidden="true"></div>
+          <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
+          <div class="intro-envelope-gate__card">
+            <div class="intro-envelope-gate__card-face">
+              <span class="intro-envelope-gate__card-initials" aria-hidden="true">R &amp; S</span>
+              <span class="intro-envelope-gate__card-line">Invitation</span>
+            </div>
+          </div>
+          <div class="intro-envelope-gate__flap" aria-hidden="true">
+            <div class="intro-envelope-gate__wax" aria-hidden="true"></div>
+          </div>
+        </div>
+        <p class="intro-envelope-gate__hint">Swipe up on the card</p>
+        <button type="button" class="intro-envelope-gate__tap" id="intro-envelope-tap">Open invitation</button>
+      </div>
+    </div>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
     <div class="blossom-layer" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -2617,6 +2903,8 @@
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
+    var envelopeToGaneshTimer = null;
+    var envelopeGateComplete = false;
 
     function detachBgMusicGestureListeners() {
       if (!bgMusicGestureListeners) return;
@@ -2655,10 +2943,9 @@
     }
 
     /**
-     * Unmuted autoplay without a gesture is blocked by browsers. We start audio on the first
-     * tap anywhere on the opening (Ganesh / family sequence), again when you reach the main
-     * invite (Continue / Skip in the same gesture), and fall back to the next pointer / Enter /
-     * Space if the intro ended on a timer.
+     * Unmuted autoplay without a gesture is blocked by browsers. We start audio when you open
+     * the envelope (swipe / tap), again on the Ganesh / family intro, when you reach the main
+     * invite (Continue / Skip), and fall back to the next pointer / Enter / Space if needed.
      */
     function tryAutoplayBackgroundMusic() {
       var el = document.getElementById("bg-music");
@@ -2671,11 +2958,84 @@
       }
     }
 
+    function dismissEnvelopeGateUi() {
+      var gate = document.getElementById("intro-envelope-gate");
+      if (introShell) introShell.classList.remove("intro-envelope-pending");
+      if (gate) {
+        gate.classList.add("intro-envelope-gate--gone");
+        gate.setAttribute("aria-hidden", "true");
+      }
+    }
+
+    function passEnvelopeGateAndContinue() {
+      if (envelopeGateComplete || introFinished) return;
+      envelopeGateComplete = true;
+      var gate = document.getElementById("intro-envelope-gate");
+      tryAutoplayBackgroundMusic();
+      if (introShell) introShell.classList.remove("intro-envelope-pending");
+      if (reduceMotion) {
+        if (gate) {
+          gate.classList.add("is-open");
+          gate.classList.add("intro-envelope-gate--gone");
+        }
+        runGaneshOpeningThenFamily();
+        return;
+      }
+      if (gate) gate.classList.add("is-open");
+      envelopeToGaneshTimer = window.setTimeout(function () {
+        envelopeToGaneshTimer = null;
+        if (introFinished) return;
+        if (gate) gate.classList.add("intro-envelope-gate--gone");
+        runGaneshOpeningThenFamily();
+      }, 820);
+    }
+
+    function initEnvelopeGate() {
+      if (!introShell) return;
+      var gate = document.getElementById("intro-envelope-gate");
+      var tapBtn = document.getElementById("intro-envelope-tap");
+      if (!gate) {
+        runGaneshOpeningThenFamily();
+        return;
+      }
+      envelopeGateComplete = false;
+      introShell.classList.add("intro-envelope-pending");
+      var dragY0 = null;
+
+      function onPointerDown(e) {
+        if (envelopeGateComplete || introFinished) return;
+        if (e.target.closest && e.target.closest(".intro-envelope-gate__tap")) return;
+        dragY0 = e.clientY;
+      }
+      function onPointerUp(e) {
+        if (envelopeGateComplete || introFinished) return;
+        if (e.target.closest && e.target.closest(".intro-envelope-gate__tap")) {
+          dragY0 = null;
+          return;
+        }
+        if (dragY0 == null) return;
+        var dy = dragY0 - e.clientY;
+        dragY0 = null;
+        if (dy > 52) passEnvelopeGateAndContinue();
+      }
+
+      gate.addEventListener("pointerdown", onPointerDown);
+      gate.addEventListener("pointerup", onPointerUp);
+      gate.addEventListener("pointercancel", function () {
+        dragY0 = null;
+      });
+      if (tapBtn) {
+        tapBtn.addEventListener("click", function () {
+          if (!envelopeGateComplete && !introFinished) passEnvelopeGateAndContinue();
+        });
+      }
+    }
+
     function clearIntroTimers() {
-      [envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
+      [envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer, envelopeToGaneshTimer].forEach(function (id) {
         if (id) window.clearTimeout(id);
       });
-      envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
+      envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = envelopeToGaneshTimer = null;
     }
 
     function beginScrollReveals() {
@@ -2703,6 +3063,8 @@
     function revealHeroAndScrollUI() {
       if (introFinished) return;
       introFinished = true;
+      envelopeGateComplete = true;
+      dismissEnvelopeGateUi();
       clearIntroTimers();
       document.body.classList.add("intro-done");
       if (introShell) {
@@ -2782,6 +3144,8 @@
 
     function skipIntro() {
       if (introFinished) return;
+      envelopeGateComplete = true;
+      dismissEnvelopeGateUi();
       clearIntroTimers();
       if (introShell) {
         introShell.classList.remove("env-opening-active", "env-opening-exit", "env-intro-family-active", "env-intro-family--exit");
@@ -2820,7 +3184,7 @@
       }
       tryAutoplayBackgroundMusic();
     } else {
-      runGaneshOpeningThenFamily();
+      initEnvelopeGate();
     }
 
     /* Countdown to wedding day (local midnight, 3 May 2026) */
