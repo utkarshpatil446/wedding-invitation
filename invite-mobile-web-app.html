@@ -1439,7 +1439,22 @@
     p:last-child { margin-bottom: 0; }
     em { font-style: italic; }
 
-    /* Timing: framed widgets + centered titles */
+    /* Timing: section head + framed widgets */
+    .timing-rich__head {
+      text-align: center;
+      margin: 0 0 1rem;
+    }
+    .timing-rich__head .eyebrow {
+      margin-bottom: 0.4rem;
+    }
+    .timing-rich__tag {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(0.98rem, 3.2vw, 1.08rem);
+      font-style: italic;
+      color: rgba(92, 81, 71, 0.9);
+      line-height: 1.5;
+    }
     .timing-widgets {
       display: flex;
       flex-direction: column;
@@ -2105,29 +2120,12 @@
       flex-direction: column;
       align-items: center;
     }
-    #invite .invite-sheet__eyebrow {
-      margin: 0 0 clamp(0.5rem, 1.4dvh, 0.75rem);
-      width: 100%;
-      font-family: var(--font-display);
-      font-size: clamp(0.88rem, 2.6vw, 1.02rem);
-      font-weight: 400;
-      font-style: italic;
-      line-height: 1.45;
-      color: var(--p1-gold-deep);
-      text-wrap: balance;
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.75), 0 0 14px rgba(255, 250, 242, 0.85);
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    #invite.is-revealed .invite-sheet__eyebrow {
-      animation: ceremonyLineIn 0.85s var(--ease-rich) 0.35s forwards;
-    }
     #invite .invite-sheet__names {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: clamp(0.05rem, 0.5vw, 0.2rem);
-      margin: 0 0 clamp(0.65rem, 1.8dvh, 0.95rem);
+      margin: clamp(0.2rem, 0.8dvh, 0.35rem) 0 clamp(0.65rem, 1.8dvh, 0.95rem);
       width: 100%;
       font-family: var(--font-script);
       font-weight: 400;
@@ -3124,7 +3122,6 @@
       #invite.is-revealed .ceremony-framed__lamp,
       #invite.is-revealed .ceremony-framed__wing,
       #invite.is-revealed .invite-sheet,
-      #invite.is-revealed .invite-sheet__eyebrow,
       #invite.is-revealed h2.invite-sheet__names,
       #invite.is-revealed .invite-sheet__amp,
       #invite.is-revealed .invite-sheet__lede .invite-word,
@@ -3200,7 +3197,6 @@
       .countdown div,
       .cal,
       #invite .invite-sheet,
-      #invite .invite-sheet__eyebrow,
       #invite h2.invite-sheet__names,
       #invite .invite-sheet__schedule,
       #invite .invite-sheet__venue,
@@ -3459,7 +3455,9 @@
 
   <nav class="tabs" aria-label="Page sections">
     <a href="#cover" aria-current="true">Cover</a>
+    <a href="#families">Families</a>
     <a href="#invite">Invite</a>
+    <a href="#timing" title="Calendar and countdown">When</a>
     <a href="#events">Events</a>
     <a href="#family">Family</a>
     <a href="#venues">Venues</a>
@@ -3522,7 +3520,11 @@
       </div>
     </section>
 
-    <section class="card invite-paper reveal" id="timing" aria-labelledby="count-h">
+    <section class="card invite-paper reveal" id="timing" aria-labelledby="timing-section-h">
+      <header class="timing-rich__head">
+        <p class="eyebrow eyebrow--center" id="timing-section-h">Calendar &amp; countdown</p>
+        <p class="timing-rich__tag">May 2026 — save the wedding weekend</p>
+      </header>
       <div class="timing-widgets">
         <div class="motif-widget motif-widget--count">
           <div class="motif-widget__body">
@@ -3574,7 +3576,6 @@
         <div class="ceremony-framed__wing ceremony-framed__wing--r" aria-hidden="true"></div>
         <div class="invite-sheet">
           <div class="invite-sheet__stage">
-            <p class="invite-sheet__eyebrow">Together with their families</p>
             <h2 class="invite-sheet__names">
               <span class="invite-sheet__name invite-sheet__name--first">Rutuja</span>
               <span class="invite-sheet__amp-row"><span class="invite-sheet__amp">&amp;</span></span>
@@ -4091,7 +4092,7 @@
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
-    var sectionIds = ["cover", "invite", "events", "family", "venues"];
+    var sectionIds = ["cover", "families", "timing", "invite", "events", "family", "venues"];
     function syncTabsFromHash() {
       var id = (location.hash || "#cover").replace("#", "");
       if (sectionIds.indexOf(id) < 0) id = "cover";
