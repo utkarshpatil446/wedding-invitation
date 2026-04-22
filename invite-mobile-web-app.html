@@ -128,7 +128,7 @@
       body { font-size: 1.05rem; }
     }
 
-    /* ── Opening sequence: parchment envelope → family note → scroll invite ── */
+    /* ── Opening sequence: motif → family note → scroll invite ── */
     #mobile-intro {
       position: fixed;
       inset: 0;
@@ -431,7 +431,7 @@
       visibility: visible;
       transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.45s;
     }
-    #mobile-intro .env-envelope-note {
+    #mobile-intro .env-family-intro-note {
       position: relative;
       z-index: 1;
       width: 100%;
@@ -457,16 +457,16 @@
         opacity 0.34s cubic-bezier(0.33, 1, 0.68, 1) 0.06s,
         transform 0.4s cubic-bezier(0.22, 1, 0.32, 1) 0.04s;
     }
-    #mobile-intro.env-intro-family-active:not(.env-intro-family--exit) .env-envelope-note {
+    #mobile-intro.env-intro-family-active:not(.env-intro-family--exit) .env-family-intro-note {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
-    #mobile-intro.env-intro-family--exit .env-envelope-note {
+    #mobile-intro.env-intro-family--exit .env-family-intro-note {
       opacity: 0;
       transform: translateY(-10px) scale(0.98);
       transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    #mobile-intro .env-envelope-note::before {
+    #mobile-intro .env-family-intro-note::before {
       content: "";
       display: block;
       width: min(11rem, 72vw);
@@ -481,7 +481,7 @@
         transparent 100%
       );
     }
-    #mobile-intro .env-envelope-note__eyebrow {
+    #mobile-intro .env-family-intro-note__eyebrow {
       margin: 0 0 0.62rem;
       font-family: var(--font-caps);
       font-size: clamp(0.56rem, 2.8vw, 0.72rem);
@@ -491,7 +491,7 @@
       color: rgba(75, 58, 40, 0.78);
       text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
     }
-    #mobile-intro .env-envelope-note__eyebrow::after {
+    #mobile-intro .env-family-intro-note__eyebrow::after {
       content: "✦";
       display: block;
       margin: 0.48rem auto 0;
@@ -501,7 +501,7 @@
       color: rgba(176, 141, 87, 0.72);
       text-shadow: 0 0 12px rgba(201, 168, 76, 0.35);
     }
-    #mobile-intro .env-envelope-note__lead {
+    #mobile-intro .env-family-intro-note__lead {
       margin: 0;
       font-family: var(--font-serif);
       font-size: clamp(1.05rem, 3.6vw, 1.28rem);
@@ -512,7 +512,7 @@
       color: rgba(52, 40, 28, 0.94);
       text-shadow: 0 1px 0 rgba(255, 252, 248, 0.55);
     }
-    #mobile-intro .env-envelope-note__lead em {
+    #mobile-intro .env-family-intro-note__lead em {
       font-style: normal;
       font-weight: 600;
       color: rgba(61, 48, 35, 0.96);
@@ -607,305 +607,6 @@
     .mobile-intro-continue:active {
       transform: translateX(-50%) scale(0.97);
     }
-    #mobile-intro.intro-parchment-pending .mobile-intro-continue {
-      visibility: hidden;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    /* Parchment envelope (inspired by envelope.html flap + card lift; palette matches invite cards + invitation-bg) */
-    .intro-parchment-gate {
-      --pe-cream: #faf6f0;
-      --pe-cream-mid: #ebe3d4;
-      --pe-cream-deep: #d8cbb8;
-      --pe-gold: rgba(176, 141, 87, 0.42);
-      --pe-ink: rgba(61, 52, 41, 0.92);
-      position: absolute;
-      inset: 0;
-      z-index: 125;
-      pointer-events: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: max(0.65rem, env(safe-area-inset-top, 0px)) 1rem max(1rem, env(safe-area-inset-bottom, 0px));
-      box-sizing: border-box;
-      overflow: hidden;
-      transition: opacity 0.5s var(--ease-out), visibility 0s linear 0s;
-      touch-action: manipulation;
-    }
-    .intro-parchment-gate.intro-parchment-gate--gone {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 0.45s ease, visibility 0s linear 0.45s;
-    }
-    .intro-parchment-gate__backdrop {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .intro-parchment-gate__backdrop::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 95% 85% at 50% 45%, rgba(254, 250, 241, 0.5) 0%, rgba(250, 244, 232, 0.25) 48%, rgba(42, 32, 22, 0.35) 100%),
-        linear-gradient(180deg, rgba(255, 252, 248, 0.2) 0%, rgba(22, 16, 12, 0.12) 100%);
-      pointer-events: none;
-    }
-    .intro-parchment-gate__bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 42%;
-      transform: scale(1.05);
-      opacity: 0.42;
-      filter: saturate(1.06) brightness(0.96);
-    }
-    .intro-parchment-gate__inner {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 22rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: clamp(0.55rem, 1.8dvh, 0.95rem);
-    }
-    .intro-parchment-gate__title {
-      margin: 0;
-      font-family: var(--font-display);
-      font-size: clamp(1.35rem, 5vw, 1.75rem);
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      color: var(--pe-ink);
-      text-align: center;
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.95);
-    }
-    .intro-parchment-gate__title span {
-      font-style: italic;
-      font-weight: 400;
-      color: var(--p1-gold-deep);
-    }
-    .intro-parchment-gate__subtitle {
-      margin: 0;
-      font-family: var(--font-caps);
-      font-size: 0.52rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(92, 81, 71, 0.88);
-      text-align: center;
-    }
-    .intro-parchment-gate__stage3d {
-      perspective: 1100px;
-      perspective-origin: 50% 42%;
-      width: min(88vw, 20.5rem);
-      padding: 0.25rem 0 0.5rem;
-      position: relative;
-      z-index: 1;
-    }
-    .parchment-envelope {
-      position: relative;
-      width: 100%;
-      height: clamp(15rem, 48vw, 17.5rem);
-      transform-style: preserve-3d;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: none;
-      filter: drop-shadow(0 18px 36px rgba(38, 28, 18, 0.14));
-      border-radius: 12px;
-    }
-    .parchment-envelope:not(.is-open) {
-      overflow: hidden;
-    }
-    .parchment-envelope.is-open {
-      overflow: visible;
-    }
-    .parchment-envelope:focus {
-      outline: none;
-    }
-    .parchment-envelope:focus-visible {
-      outline: 2px solid rgba(176, 141, 87, 0.65);
-      outline-offset: 6px;
-      border-radius: 14px;
-    }
-    .parchment-envelope__body {
-      position: absolute;
-      left: 4%;
-      right: 4%;
-      bottom: 6%;
-      height: 58%;
-      border-radius: 6px 6px 8px 8px;
-      border: 1px solid var(--pe-gold);
-      background:
-        repeating-linear-gradient(92deg, transparent 0, transparent 5px, rgba(120, 96, 72, 0.02) 5px, rgba(120, 96, 72, 0.02) 6px),
-        linear-gradient(168deg, var(--pe-cream) 0%, var(--pe-cream-mid) 55%, var(--pe-cream-deep) 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 0.95),
-        inset 0 -14px 28px rgba(62, 48, 32, 0.05);
-      transform: translateZ(0);
-    }
-    .parchment-envelope__pocket {
-      position: absolute;
-      left: 4%;
-      right: 4%;
-      bottom: 6%;
-      height: 52%;
-      z-index: 2;
-      clip-path: polygon(0 100%, 10% 32%, 50% 4%, 90% 32%, 100% 100%);
-      background: linear-gradient(180deg, var(--pe-cream-mid) 0%, #d2c4b0 48%, #bca68e 100%);
-      box-shadow:
-        inset 0 8px 20px rgba(28, 20, 14, 0.05),
-        inset 0 -1px 0 rgba(255, 252, 248, 0.45);
-      pointer-events: none;
-      transition: transform 0.65s var(--ease-out);
-    }
-    .parchment-envelope.is-open .parchment-envelope__pocket {
-      transform: translateY(3px) scale(0.992);
-    }
-    .parchment-envelope__card {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      /* Bottom-anchored (like envelope.html): positive translateY moves *down* into the pocket.
-         Closed: translateY(100%) hides the card (same idea as envelope.html); open: translateY(-20%). */
-      bottom: 22%;
-      height: 44%;
-      max-height: 9.5rem;
-      z-index: 3;
-      transform-origin: 50% 100%;
-      transform: translate3d(0, 100%, 0) scale(0.88) rotateX(0deg);
-      border-radius: 8px;
-      border: 1px solid rgba(154, 115, 69, 0.42);
-      background:
-        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(176, 141, 87, 0.03) 1px, rgba(176, 141, 87, 0.03) 2px),
-        linear-gradient(152deg, #fffdf8 0%, #faf4e8 46%, #ebe3d4 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 1),
-        0 4px 0 rgba(176, 141, 87, 0.18),
-        0 14px 32px rgba(45, 32, 22, 0.12);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      padding: 0.75rem;
-      box-sizing: border-box;
-      pointer-events: none;
-      transition:
-        transform 1.9s cubic-bezier(0.22, 1, 0.32, 1) 0.95s,
-        box-shadow 1.2s ease 1s;
-    }
-    .parchment-envelope.is-open .parchment-envelope__card {
-      z-index: 6;
-      max-height: none;
-      height: 48%;
-      transform: translateY(-20%) scale(1) rotateX(0deg);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 1),
-        0 6px 0 rgba(176, 141, 87, 0.22),
-        0 28px 56px rgba(28, 20, 14, 0.18);
-    }
-    .parchment-envelope__initials {
-      font-family: var(--font-script);
-      font-size: clamp(1.65rem, 7vw, 2.15rem);
-      color: var(--p1-gold-deep);
-      line-height: 1;
-      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.9));
-    }
-    .parchment-envelope__line {
-      font-family: var(--font-caps);
-      font-size: 0.44rem;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .parchment-envelope__flap {
-      position: absolute;
-      left: 4%;
-      right: 4%;
-      top: 0;
-      height: 52%;
-      z-index: 4;
-      transform-origin: 50% 0;
-      transform-style: preserve-3d;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      clip-path: polygon(0 100%, 50% 5%, 100% 100%);
-      background:
-        linear-gradient(180deg, #fffdf8 0%, var(--pe-cream) 35%, var(--pe-cream-mid) 72%, #d8c8b4 100%);
-      border: 1px solid rgba(176, 141, 87, 0.35);
-      box-shadow:
-        inset 0 -6px 12px rgba(255, 252, 248, 0.55),
-        inset 0 1px 0 rgba(255, 252, 248, 0.98),
-        0 10px 28px rgba(45, 32, 22, 0.1);
-      pointer-events: none;
-      transition: transform 2s cubic-bezier(0.25, 0.82, 0.28, 1);
-    }
-    .parchment-envelope__flap::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 14%;
-      width: 2.35rem;
-      height: 2.35rem;
-      margin-left: -1.175rem;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 32% 28%, rgba(255, 252, 248, 0.85) 0%, transparent 38%),
-        radial-gradient(circle at 50% 50%, rgba(176, 141, 87, 0.35) 0%, rgba(143, 106, 58, 0.55) 45%, rgba(90, 62, 38, 0.5) 100%);
-      box-shadow:
-        0 2px 8px rgba(38, 28, 18, 0.15),
-        inset 0 1px 0 rgba(255, 252, 248, 0.5);
-      border: 1px solid rgba(176, 141, 87, 0.4);
-    }
-    .parchment-envelope.is-open .parchment-envelope__flap {
-      transform: rotateX(-178deg);
-    }
-    .intro-parchment-gate__hint {
-      position: relative;
-      z-index: 8;
-      margin: 0 0 clamp(0.15rem, 0.8dvh, 0.35rem);
-      padding: 0.45rem 0.85rem 0.5rem;
-      font-family: var(--font-caps);
-      font-size: clamp(0.48rem, 2.4vw, 0.55rem);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(61, 52, 41, 0.92);
-      text-align: center;
-      cursor: pointer;
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.95);
-      background: linear-gradient(180deg, rgba(255, 253, 248, 0.92) 0%, rgba(250, 244, 232, 0.88) 100%);
-      border: 1px solid rgba(176, 141, 87, 0.35);
-      border-radius: 999px;
-      box-shadow: 0 6px 20px rgba(38, 28, 18, 0.08);
-    }
-    .intro-parchment-gate__hint::after {
-      content: "";
-      display: block;
-      width: 10px;
-      height: 10px;
-      margin: 0.45rem auto 0;
-      border-right: 2px solid rgba(176, 141, 87, 0.75);
-      border-bottom: 2px solid rgba(176, 141, 87, 0.75);
-      transform: rotate(-135deg);
-      animation: parchmentHintNudge 1.6s ease-in-out infinite;
-    }
-    .intro-parchment-gate:has(.parchment-envelope.is-open) .intro-parchment-gate__hint {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-    }
-    @keyframes parchmentHintNudge {
-      0%, 100% { transform: rotate(-135deg) translateY(0); opacity: 0.65; }
-      50% { transform: rotate(-135deg) translateY(-6px); opacity: 1; }
-    }
-
     body:not(.intro-done) .tabs {
       visibility: hidden;
       pointer-events: none;
@@ -1097,7 +798,7 @@
       overflow: hidden;
       pointer-events: none;
     }
-    /* Warm grade toward parchment — keeps couple softer vs. cream panel (no “flash”) */
+    /* Warm grade on hero photo — keeps couple softer vs. cream panel (no “flash”) */
     .hero__media::before {
       content: "";
       position: absolute;
@@ -1509,10 +1210,10 @@
       position: relative;
       z-index: 1;
     }
-    .card.is-revealed .motif-widget--count {
+    .card.is-revealed .motif-widget--cal {
       animation: motifWidgetEnter 0.85s var(--ease-page-rich) 0.05s forwards;
     }
-    .card.is-revealed .motif-widget--cal {
+    .card.is-revealed .motif-widget--count {
       animation: motifWidgetEnter 0.85s var(--ease-page-rich) 0.18s forwards;
     }
     @keyframes motifWidgetEnter {
@@ -3112,24 +2813,6 @@
         opacity: 0.82;
         transform: none !important;
       }
-      .parchment-envelope,
-      .parchment-envelope.is-open .parchment-envelope__flap,
-      .parchment-envelope.is-open .parchment-envelope__card,
-      .parchment-envelope.is-open .parchment-envelope__pocket {
-        transition: none !important;
-      }
-      .parchment-envelope.is-open .parchment-envelope__flap {
-        transform: rotateX(-178deg) !important;
-      }
-      .parchment-envelope.is-open .parchment-envelope__card {
-        transform: translateY(-20%) scale(1) rotateX(0deg) !important;
-      }
-      .parchment-envelope.is-open .parchment-envelope__pocket {
-        transform: translateY(3px) scale(0.992) !important;
-      }
-      .intro-parchment-gate__hint::after {
-        animation: none !important;
-      }
       #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__bg-img,
       #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh-wrap,
       #mobile-intro.env-opening-active:not(.env-opening-exit) .env-opening__ganesh {
@@ -3168,48 +2851,7 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >Tap or swipe up on the envelope to open it; the card rises, then a Ganesh motif appears over the invitation artwork with blossoms, then a message from the families, followed by the full invitation. You can use Continue to skip at any time.</span>
-    <div
-      id="intro-parchment-gate"
-      class="intro-parchment-gate"
-      role="group"
-      aria-label="Invitation envelope"
-    >
-      <div class="intro-parchment-gate__backdrop" aria-hidden="true">
-        <img
-          class="intro-parchment-gate__bg"
-          src="assets/invitation-bg.png"
-          width="682"
-          height="1024"
-          alt=""
-          decoding="async"
-          fetchpriority="high"
-        >
-      </div>
-      <div class="intro-parchment-gate__inner">
-        <p class="intro-parchment-gate__title">Rutuja <span>&amp;</span> Saurabh</p>
-        <p class="intro-parchment-gate__subtitle">Wedding · May 2026</p>
-        <p class="intro-parchment-gate__hint" id="intro-parchment-hint">Tap or swipe up to open</p>
-        <div class="intro-parchment-gate__stage3d">
-          <div
-            class="parchment-envelope"
-            tabindex="0"
-            role="button"
-            aria-label="Closed invitation envelope — tap or swipe up to open"
-            aria-describedby="intro-parchment-hint"
-          >
-            <div class="parchment-envelope__body" aria-hidden="true"></div>
-            <div class="parchment-envelope__pocket" aria-hidden="true"></div>
-            <div class="parchment-envelope__card">
-              <span class="parchment-envelope__initials" aria-hidden="true">R &amp; S</span>
-              <span class="parchment-envelope__line">Invitation</span>
-            </div>
-            <div class="parchment-envelope__flap" aria-hidden="true"></div>
-          </div>
-        </div>
-        <button type="button" class="visually-hidden" id="intro-parchment-a11y">Open invitation envelope</button>
-      </div>
-    </div>
+      >A short opening with a Ganesh motif and blossoms, then a message from the families, then the full invitation. Use Continue to skip at any time.</span>
     <div class="mobile-intro__glow" aria-hidden="true"></div>
     <div class="blossom-layer" aria-hidden="true">
       <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span
@@ -3218,9 +2860,9 @@
     <div class="mobile-intro-stage">
       <div id="mobile-intro-family" class="env-intro-family" aria-hidden="true">
         <div class="env-intro-family__veil" aria-hidden="true"></div>
-        <div class="env-envelope-note" role="region" aria-label="From the families">
-          <p class="env-envelope-note__eyebrow">Together with our families</p>
-          <p class="env-envelope-note__lead">
+        <div class="env-family-intro-note" role="region" aria-label="From the families">
+          <p class="env-family-intro-note__eyebrow">Together with our families</p>
+          <p class="env-family-intro-note__lead">
             The Patil and Pawar families request the <em>honour of your presence</em> as they celebrate the wedding of their beloved children—with hearts full of gratitude, they invite you to witness this sacred union, to share in the joy of the day, and to bless the couple as they begin their journey together, carrying tradition, hope, and the warmth of everyone they hold dear.
           </p>
         </div>
@@ -3308,18 +2950,6 @@
         <p class="timing-rich__tag">May 2026 — save the wedding weekend</p>
       </header>
       <div class="timing-widgets">
-        <div class="motif-widget motif-widget--count">
-          <div class="motif-widget__body">
-            <p class="eyebrow eyebrow--center" id="count-h">Counting down to</p>
-            <h2 class="motif-widget__title">Forever</h2>
-            <div class="countdown" id="countdown" aria-live="polite">
-              <div><span class="n" id="cd-d">—</span><span class="u">Days</span></div>
-              <div><span class="n" id="cd-h">—</span><span class="u">Hrs</span></div>
-              <div><span class="n" id="cd-m">—</span><span class="u">Min</span></div>
-              <div><span class="n" id="cd-s">—</span><span class="u">Sec</span></div>
-            </div>
-          </div>
-        </div>
         <div class="motif-widget motif-widget--cal">
           <div class="motif-widget__body">
             <p class="eyebrow eyebrow--center" id="cal-eyebrow">Your calendar</p>
@@ -3334,6 +2964,18 @@
                 <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
                 <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="motif-widget motif-widget--count">
+          <div class="motif-widget__body">
+            <p class="eyebrow eyebrow--center" id="count-h">Counting down to</p>
+            <h2 class="motif-widget__title">Forever</h2>
+            <div class="countdown" id="countdown" aria-live="polite">
+              <div><span class="n" id="cd-d">—</span><span class="u">Days</span></div>
+              <div><span class="n" id="cd-h">—</span><span class="u">Hrs</span></div>
+              <div><span class="n" id="cd-m">—</span><span class="u">Min</span></div>
+              <div><span class="n" id="cd-s">—</span><span class="u">Sec</span></div>
             </div>
           </div>
         </div>
@@ -3470,11 +3112,9 @@
     var introFam = document.getElementById("mobile-intro-family");
     var famExitTimer = null;
     var famFinishTimer = null;
-    var envelopeAfterOpenTimer = null;
     var envOpeningTimerA = null;
     var envOpeningTimerB = null;
     var envOpeningTimerC = null;
-    var parchmentGateComplete = false;
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
@@ -3516,9 +3156,9 @@
     }
 
     /**
-     * Unmuted autoplay without a gesture is blocked by browsers. We try when you open the
-     * envelope, again during the family message and main invite (Continue / Skip), and arm
-     * gesture listeners if playback is still blocked.
+     * Unmuted autoplay without a gesture is blocked by browsers. We try during the intro,
+     * again during the family message and main invite (Continue / Skip), and arm gesture
+     * listeners if playback is still blocked.
      */
     function tryAutoplayBackgroundMusic() {
       var el = document.getElementById("bg-music");
@@ -3531,42 +3171,7 @@
       }
     }
 
-    function dismissParchmentGateUi() {
-      var gate = document.getElementById("intro-parchment-gate");
-      if (introShell) introShell.classList.remove("intro-parchment-pending");
-      if (gate) {
-        gate.classList.add("intro-parchment-gate--gone");
-        gate.setAttribute("aria-hidden", "true");
-      }
-    }
-
-    function passParchmentGateAndContinue() {
-      if (parchmentGateComplete || introFinished) return;
-      parchmentGateComplete = true;
-      var gate = document.getElementById("intro-parchment-gate");
-      var shell = gate ? gate.querySelector(".parchment-envelope") : null;
-      if (shell) {
-        shell.setAttribute("tabindex", "-1");
-        shell.removeAttribute("role");
-      }
-      tryAutoplayBackgroundMusic();
-      if (introShell) introShell.classList.remove("intro-parchment-pending");
-      if (reduceMotion) {
-        if (shell) shell.classList.add("is-open");
-        dismissParchmentGateUi();
-        runPostEnvelopeMotifThenFamily();
-        return;
-      }
-      if (shell) shell.classList.add("is-open");
-      envelopeAfterOpenTimer = window.setTimeout(function () {
-        envelopeAfterOpenTimer = null;
-        if (introFinished) return;
-        dismissParchmentGateUi();
-        runPostEnvelopeMotifThenFamily();
-      }, 3000);
-    }
-
-    function runPostEnvelopeMotifThenFamily() {
+    function runIntroMotifThenFamily() {
       if (!introShell || introFinished) return;
       clearIntroTimers();
       tryAutoplayBackgroundMusic();
@@ -3603,61 +3208,11 @@
       }, tActive + fadeInMs + dwellMs + fadeOutMs);
     }
 
-    function initParchmentEnvelopeGate() {
-      if (!introShell) return;
-      var gate = document.getElementById("intro-parchment-gate");
-      var shell = gate ? gate.querySelector(".parchment-envelope") : null;
-      var a11yBtn = document.getElementById("intro-parchment-a11y");
-      if (!gate || !shell) {
-        runPostEnvelopeMotifThenFamily();
-        return;
-      }
-      parchmentGateComplete = false;
-      introShell.classList.add("intro-parchment-pending");
-
-      function onOpenGate() {
-        if (parchmentGateComplete || introFinished) return;
-        passParchmentGateAndContinue();
-      }
-
-      var dragY0 = null;
-      var swipeThreshold = 56;
-      shell.addEventListener("pointerdown", function (e) {
-        if (parchmentGateComplete || introFinished) return;
-        dragY0 = e.clientY;
-      });
-      shell.addEventListener("pointerup", function (e) {
-        if (parchmentGateComplete || introFinished) return;
-        if (dragY0 == null) return;
-        var dy = dragY0 - e.clientY;
-        dragY0 = null;
-        if (dy >= swipeThreshold) onOpenGate();
-      });
-      shell.addEventListener("pointercancel", function () {
-        dragY0 = null;
-      });
-      shell.addEventListener("click", onOpenGate);
-      shell.addEventListener("keydown", function (e) {
-        if (parchmentGateComplete || introFinished) return;
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpenGate();
-        }
-      });
-      var hintEl = document.getElementById("intro-parchment-hint");
-      if (hintEl) hintEl.addEventListener("click", onOpenGate);
-      if (a11yBtn) {
-        a11yBtn.addEventListener("click", function () {
-          if (!parchmentGateComplete && !introFinished) onOpenGate();
-        });
-      }
-    }
-
     function clearIntroTimers() {
-      [envelopeAfterOpenTimer, envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
+      [envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
         if (id) window.clearTimeout(id);
       });
-      envelopeAfterOpenTimer = envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
+      envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
     }
 
     function beginScrollReveals() {
@@ -3685,8 +3240,6 @@
     function revealHeroAndScrollUI() {
       if (introFinished) return;
       introFinished = true;
-      parchmentGateComplete = true;
-      dismissParchmentGateUi();
       clearIntroTimers();
       document.body.classList.add("intro-done");
       if (introShell) {
@@ -3748,7 +3301,6 @@
         introShell.classList.remove(
           "env-intro-family-active",
           "env-intro-family--exit",
-          "intro-parchment-pending",
           "env-opening-active",
           "env-opening-exit"
         );
@@ -3756,8 +3308,6 @@
       }
       var openingEl = document.getElementById("mobile-env-opening");
       if (openingEl) openingEl.setAttribute("aria-hidden", "true");
-      var shell = document.querySelector("#intro-parchment-gate .parchment-envelope");
-      if (shell) shell.classList.add("is-open");
       revealHeroAndScrollUI();
     }
 
@@ -3791,7 +3341,8 @@
       }
       tryAutoplayBackgroundMusic();
     } else {
-      initParchmentEnvelopeGate();
+      tryAutoplayBackgroundMusic();
+      runIntroMotifThenFamily();
     }
 
     /* Countdown to wedding day (local midnight, 3 May 2026) */
