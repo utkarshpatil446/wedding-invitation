@@ -2317,16 +2317,16 @@
       <div class="hero__text">
         <p class="hero__kicker">The wedding of</p>
         <h1 class="hero__names">Rutuja <span class="hero__amp">&amp;</span> Saurabh</h1>
-        <p class="hero__date">Sunday 3 May 2026 · Nashik</p>
+        <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
       </div>
     </section>
 
     <section id="music" class="card invite-paper reveal music-panel" aria-labelledby="music-h">
       <p class="eyebrow" id="music-h">Music</p>
       <h2>Celebration melody</h2>
-      <p class="music-lede">Press play on the player below—full controls and volume, same spirit as the desktop invite.</p>
+      <p class="music-lede">Browsers only allow sound after you interact with the page; we try to start the melody when you continue past the opening, and you can always use the player below to play, pause, or change volume.</p>
       <div class="music-player-wrap">
-        <audio id="bg-music" controls loop playsinline preload="metadata">
+        <audio id="bg-music" controls loop playsinline preload="auto">
           <source src="assets/background-music.mp3" type="audio/mpeg">
         </audio>
       </div>
@@ -2486,6 +2486,59 @@
     var famFinishTimer = null;
     var introFinished = false;
     var revIo = null;
+    var bgMusicGestureListeners = null;
+
+    function detachBgMusicGestureListeners() {
+      if (!bgMusicGestureListeners) return;
+      document.removeEventListener("pointerdown", bgMusicGestureListeners.down, true);
+      document.removeEventListener("keydown", bgMusicGestureListeners.key, true);
+      bgMusicGestureListeners = null;
+    }
+
+    function armBackgroundMusicOnFirstGesture() {
+      if (bgMusicGestureListeners) return;
+      function tryPlay() {
+        var el = document.getElementById("bg-music");
+        if (!el) {
+          detachBgMusicGestureListeners();
+          return;
+        }
+        if (!el.paused) {
+          detachBgMusicGestureListeners();
+          return;
+        }
+        var p = el.play();
+        if (p && typeof p.then === "function") {
+          p.then(function () {
+            detachBgMusicGestureListeners();
+          }).catch(function () {});
+        } else {
+          detachBgMusicGestureListeners();
+        }
+      }
+      function onKey(e) {
+        if (e.key === " " || e.key === "Enter") tryPlay();
+      }
+      bgMusicGestureListeners = { down: tryPlay, key: onKey };
+      document.addEventListener("pointerdown", tryPlay, true);
+      document.addEventListener("keydown", onKey, true);
+    }
+
+    /**
+     * True autoplay (sound without a tap) is blocked by Chrome, Safari, Firefox, etc.
+     * We call play() on the same turn as "Continue" / "Skip" when possible, and fall back
+     * to the first pointer or Enter/Space if the intro ended on a timer (no gesture left).
+     */
+    function tryAutoplayBackgroundMusic() {
+      var el = document.getElementById("bg-music");
+      if (!el) return;
+      var p = el.play();
+      if (p && typeof p.then === "function") {
+        p.catch(function () {
+          armBackgroundMusicOnFirstGesture();
+        });
+      }
+    }
 
     function clearIntroTimers() {
       [envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
@@ -2540,6 +2593,7 @@
         }
       }
       beginScrollReveals();
+      tryAutoplayBackgroundMusic();
     }
 
     function runIntroFamilyThenFinish() {
@@ -2625,6 +2679,7 @@
         });
         beginScrollReveals();
       }
+      tryAutoplayBackgroundMusic();
     } else {
       runGaneshOpeningThenFamily();
     }
