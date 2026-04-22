@@ -600,16 +600,15 @@
       opacity: 0;
     }
 
-    /* ── Envelope gate (rebuilt): foil, ambient light, cinematic flap, card pull, spark burst ── */
+    /* ── Envelope gate: simple paper (no invite-paper slab / sheen layer); overflow visible so lift isn’t clipped ── */
     .intro-envelope-gate {
       --env-cream-face: #faf6f0;
       --env-cream-mid: #ebe3d4;
       --env-cream-shadow: #d4c6b4;
       --env-pocket-mid: #d8c8b4;
       --env-pocket-deep: #b89a78;
-      --env-edge: rgba(176, 141, 87, 0.42);
+      --env-edge: rgba(176, 141, 87, 0.38);
       --env-ivory: #f7f0e4;
-      --env-gold-foil: linear-gradient(125deg, #fff9e8 0%, #e8c88a 22%, #c9a060 48%, #f0deb8 72%, #b89250 100%);
       position: absolute;
       inset: 0;
       z-index: 125;
@@ -621,6 +620,8 @@
       box-sizing: border-box;
       transition: opacity 0.55s var(--ease-out), visibility 0s linear 0s;
       touch-action: none;
+      background: transparent;
+      background-image: none;
     }
     .intro-envelope-gate.intro-envelope-gate--gone {
       opacity: 0;
@@ -639,15 +640,6 @@
     .intro-envelope-gate__labels {
       text-align: center;
       color: var(--ink);
-      animation: envLabelGlow 4.5s ease-in-out infinite alternate;
-    }
-    @keyframes envLabelGlow {
-      from {
-        filter: drop-shadow(0 0 0 transparent);
-      }
-      to {
-        filter: drop-shadow(0 0 18px rgba(201, 168, 120, 0.12));
-      }
     }
     .intro-envelope-gate__names {
       margin: 0;
@@ -656,17 +648,12 @@
       font-weight: 500;
       letter-spacing: 0.03em;
       line-height: 1.2;
-      background: linear-gradient(105deg, var(--ink) 0%, #5c4a38 40%, var(--p1-gold-deep) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: var(--ink);
     }
     .intro-envelope-gate__names span {
       font-style: italic;
       font-weight: 400;
-      opacity: 0.92;
       color: var(--p1-gold-deep);
-      -webkit-text-fill-color: var(--p1-gold-deep);
     }
     .intro-envelope-gate__sub {
       margin: 0.4rem 0 0;
@@ -680,25 +667,37 @@
       position: relative;
       width: min(88vw, 20.85rem);
       height: clamp(15.25rem, 52vw, 18.6rem);
-      perspective: 1600px;
-      perspective-origin: 50% 52%;
+      perspective: 1700px;
+      perspective-origin: 50% 48%;
       transform-style: preserve-3d;
-      animation: envShellFloat 5.5s var(--ease-soft) infinite alternate;
-      filter: drop-shadow(0 26px 44px rgba(45, 32, 22, 0.16)) drop-shadow(0 10px 22px rgba(176, 141, 87, 0.1));
+      overflow: visible;
+      animation: envShellFloat 6.2s var(--ease-soft) infinite alternate;
+      filter: drop-shadow(0 22px 38px rgba(45, 32, 22, 0.14));
       cursor: pointer;
       touch-action: none;
       -webkit-tap-highlight-color: transparent;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__shell {
-      animation: none;
-      filter: drop-shadow(0 36px 58px rgba(28, 20, 14, 0.22)) drop-shadow(0 16px 36px rgba(201, 168, 120, 0.2));
+      animation: envShellOpenSettle 0.85s var(--ease-page-rich) forwards;
+      filter: drop-shadow(0 32px 52px rgba(28, 20, 14, 0.2)) drop-shadow(0 12px 28px rgba(201, 168, 120, 0.16));
     }
     @keyframes envShellFloat {
       from {
-        transform: translateY(0) rotateX(0deg);
+        transform: translateY(0) rotateX(0deg) rotateZ(0deg);
       }
       to {
-        transform: translateY(-5px) rotateX(1.2deg);
+        transform: translateY(-4px) rotateX(1deg) rotateZ(-0.35deg);
+      }
+    }
+    @keyframes envShellOpenSettle {
+      0% {
+        transform: translateY(0) rotateX(0deg) scale(1);
+      }
+      22% {
+        transform: translateY(8px) rotateX(2deg) scale(0.988);
+      }
+      100% {
+        transform: translateY(-5px) rotateX(-0.5deg) scale(1);
       }
     }
     .intro-envelope-gate__shell:focus {
@@ -722,85 +721,12 @@
       width: 100%;
       height: 100%;
       box-sizing: border-box;
-      padding: clamp(0.55rem, 2.2vw, 0.85rem);
-      border-radius: 22px;
+      padding: clamp(0.35rem, 1.6vw, 0.55rem);
+      border-radius: 18px;
       transform-style: preserve-3d;
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse 88% 70% at 50% 112%, rgba(201, 168, 120, 0.14) 0%, transparent 52%),
-        linear-gradient(168deg, rgba(255, 253, 248, 0.88) 0%, rgba(250, 244, 232, 0.55) 48%, rgba(235, 224, 208, 0.45) 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 252, 248, 0.92),
-        inset 0 -30px 50px rgba(201, 168, 120, 0.06),
-        0 0 0 1px rgba(176, 141, 87, 0.22),
-        0 22px 52px rgba(45, 32, 22, 0.1);
-    }
-    .intro-envelope-gate__board::before {
-      content: "";
-      position: absolute;
-      inset: -40% -30%;
-      background: linear-gradient(
-        105deg,
-        transparent 38%,
-        rgba(255, 252, 248, 0.22) 48%,
-        rgba(255, 248, 236, 0.38) 50%,
-        rgba(255, 252, 248, 0.18) 52%,
-        transparent 62%
-      );
-      transform: translateX(-18%) rotate(-8deg);
-      animation: envBoardSheen 7s var(--ease-soft) infinite;
-      pointer-events: none;
-      z-index: 2;
-      mix-blend-mode: soft-light;
-    }
-    .intro-envelope-gate.is-open .intro-envelope-gate__board::before {
-      animation-duration: 2.8s;
-      opacity: 0.85;
-    }
-    @keyframes envBoardSheen {
-      0%,
-      100% {
-        transform: translateX(-35%) rotate(-8deg);
-        opacity: 0.35;
-      }
-      50% {
-        transform: translateX(35%) rotate(-8deg);
-        opacity: 0.75;
-      }
-    }
-    .intro-envelope-gate__ambient {
-      position: absolute;
-      left: 50%;
-      top: 48%;
-      width: 140%;
-      height: 120%;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      background:
-        radial-gradient(ellipse 55% 50% at 50% 50%, rgba(255, 236, 210, 0.45) 0%, transparent 58%),
-        radial-gradient(ellipse 40% 38% at 30% 60%, rgba(201, 168, 120, 0.12) 0%, transparent 50%);
-      opacity: 0.55;
-      pointer-events: none;
-      animation: envAmbientPulse 6s ease-in-out infinite alternate;
-    }
-    @keyframes envAmbientPulse {
-      from {
-        opacity: 0.45;
-        transform: translate(-50%, -50%) scale(0.96);
-      }
-      to {
-        opacity: 0.72;
-        transform: translate(-50%, -50%) scale(1.04);
-      }
-    }
-    .intro-envelope-gate.is-open .intro-envelope-gate__ambient {
-      animation: envAmbientOpen 1.4s var(--ease-out) forwards;
-    }
-    @keyframes envAmbientOpen {
-      to {
-        opacity: 0.95;
-        transform: translate(-50%, -50%) scale(1.12);
-      }
+      overflow: visible;
+      background: transparent;
+      box-shadow: none;
     }
     .intro-envelope-gate__ground {
       position: absolute;
@@ -825,16 +751,12 @@
       border-radius: 6px 6px 8px 8px;
       border: 1px solid var(--env-edge);
       background:
-        url("assets/invitation-bg.png") center / 220% no-repeat,
-        repeating-linear-gradient(92deg, transparent 0, transparent 4px, rgba(120, 96, 72, 0.03) 4px, rgba(120, 96, 72, 0.03) 5px),
-        linear-gradient(165deg, var(--env-cream-face) 0%, var(--env-cream-mid) 52%, var(--env-cream-shadow) 100%);
-      background-blend-mode: multiply, normal, normal;
+        repeating-linear-gradient(92deg, transparent 0, transparent 5px, rgba(120, 96, 72, 0.025) 5px, rgba(120, 96, 72, 0.025) 6px),
+        linear-gradient(168deg, var(--env-cream-face) 0%, var(--env-cream-mid) 55%, var(--env-cream-shadow) 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 0.95),
-        inset 0 -22px 44px rgba(62, 48, 32, 0.07),
-        inset 1px 0 0 rgba(255, 252, 248, 0.4),
-        inset -1px 0 0 rgba(62, 48, 32, 0.05),
-        0 1px 0 rgba(176, 141, 87, 0.28);
+        inset 0 1px 0 rgba(255, 252, 248, 0.92),
+        inset 0 -18px 36px rgba(62, 48, 32, 0.05),
+        0 1px 0 rgba(176, 141, 87, 0.22);
       pointer-events: none;
     }
     .intro-envelope-gate__back::after {
@@ -876,43 +798,26 @@
       height: var(--env-pocket-h);
       z-index: 5;
       clip-path: polygon(0 100%, 11% 33%, 50% 2.25%, 89% 33%, 100% 100%);
-      background:
-        linear-gradient(125deg, rgba(255, 252, 248, 0.5) 0%, transparent 42%),
-        linear-gradient(235deg, rgba(62, 48, 32, 0.09) 0%, transparent 38%),
-        linear-gradient(180deg, var(--env-cream-mid) 0%, var(--env-pocket-mid) 42%, var(--env-pocket-deep) 100%);
+      background: linear-gradient(180deg, var(--env-cream-mid) 0%, var(--env-pocket-mid) 45%, var(--env-pocket-deep) 100%);
       box-shadow:
-        inset 0 14px 30px rgba(28, 20, 14, 0.09),
-        inset 0 -2px 0 rgba(255, 252, 248, 0.48),
-        0 -1px 0 rgba(176, 141, 87, 0.24);
+        inset 0 10px 24px rgba(28, 20, 14, 0.06),
+        inset 0 -2px 0 rgba(255, 252, 248, 0.42),
+        0 -1px 0 rgba(176, 141, 87, 0.2);
       pointer-events: none;
-      transition: transform 0.85s var(--ease-rich), filter 0.7s ease, box-shadow 0.7s ease;
+      transition: transform 0.75s var(--ease-rich), filter 0.55s ease;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__pocket {
-      transform: translateY(3px) scale(0.992);
-      filter: brightness(1.05) saturate(1.04);
-      box-shadow:
-        inset 0 14px 30px rgba(28, 20, 14, 0.07),
-        inset 0 -2px 0 rgba(255, 252, 248, 0.5),
-        0 -1px 0 rgba(176, 141, 87, 0.18),
-        0 0 24px rgba(201, 168, 120, 0.15);
+      animation: envPocketGive 0.55s var(--ease-out) 0.12s both;
     }
-    .intro-envelope-gate__pocket::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      clip-path: inherit;
-      background: linear-gradient(90deg, transparent 46%, rgba(255, 252, 248, 0.14) 50%, transparent 54%);
-      opacity: 0.75;
-      pointer-events: none;
-      animation: envPocketGlint 4s ease-in-out infinite;
-    }
-    @keyframes envPocketGlint {
-      0%,
-      100% {
-        opacity: 0.45;
+    @keyframes envPocketGive {
+      0% {
+        transform: translateY(0) scale(1);
       }
-      50% {
-        opacity: 0.9;
+      45% {
+        transform: translateY(5px) scale(0.99);
+      }
+      100% {
+        transform: translateY(2px) scale(0.995);
       }
     }
     .intro-envelope-gate__card {
@@ -934,7 +839,7 @@
       will-change: transform, filter, box-shadow;
     }
     .intro-envelope-gate.is-open .intro-envelope-gate__card {
-      animation: envCardPull 1.95s cubic-bezier(0.18, 0.88, 0.22, 1) 0.18s both;
+      animation: envCardPull 2.12s cubic-bezier(0.16, 0.9, 0.2, 1) 0.14s both;
     }
     .intro-envelope-gate__card-burst {
       position: absolute;
@@ -1019,6 +924,7 @@
       transform-style: preserve-3d;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
+      filter: brightness(1);
       clip-path: polygon(0 100%, 50% 3.25%, 100% 100%);
       background:
         linear-gradient(90deg, rgba(62, 48, 32, 0.05) 0%, transparent 28%, transparent 72%, rgba(62, 48, 32, 0.05) 100%),
@@ -1039,39 +945,34 @@
       clip-path: polygon(0 100%, 50% 0, 100% 100%);
       pointer-events: none;
     }
-    .intro-envelope-gate__foil {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 0;
-      height: 14%;
-      z-index: 0;
-      border-radius: 2px 2px 40% 40%;
-      background: var(--env-gold-foil);
-      opacity: 0.55;
-      filter: blur(0.3px);
-      pointer-events: none;
-      box-shadow: 0 1px 2px rgba(255, 252, 248, 0.5) inset;
-      mix-blend-mode: multiply;
-    }
     .intro-envelope-gate.is-open .intro-envelope-gate__flap {
-      animation: envFlapReveal 1.08s cubic-bezier(0.22, 0.82, 0.18, 1) forwards;
+      animation: envFlapReveal 1.18s cubic-bezier(0.2, 0.88, 0.22, 1) forwards;
     }
     @keyframes envFlapReveal {
       0% {
-        transform: rotateX(0deg);
+        transform: rotateX(0deg) translateZ(0);
+        filter: brightness(1);
       }
-      18% {
-        transform: rotateX(-38deg);
+      12% {
+        transform: rotateX(-22deg) translateZ(2px);
       }
-      52% {
-        transform: rotateX(-128deg);
+      35% {
+        transform: rotateX(-72deg) translateZ(0);
+        filter: brightness(1.02);
       }
-      78% {
-        transform: rotateX(-184deg);
+      58% {
+        transform: rotateX(-142deg) translateZ(-1px);
+      }
+      82% {
+        transform: rotateX(-186deg) translateZ(0);
+        filter: brightness(1.04);
+      }
+      92% {
+        transform: rotateX(-174deg) translateZ(0);
       }
       100% {
-        transform: rotateX(-178deg);
+        transform: rotateX(-178deg) translateZ(0);
+        filter: brightness(1);
       }
     }
     .intro-envelope-gate__wax {
@@ -1102,18 +1003,6 @@
       border-radius: inherit;
       border: 1px solid rgba(255, 255, 255, 0.14);
       opacity: 0.55;
-      pointer-events: none;
-    }
-    .intro-envelope-gate__wax-mark {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--font-caps);
-      font-size: 0.38rem;
-      letter-spacing: 0.18em;
-      color: rgba(255, 248, 240, 0.55);
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
       pointer-events: none;
     }
     @keyframes envWaxIdle {
@@ -1147,7 +1036,7 @@
       right: 6%;
       bottom: 8%;
       top: 18%;
-      z-index: 8;
+      z-index: 12;
       pointer-events: none;
       opacity: 0;
     }
@@ -1255,40 +1144,45 @@
     }
     @keyframes envCardPull {
       0% {
-        transform: translate3d(0, 44%, 0) scale(0.86) rotateX(2deg) rotateZ(0deg);
-        filter: saturate(0.94) brightness(0.96);
+        transform: translate3d(0, 44%, 0) scale(0.85) rotateX(2.4deg) rotateZ(0deg) rotateY(0deg);
+        filter: saturate(0.93) brightness(0.96);
         box-shadow:
           0 1px 0 rgba(255, 252, 248, 0.85),
-          0 4px 0 rgba(176, 141, 87, 0.22),
-          0 14px 32px rgba(45, 32, 22, 0.14);
+          0 4px 0 rgba(176, 141, 87, 0.2),
+          0 12px 28px rgba(45, 32, 22, 0.12);
       }
-      8% {
-        transform: translate3d(-1.5%, 40%, 0) scale(0.87) rotateX(1.8deg) rotateZ(-0.8deg);
+      6% {
+        transform: translate3d(-2%, 41%, 0) scale(0.86) rotateX(2.1deg) rotateZ(-1deg) rotateY(0.8deg);
       }
-      18% {
-        transform: translate3d(1.2%, 36%, 0) scale(0.89) rotateX(1.5deg) rotateZ(0.6deg);
+      14% {
+        transform: translate3d(1.8%, 37%, 0) scale(0.88) rotateX(1.85deg) rotateZ(0.85deg) rotateY(-0.6deg);
       }
-      28% {
-        transform: translate3d(0, 32%, 0) scale(0.9) rotateX(1.2deg) rotateZ(0deg);
+      24% {
+        transform: translate3d(-1%, 31%, 0) scale(0.9) rotateX(1.45deg) rotateZ(-0.4deg) rotateY(0.4deg);
       }
-      42% {
-        transform: translate3d(-0.8%, 22%, 0) scale(0.93) rotateX(0.85deg) rotateZ(-0.4deg);
+      36% {
+        transform: translate3d(0.8%, 22%, 0) scale(0.93) rotateX(1deg) rotateZ(0.35deg) rotateY(-0.35deg);
       }
-      58% {
-        transform: translate3d(0.6%, 10%, 0) scale(0.97) rotateX(0.45deg) rotateZ(0.3deg);
+      50% {
+        transform: translate3d(-0.5%, 11%, 0) scale(0.96) rotateX(0.55deg) rotateZ(-0.2deg) rotateY(0.2deg);
       }
-      72% {
-        transform: translate3d(0, -8%, 0) scale(0.99) rotateX(0.15deg) rotateZ(0deg);
+      64% {
+        transform: translate3d(0.4%, -2%, 0) scale(0.985) rotateX(0.22deg) rotateZ(0.1deg) rotateY(-0.15deg);
+      }
+      78% {
+        transform: translate3d(0, -18%, 0) scale(1.01) rotateX(0.08deg) rotateZ(0deg) rotateY(-1deg);
+      }
+      88% {
+        transform: translate3d(0, calc(-1 * min(50vh, 16.5rem)), 0) scale(1.045) rotateX(0deg) rotateZ(-0.45deg) rotateY(-2.2deg);
       }
       100% {
-        transform: translate3d(0, calc(-1 * min(54vh, 18rem)), 0) scale(1.03) rotateX(0deg) rotateZ(-0.35deg);
-        filter: saturate(1.14) brightness(1.06);
+        transform: translate3d(0, calc(-1 * min(54vh, 18rem)), 0) scale(1.035) rotateX(0deg) rotateZ(-0.4deg) rotateY(-1.8deg);
+        filter: saturate(1.12) brightness(1.05);
         box-shadow:
           0 1px 0 rgba(255, 252, 248, 1),
-          0 6px 0 rgba(176, 141, 87, 0.26),
-          0 42px 88px rgba(18, 12, 8, 0.42),
-          0 0 56px rgba(201, 168, 120, 0.28),
-          0 0 80px rgba(255, 248, 232, 0.15);
+          0 6px 0 rgba(176, 141, 87, 0.24),
+          0 48px 96px rgba(18, 12, 8, 0.38),
+          0 0 60px rgba(201, 168, 120, 0.26);
       }
     }
     body:not(.intro-done) .tabs {
@@ -3468,7 +3362,6 @@
         transition: none !important;
       }
       .intro-envelope-gate__labels,
-      .intro-envelope-gate__ambient,
       .intro-envelope-gate__card,
       .intro-envelope-gate__card-burst,
       .intro-envelope-gate__flap,
@@ -3477,9 +3370,7 @@
       .intro-envelope-gate__shell,
       .intro-envelope-gate__ground,
       .intro-envelope-gate__board,
-      .intro-envelope-gate__board::before,
       .intro-envelope-gate__throat,
-      .intro-envelope-gate__pocket::before,
       .intro-envelope-gate__sparkles,
       .intro-envelope-gate__sparkles i,
       .intro-envelope-gate,
@@ -3491,6 +3382,9 @@
         filter: drop-shadow(0 14px 22px rgba(12, 8, 6, 0.28));
         transform: none !important;
       }
+      .intro-envelope-gate.is-open .intro-envelope-gate__shell {
+        transform: translateY(-5px) scale(1) !important;
+      }
       .intro-envelope-gate__labels {
         filter: none !important;
       }
@@ -3499,23 +3393,19 @@
         -webkit-text-fill-color: unset !important;
         color: var(--ink) !important;
       }
-      .intro-envelope-gate__board::before {
-        opacity: 0.45 !important;
-        transform: none !important;
-      }
-      .intro-envelope-gate.is-open .intro-envelope-gate__ambient {
-        opacity: 0.78 !important;
-        transform: translate(-50%, -50%) scale(1.06) !important;
-      }
       .intro-envelope-gate.is-open .intro-envelope-gate__flap {
         transform: rotateX(-178deg) !important;
+        filter: none !important;
       }
       .intro-envelope-gate.is-open .intro-envelope-gate__wax {
         opacity: 0 !important;
         transform: scale(0.42) translateY(10px) !important;
       }
+      .intro-envelope-gate.is-open .intro-envelope-gate__pocket {
+        transform: translateY(2px) scale(0.995) !important;
+      }
       .intro-envelope-gate.is-open .intro-envelope-gate__card {
-        transform: translate3d(0, calc(-1 * min(54vh, 18rem)), 0) scale(1.03) rotateX(0deg) rotateZ(-0.35deg) !important;
+        transform: translate3d(0, calc(-1 * min(54vh, 18rem)), 0) scale(1.035) rotateX(0deg) rotateZ(-0.4deg) rotateY(-1.8deg) !important;
         filter: saturate(1.08) brightness(1.03) !important;
       }
       .intro-envelope-gate.is-open .intro-envelope-gate__card-burst {
@@ -3548,7 +3438,7 @@
       >Tap or swipe up on the envelope to open it; the card lifts out, then a Ganesh motif, a message from the families, and the scroll invitation.</span>
     <div
       id="intro-envelope-gate"
-      class="intro-envelope-gate invite-paper"
+      class="intro-envelope-gate"
       role="group"
       aria-label="Invitation envelope"
     >
@@ -3565,7 +3455,6 @@
           aria-describedby="intro-envelope-gate-hint"
         >
           <div class="intro-envelope-gate__board">
-            <div class="intro-envelope-gate__ambient" aria-hidden="true"></div>
             <div class="intro-envelope-gate__ground" aria-hidden="true"></div>
             <div class="intro-envelope-gate__back" aria-hidden="true"></div>
             <div class="intro-envelope-gate__throat" aria-hidden="true"></div>
@@ -3578,10 +3467,7 @@
             </div>
             <div class="intro-envelope-gate__pocket" aria-hidden="true"></div>
             <div class="intro-envelope-gate__flap" aria-hidden="true">
-              <span class="intro-envelope-gate__foil" aria-hidden="true"></span>
-              <div class="intro-envelope-gate__wax" aria-hidden="true">
-                <span class="intro-envelope-gate__wax-mark" aria-hidden="true">R·S</span>
-              </div>
+              <div class="intro-envelope-gate__wax" aria-hidden="true"></div>
             </div>
           </div>
           <div class="intro-envelope-gate__sparkles" aria-hidden="true">
@@ -3945,7 +3831,7 @@
         if (introFinished) return;
         if (gate) gate.classList.add("intro-envelope-gate--gone");
         runGaneshOpeningThenFamily();
-      }, 2280);
+      }, 2480);
     }
 
     function initEnvelopeGate() {
