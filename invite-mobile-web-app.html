@@ -640,7 +640,7 @@
     .intro-envelope-gate__shell {
       position: relative;
       width: min(90vw, 21.5rem);
-      height: clamp(15rem, 51vw, 18.25rem);
+      height: clamp(15.25rem, 52vw, 18.5rem);
       perspective: 1200px;
       perspective-origin: 50% 62%;
       transform-style: preserve-3d;
@@ -648,8 +648,16 @@
       touch-action: none;
       -webkit-tap-highlight-color: transparent;
     }
-    /* Mat behind the envelope — reads as stationery on the parchment */
+    /* Mat behind the envelope — shared geometry so body, pocket, flap, and card stay aligned */
     .intro-envelope-gate__board {
+      --env-x: 5.5%;
+      --env-floor: 5.5%;
+      --env-body-h: 56%;
+      --env-pocket-h: 49%;
+      --env-card-pad: 3.25%;
+      --env-card-b: 7.5%;
+      --env-card-h: 47.5%;
+      --env-flap-h: 49%;
       position: relative;
       width: 100%;
       height: 100%;
@@ -689,10 +697,10 @@
     /* Main body — cream stock + subtle grain, ties to invite parchment */
     .intro-envelope-gate__back {
       position: absolute;
-      left: 4%;
-      right: 4%;
-      bottom: 5%;
-      height: 58%;
+      left: var(--env-x);
+      right: var(--env-x);
+      bottom: var(--env-floor);
+      height: var(--env-body-h);
       z-index: 1;
       border-radius: 6px 6px 8px 8px;
       border: 1px solid var(--env-edge);
@@ -729,10 +737,10 @@
     /* Inner throat — narrow slot lining */
     .intro-envelope-gate__throat {
       position: absolute;
-      left: 16%;
-      right: 16%;
-      bottom: 37%;
-      height: 14%;
+      left: calc(var(--env-x) + 9%);
+      right: calc(var(--env-x) + 9%);
+      bottom: 41%;
+      height: 12%;
       z-index: 3;
       border-radius: 3px 3px 2px 2px;
       background: linear-gradient(
@@ -750,10 +758,10 @@
     /* Front V-pocket — symmetric classic cut */
     .intro-envelope-gate__pocket {
       position: absolute;
-      left: 4%;
-      right: 4%;
-      bottom: 5%;
-      height: 50%;
+      left: var(--env-x);
+      right: var(--env-x);
+      bottom: var(--env-floor);
+      height: var(--env-pocket-h);
       z-index: 5;
       clip-path: polygon(0 100%, 11% 34%, 50% 2%, 89% 34%, 100% 100%);
       background:
@@ -778,13 +786,13 @@
     /* Card sits inside cavity (below pocket + flap) until opened */
     .intro-envelope-gate__card {
       position: absolute;
-      left: 11%;
-      right: 11%;
-      bottom: 19%;
-      height: 66%;
+      left: calc(var(--env-x) + var(--env-card-pad));
+      right: calc(var(--env-x) + var(--env-card-pad));
+      bottom: var(--env-card-b);
+      height: var(--env-card-h);
       z-index: 4;
       transform-origin: 50% 100%;
-      transform: translateY(46%) scale(0.9) rotateX(1deg);
+      transform: translateY(40%) scale(0.91) rotateX(1deg);
       transition:
         transform 0.88s var(--ease-rich),
         box-shadow 0.65s ease,
@@ -840,10 +848,10 @@
     /* Triangular flap — cream stock, gold-foil edge read */
     .intro-envelope-gate__flap {
       position: absolute;
-      left: 4%;
-      right: 4%;
+      left: var(--env-x);
+      right: var(--env-x);
       top: 0;
-      height: 52%;
+      height: var(--env-flap-h);
       z-index: 6;
       transform: rotateX(0deg);
       transform-origin: 50% 0%;
@@ -1039,7 +1047,7 @@
       scroll-margin-bottom: calc(var(--tab-h) + var(--pad-b) + 20px);
     }
 
-    /* Cover: typography + parchment (no couple photo — Ganesh stays on intro only) */
+    /* Cover: couple photo + parchment overlays; typography stays readable */
     .hero {
       position: relative;
       border-radius: var(--radius);
@@ -1050,7 +1058,7 @@
         0 0 0 1px rgba(255, 252, 248, 0.35) inset,
         0 24px 60px rgba(45, 32, 22, 0.12);
       margin-bottom: 1.25rem;
-      min-height: clamp(13.5rem, 42vw, 17.5rem);
+      min-height: clamp(16rem, 56vw, 22rem);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1058,11 +1066,19 @@
       box-sizing: border-box;
       background-color: var(--invite-cream-warm);
       background-image:
+        linear-gradient(
+          180deg,
+          rgba(255, 252, 248, 0.88) 0%,
+          rgba(255, 252, 248, 0.35) 28%,
+          rgba(42, 32, 22, 0.12) 55%,
+          rgba(250, 244, 232, 0.72) 100%
+        ),
         radial-gradient(ellipse 92% 58% at 50% -12%, var(--invite-gold-soft) 0%, transparent 52%),
         radial-gradient(ellipse 48% 36% at 96% 92%, var(--invite-rose-soft) 0%, transparent 46%),
+        url("assets/WhatsApp%20Image%202026-04-22%20at%2010.20.26.jpeg"),
         url("assets/invitation-bg.png");
-      background-size: 100% 100%, 100% 100%, cover;
-      background-position: 0 0, 0 0, center 38%;
+      background-size: 100% 100%, 100% 100%, 100% 100%, cover, cover;
+      background-position: 0 0, 0 0, 0 0, center 22%, center 40%;
       background-repeat: no-repeat;
       opacity: 0;
       transform: translateY(18px) scale(0.97);
@@ -1084,9 +1100,10 @@
       pointer-events: none;
       background: linear-gradient(
         180deg,
-        rgba(255, 252, 248, 0.35) 0%,
-        transparent 42%,
-        rgba(250, 244, 232, 0.5) 100%
+        rgba(255, 252, 248, 0.25) 0%,
+        transparent 38%,
+        rgba(22, 16, 12, 0.18) 72%,
+        rgba(250, 244, 232, 0.65) 100%
       );
       z-index: 0;
     }
@@ -1100,7 +1117,11 @@
       position: relative;
       text-align: center;
       color: var(--ink);
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
+      text-shadow:
+        0 0 1px rgba(255, 252, 248, 0.95),
+        0 1px 0 rgba(255, 252, 248, 0.95),
+        0 2px 12px rgba(255, 252, 248, 0.55),
+        0 2px 18px rgba(22, 16, 12, 0.22);
     }
     .hero__kicker {
       font-family: var(--font-caps);
@@ -1131,7 +1152,7 @@
       margin: 0 0.12em;
       vertical-align: middle;
       color: var(--p1-gold-deep);
-      text-shadow: none;
+      text-shadow: 0 0 14px rgba(255, 252, 248, 0.65);
     }
     .hero.is-revealed .hero__names {
       animation: heroTitle 1.05s var(--ease-rich) 0.38s forwards;
