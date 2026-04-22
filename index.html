@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="Digital wedding invitation.">
 <meta name="theme-color" content="#fefaf1">
 <title>Wedding Invitation</title>
@@ -83,11 +86,17 @@
 html {
   scroll-behavior: auto;
   height: 100%;
+  min-height: 100%;
+  /* Older iOS: dynamic toolbar + 100vh quirks */
+  min-height: -webkit-fill-available;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   min-height: 100%;
+  min-height: -webkit-fill-available;
   height: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -106,6 +115,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Respect notch / home indicator on phones (viewport-fit=cover). */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
   transition: opacity 0.75s ease, visibility 0.75s ease;
   cursor: default;
   -webkit-tap-highlight-color: transparent;
@@ -249,6 +263,10 @@ body {
   position: fixed;
   inset: 0;
   z-index: 4;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
   display: flex;
   flex-direction: column;
   pointer-events: none;
@@ -3345,6 +3363,8 @@ body.has-revealed.page0-pull-played #page0.panel--active:not(.panel--word-exit) 
   scroll-padding-top: 0;
   scroll-behavior: auto;
   overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 body.has-revealed .snap-scroll {
   /* Snap already settles each page; smooth here stacks with snap and feels laggy */
@@ -3395,6 +3415,10 @@ body.has-revealed .snap-scroll {
 /* Framed inner pages: subtle lift when inactive (transform only — no nested perspective) */
 .panel--framed {
   padding: 0;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
   overflow: hidden;
   transition:
     box-shadow 0.3s var(--ease-page-soft),
@@ -3487,6 +3511,10 @@ body.has-revealed .snap-scroll {
 
 .panel--cover {
   padding: 0;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
   overflow: hidden;
 }
 
@@ -5290,7 +5318,7 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
 
 .page-nav {
   position: fixed;
-  right: clamp(0.75rem, 2vw, 1.25rem);
+  right: max(env(safe-area-inset-right, 0px), clamp(0.75rem, 2vw, 1.25rem));
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
@@ -5302,6 +5330,7 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
 
 .page-nav .dot {
   display: block;
+  position: relative;
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -5309,6 +5338,7 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
   border: 1px solid rgba(176, 141, 87, 0.5);
   text-indent: -9999px;
   overflow: visible;
+  -webkit-tap-highlight-color: transparent;
   transition:
     background 0.48s cubic-bezier(0.28, 1, 0.5, 1),
     transform 0.55s cubic-bezier(0.32, 1.25, 0.55, 1),
@@ -5316,6 +5346,17 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
     border-color 0.42s ease,
     width 0.45s cubic-bezier(0.34, 1.2, 0.64, 1),
     height 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* ~44px tap target on phones without changing the visible dot size */
+.page-nav .dot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 
 .page-nav .dot:hover,
@@ -5358,6 +5399,84 @@ body:not(.has-revealed) #page0.panel--active:not(.panel--word-exit) .cover-sheet
   }
 }
 
+/*
+ * Narrow or vertically tight viewports: inner parchment sheets scroll inside the panel.
+ * Without this, .panel--framed { overflow: hidden } clips invite / functions / family text on phones
+ * and in landscape, while desktop-wide layouts stay unchanged outside this query.
+ */
+@media (max-width: 720px), (max-height: 720px) {
+  .panel.panel--framed {
+    contain: style;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #page1 {
+    --p1-col: min(22rem, calc(100vw - 1.1rem));
+  }
+  #page2 {
+    --p2-col: min(22rem, calc(100vw - 1.1rem));
+  }
+  #page3 {
+    --p3-col: min(22rem, calc(100vw - 1.1rem));
+  }
+  #page4 {
+    --p4-col: min(22rem, calc(100vw - 1.1rem));
+  }
+
+  #page1 .invite-sheet,
+  #page2 .fn-sheet,
+  #page3 .p3-sheet {
+    min-height: 0;
+    max-width: min(22rem, calc(100vw - 1.1rem));
+    /* Fallback first for engines without svh */
+    max-height: 86dvh;
+    max-height: min(
+      86dvh,
+      calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 3.5rem)
+    );
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scrollbar-color: rgba(166, 124, 82, 0.42) transparent;
+    scrollbar-width: thin;
+    padding-top: clamp(1rem, 4.5dvh, 2.35rem);
+    padding-right: clamp(0.85rem, 3.2vw, 1.35rem);
+    padding-bottom: clamp(0.9rem, 4dvh, 2rem);
+    padding-left: clamp(0.85rem, 3.2vw, 1.35rem);
+  }
+
+  #page1 .invite-sheet::-webkit-scrollbar,
+  #page2 .fn-sheet::-webkit-scrollbar,
+  #page3 .p3-sheet::-webkit-scrollbar {
+    width: 5px;
+  }
+  #page1 .invite-sheet::-webkit-scrollbar-thumb,
+  #page2 .fn-sheet::-webkit-scrollbar-thumb,
+  #page3 .p3-sheet::-webkit-scrollbar-thumb {
+    background: rgba(166, 124, 82, 0.4);
+    border-radius: 999px;
+  }
+
+  #page1 .invite-sheet__names {
+    font-size: clamp(2.2rem, 8.2vw, 3.65rem);
+  }
+
+  #page2 .fn-sheet__title {
+    font-size: clamp(1.85rem, 6.8vw, 3.05rem);
+  }
+
+  #page4 .p4-sheet {
+    max-height: 80dvh;
+    max-height: min(
+      80dvh,
+      calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 3.75rem)
+    );
+  }
+}
+
 body.is-cover-page .page-nav {
   opacity: 0;
   pointer-events: none;
@@ -5367,10 +5486,16 @@ body.is-cover-page .page-nav {
 @media (max-width: 480px) {
   .page-nav {
     top: auto;
-    bottom: 1rem;
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
     right: 50%;
     transform: translateX(50%);
     flex-direction: row;
+    padding-left: max(0.25rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.25rem, env(safe-area-inset-right, 0px));
+    max-width: calc(
+      100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 0.5rem
+    );
+    box-sizing: border-box;
   }
 }
 </style>
