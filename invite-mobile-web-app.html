@@ -1045,7 +1045,7 @@
       scroll-margin-bottom: calc(var(--tab-h) + var(--pad-b) + 20px);
     }
 
-    /* Cover: fills one screen above tabs — photo grows; copy stays compact so #families stays off first paint */
+    /* Cover: fills one screen above tabs — photo grows; copy stays compact */
     .hero {
       --hero-cover-pad-top: max(0.75rem, env(safe-area-inset-top, 0px));
       min-height: calc(var(--vh, 100dvh) - var(--tab-h) - var(--hero-cover-pad-top) - max(0.5rem, env(safe-area-inset-bottom, 0px)));
@@ -2500,187 +2500,10 @@
     #events .event time {
       font-variant-numeric: tabular-nums;
     }
-    #families.is-revealed .families-rich__body {
-      animation: familiesCopyDrift 8s ease-in-out infinite alternate;
-    }
-    @keyframes familiesCopyDrift {
-      from { text-shadow: 0 0 0 transparent; }
-      to { text-shadow: 0 0 22px rgba(201, 168, 120, 0.06); }
-    }
-
-    /* ── Families (together) — richer panel ── */
-    #families.families-card {
-      padding: clamp(1.35rem, 4.2vw, 1.75rem) clamp(1.1rem, 3.8vw, 1.45rem);
-    }
-    .families-rich {
-      position: relative;
-      padding: 0.2rem 0.15rem 0;
-    }
-    .families-rich::before {
-      content: "";
-      position: absolute;
-      inset: 0 -0.15rem;
-      border-radius: 12px;
-      border: 1px solid rgba(176, 141, 87, 0.2);
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 252, 248, 0.5),
-        inset 0 1px 18px rgba(255, 248, 236, 0.28);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .families-rich > * {
-      position: relative;
-      z-index: 1;
-    }
-    .families-rich__ornament {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.65rem;
-      margin: 0.15rem 0 0.85rem;
-    }
-    .families-rich__orn-line {
-      flex: 1;
-      max-width: 5rem;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(176, 141, 87, 0.55), transparent);
-      transform-origin: 50% 50%;
-      transform: scaleX(0.35);
-      opacity: 0.65;
-    }
-    #families.is-revealed .families-rich__orn-line {
-      animation: familiesRuleBloom 1s var(--ease-page-rich) 0.12s forwards;
-    }
     @keyframes familiesRuleBloom {
       to {
         transform: scaleX(1);
         opacity: 1;
-      }
-    }
-    .families-rich__orn-mid {
-      font-size: 0.72rem;
-      color: var(--gold-mid);
-      letter-spacing: 0.2em;
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
-      opacity: 0;
-      transform: scale(0.6) rotate(-12deg);
-    }
-    #families.is-revealed .families-rich__orn-mid {
-      animation: familiesMotifPop 0.85s var(--ease-page-rich) 0.2s forwards;
-    }
-    @keyframes familiesMotifPop {
-      to {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-      }
-    }
-    .families-rich__house-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem 0.75rem;
-      margin: 0 0 1rem;
-    }
-    .families-rich__house {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(0.82rem, 2.8vw, 0.95rem);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--ink);
-      padding: 0.42rem 0.85rem;
-      border-radius: 999px;
-      background: linear-gradient(165deg, rgba(255, 253, 248, 0.95) 0%, rgba(248, 238, 224, 0.75) 100%);
-      border: 1px solid rgba(176, 141, 87, 0.38);
-      box-shadow:
-        0 2px 10px rgba(45, 32, 22, 0.06),
-        inset 0 1px 0 rgba(255, 252, 248, 0.9);
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    #families.is-revealed .families-rich__house:nth-child(1) {
-      animation: familiesChipRise 0.65s var(--ease-out) 0.18s forwards;
-    }
-    #families.is-revealed .families-rich__house:nth-child(3) {
-      animation: familiesChipRise 0.65s var(--ease-out) 0.32s forwards;
-    }
-    @keyframes familiesChipRise {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .families-rich__house-amp {
-      font-family: var(--font-script);
-      font-size: 1.45rem;
-      line-height: 1;
-      color: var(--gold);
-      opacity: 0;
-      transform: translateY(6px) scale(0.85);
-    }
-    #families.is-revealed .families-rich__house-amp {
-      animation: familiesAmpBloom 0.75s var(--ease-soft) 0.38s forwards;
-    }
-    @keyframes familiesAmpBloom {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    .families-rich__body {
-      font-family: var(--font-invite);
-      font-size: clamp(1.08rem, 3.4vw, 1.18rem);
-      line-height: 1.62;
-      color: var(--muted);
-      margin: 0;
-      text-wrap: pretty;
-    }
-    .families-rich__body::first-letter {
-      font-family: var(--font-display);
-      font-size: 2.35em;
-      line-height: 0.92;
-      float: left;
-      margin: 0.08em 0.12em 0 0;
-      color: var(--gold);
-      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.85);
-    }
-    .families-rich__body em {
-      color: var(--ink);
-      font-weight: 600;
-      font-style: italic;
-    }
-    .families-rich__footer-ornament {
-      display: flex;
-      justify-content: center;
-      margin-top: 1.05rem;
-      gap: 0.35rem;
-      opacity: 0.55;
-    }
-    .families-rich__footer-ornament span {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fffdf8, var(--gold-mid));
-      box-shadow: 0 0 0 1px rgba(176, 141, 87, 0.25);
-    }
-    #families.is-revealed .families-rich__footer-ornament span:nth-child(1) {
-      animation: familiesDotPulse 2.8s ease-in-out 0.6s infinite alternate;
-    }
-    #families.is-revealed .families-rich__footer-ornament span:nth-child(2) {
-      animation: familiesDotPulse 2.8s ease-in-out 0.85s infinite alternate;
-    }
-    #families.is-revealed .families-rich__footer-ornament span:nth-child(3) {
-      animation: familiesDotPulse 2.8s ease-in-out 1.1s infinite alternate;
-    }
-    @keyframes familiesDotPulse {
-      from {
-        transform: scale(1);
-        opacity: 0.5;
-      }
-      to {
-        transform: scale(1.15);
-        opacity: 0.95;
       }
     }
 
@@ -3136,12 +2959,6 @@
       #invite.is-revealed .invite-sheet__venue,
       .card.is-revealed .map-btn,
       #events.is-revealed .events-rich__tag,
-      #families.is-revealed .families-rich__body,
-      #families.is-revealed .families-rich__orn-line,
-      #families.is-revealed .families-rich__orn-mid,
-      #families.is-revealed .families-rich__house,
-      #families.is-revealed .families-rich__house-amp,
-      #families.is-revealed .families-rich__footer-ornament span,
       #family.is-revealed .signers.signers--rich,
       #family.is-revealed .family-card__rule,
       #family.is-revealed .phones a::before,
@@ -3249,24 +3066,7 @@
       .tabs a {
         transition: none;
       }
-      /* Families / family panels: static “revealed” look without motion */
-      #families.is-revealed .families-rich__orn-line {
-        transform: scaleX(1) !important;
-        opacity: 1 !important;
-      }
-      #families.is-revealed .families-rich__orn-mid {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-      #families.is-revealed .families-rich__house,
-      #families.is-revealed .families-rich__house-amp {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-      #families.is-revealed .families-rich__footer-ornament span {
-        transform: none !important;
-        opacity: 0.75 !important;
-      }
+      /* Family panel: static “revealed” look without motion */
       #family.is-revealed .signers.signers--rich {
         opacity: 1 !important;
         transform: none !important;
@@ -3459,9 +3259,8 @@
 
   <nav class="tabs" aria-label="Page sections">
     <a href="#cover" aria-current="true">Cover</a>
-    <a href="#families">Families</a>
-    <a href="#invite">Invite</a>
     <a href="#timing" title="Calendar and countdown">When</a>
+    <a href="#invite">Invite</a>
     <a href="#events">Events</a>
     <a href="#family">Family</a>
     <a href="#venues">Venues</a>
@@ -3498,28 +3297,6 @@
             </h1>
             <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="families" class="card invite-paper reveal families-card" aria-labelledby="families-h">
-      <p class="eyebrow" id="families-h">Together with our families</p>
-      <div class="families-rich">
-        <div class="families-rich__ornament" role="presentation" aria-hidden="true">
-          <span class="families-rich__orn-line"></span>
-          <span class="families-rich__orn-mid" aria-hidden="true">✧</span>
-          <span class="families-rich__orn-line"></span>
-        </div>
-        <div class="families-rich__house-row" role="presentation">
-          <span class="families-rich__house">Patil</span>
-          <span class="families-rich__house-amp" aria-hidden="true">&amp;</span>
-          <span class="families-rich__house">Pawar</span>
-        </div>
-        <p class="families-rich__body">
-          The Patil and Pawar families request the <em>honour of your presence</em> as they celebrate the wedding of their beloved children—with gratitude, they invite you to witness this union, share in the joy of the day, and bless the couple as they begin their journey together.
-        </p>
-        <div class="families-rich__footer-ornament" aria-hidden="true">
-          <span></span><span></span><span></span>
         </div>
       </div>
     </section>
@@ -3935,6 +3712,11 @@
       }
       beginScrollReveals();
       tryAutoplayBackgroundMusic();
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          syncTabsFromScrollPosition();
+        });
+      });
     }
 
     function runIntroFamilyThenFinish() {
@@ -4096,16 +3878,51 @@
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
-    var sectionIds = ["cover", "families", "timing", "invite", "events", "family", "venues"];
-    function syncTabsFromHash() {
-      var id = (location.hash || "#cover").replace("#", "");
-      if (sectionIds.indexOf(id) < 0) id = "cover";
+    var sectionIds = ["cover", "timing", "invite", "events", "family", "venues"];
+    function setTabsCurrent(id) {
       tabs.forEach(function (a) {
         a.setAttribute("aria-current", a.getAttribute("href") === "#" + id ? "true" : "false");
       });
     }
+    function syncTabsFromScrollPosition() {
+      if (!document.body.classList.contains("intro-done")) return;
+      var anchorY = window.innerHeight * 0.36;
+      var activeId = "cover";
+      for (var si = 0; si < sectionIds.length; si++) {
+        var sid = sectionIds[si];
+        var secEl = document.getElementById(sid);
+        if (!secEl) continue;
+        if (secEl.getBoundingClientRect().top <= anchorY) activeId = sid;
+      }
+      setTabsCurrent(activeId);
+    }
+    var scrollTabsScheduled = false;
+    function scheduleScrollTabSync() {
+      if (!document.body.classList.contains("intro-done")) return;
+      if (scrollTabsScheduled) return;
+      scrollTabsScheduled = true;
+      window.requestAnimationFrame(function () {
+        scrollTabsScheduled = false;
+        syncTabsFromScrollPosition();
+      });
+    }
+    window.addEventListener("scroll", scheduleScrollTabSync, { passive: true });
+    window.addEventListener("resize", scheduleScrollTabSync);
+    function syncTabsFromHash() {
+      var raw = (location.hash || "#cover").replace("#", "");
+      if (raw === "families") {
+        try {
+          history.replaceState(null, "", "#family");
+        } catch (err) { /* ignore */ }
+        raw = "family";
+      }
+      var id = raw;
+      if (sectionIds.indexOf(id) < 0) id = "cover";
+      setTabsCurrent(id);
+    }
     window.addEventListener("hashchange", syncTabsFromHash);
     syncTabsFromHash();
+    scheduleScrollTabSync();
 
     var skipEl = document.querySelector("a.skip");
     if (skipEl && introShell) {
@@ -4123,32 +3940,11 @@
               history.replaceState(null, "", href);
             } catch (err) { /* ignore */ }
             syncTabsFromHash();
+            scheduleScrollTabSync();
           }
         }
       });
     }
-
-    var io = new IntersectionObserver(
-      function (entries) {
-        var pick = null;
-        var best = 0;
-        entries.forEach(function (e) {
-          if (e.isIntersecting && e.intersectionRatio >= best) {
-            best = e.intersectionRatio;
-            pick = e.target;
-          }
-        });
-        if (!pick || sectionIds.indexOf(pick.id) < 0) return;
-        tabs.forEach(function (a) {
-          a.setAttribute("aria-current", a.getAttribute("href") === "#" + pick.id ? "true" : "false");
-        });
-      },
-      { root: null, rootMargin: "0px 0px -48% 0px", threshold: [0.12, 0.22, 0.38, 0.55] }
-    );
-    sectionIds.forEach(function (sid) {
-      var el = document.getElementById(sid);
-      if (el) io.observe(el);
-    });
   })();
   </script>
 </body>
