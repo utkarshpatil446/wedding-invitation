@@ -743,11 +743,11 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-      max-width: min(400px, 94vw);
+      max-width: min(364px, 93vw);
       padding: 0 clamp(10px, 3.5vw, 18px);
       box-sizing: border-box;
-      perspective: 840px;
-      perspective-origin: 50% 42%;
+      perspective: 800px;
+      perspective-origin: 50% 44%;
       gap: 0;
       margin-top: clamp(30px, 6dvh, 58px);
     }
@@ -841,9 +841,9 @@
     }
     #intro-simple-envelope .env-wrap {
       position: relative;
-      width: min(380px, 88vw);
-      height: min(254px, 53vw);
-      max-height: min(254px, 46dvh);
+      width: min(340px, 87vw);
+      height: min(228px, 52vw);
+      max-height: min(228px, 40dvh);
       flex-shrink: 0;
       align-self: center;
       margin-left: auto;
@@ -872,6 +872,27 @@
       outline: 2px solid rgba(176, 141, 87, 0.65);
       outline-offset: 8px;
       border-radius: 12px;
+    }
+    /* Live feedback while swiping up (scene-level gesture) */
+    #intro-simple-envelope .env-wrap.env-pulling {
+      transform: translateY(calc(-1 * var(--env-pull, 0px)));
+      transition: transform 0.06s linear;
+      box-shadow:
+        0 -12px 36px rgba(255, 220, 175, 0.22),
+        0 -4px 14px rgba(201, 168, 120, 0.12);
+    }
+    #intro-simple-envelope .env-wrap.env-pulling .env-body {
+      filter: saturate(1.04) brightness(1.02);
+    }
+    #intro-simple-envelope #intro-env-scene {
+      touch-action: manipulation;
+    }
+    #intro-simple-envelope:has(.env-wrap.open) .intro-env-ambience::before {
+      opacity: 0.98;
+      filter: saturate(1.06);
+    }
+    #intro-simple-envelope:has(.env-wrap.open) .intro-env-blossom {
+      opacity: 0.62;
     }
     #intro-simple-envelope .env-body {
       position: absolute;
@@ -1083,19 +1104,61 @@
       position: absolute;
       top: 18%;
       left: 50%;
-      transform: translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(0) translateZ(0);
       width: 87%;
       max-width: 100%;
       z-index: 3;
       opacity: 0;
-      transition: transform 1.7s cubic-bezier(0.18, 1.05, 0.36, 1) 1s, opacity 0.55s ease 0.78s;
+      transition:
+        transform 2.05s cubic-bezier(0.2, 0.88, 0.28, 1) 0.82s,
+        opacity 0.62s ease 0.68s,
+        filter 0.5s ease 0.9s;
+      filter: drop-shadow(0 10px 22px rgba(90, 62, 48, 0.08));
     }
-    /* Cap lift on short viewports so the card stays on screen (was fixed -118%, clipped off top) */
+    /* Cap lift + slight depth so the pull reads like a real insert sliding out */
     #intro-simple-envelope .env-wrap.open .card-wrap {
-      transform: translateX(-50%) translateY(calc(-1 * min(102%, 34dvh)));
+      transform:
+        translateX(-50%)
+        translateY(calc(-1 * min(102%, 34dvh)))
+        translateZ(10px)
+        rotateX(-1.25deg);
       opacity: 1;
+      filter: drop-shadow(0 22px 40px rgba(90, 62, 48, 0.16)) drop-shadow(0 6px 14px rgba(201, 168, 120, 0.18));
     }
     /* Insert card — traditional parchment, double-rule frame, foil accents */
+    #intro-simple-envelope .card-foil-sweep {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(
+        108deg,
+        transparent 38%,
+        rgba(255, 250, 232, 0.55) 49.5%,
+        rgba(255, 248, 220, 0.75) 50%,
+        rgba(255, 250, 232, 0.55) 50.5%,
+        transparent 62%
+      );
+      mix-blend-mode: soft-light;
+      transform: translateX(-35%) skewX(-12deg);
+    }
+    #intro-simple-envelope .env-wrap.open .card .card-foil-sweep {
+      animation: intro-card-foil-sweep 2.4s cubic-bezier(0.25, 0.85, 0.35, 1) 0.95s forwards;
+    }
+    @keyframes intro-card-foil-sweep {
+      0% {
+        opacity: 0;
+        transform: translateX(-42%) skewX(-12deg);
+      }
+      12% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(48%) skewX(-12deg);
+      }
+    }
     #intro-simple-envelope .card {
       --card-gold: #b8925a;
       --card-gold-mid: #d4b87a;
@@ -1135,6 +1198,23 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.98),
         inset 0 -4px 18px rgba(200, 165, 120, 0.07);
     }
+    #intro-simple-envelope .env-wrap.open .card {
+      animation: intro-card-emerge 2.15s cubic-bezier(0.22, 0.9, 0.32, 1) 0.78s both;
+    }
+    @keyframes intro-card-emerge {
+      0% {
+        transform: translateY(14px) scale(0.94);
+        filter: brightness(0.97);
+      }
+      45% {
+        transform: translateY(-5px) scale(1.028);
+        filter: brightness(1.03);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+      }
+    }
     #intro-simple-envelope .card::before {
       content: "";
       position: absolute;
@@ -1153,14 +1233,55 @@
       pointer-events: none;
       z-index: 0;
     }
+    #intro-simple-envelope .card-crest {
+      width: min(210px, 72%);
+      height: 12px;
+      margin: 0 auto 2px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    #intro-simple-envelope .card-crest::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      transform: translateY(-50%);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(184, 145, 88, 0.2) 6%,
+        rgba(184, 145, 88, 0.55) 42%,
+        rgba(212, 184, 130, 0.95) 50%,
+        rgba(184, 145, 88, 0.55) 58%,
+        rgba(184, 145, 88, 0.2) 94%,
+        transparent 100%
+      );
+    }
+    #intro-simple-envelope .card-crest::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-radius: 0.5px;
+      background: linear-gradient(135deg, #fdf4e4 0%, #e8d4a8 45%, #b8925a 100%);
+      box-shadow:
+        0 0 0 1px rgba(255, 252, 248, 0.95),
+        0 1px 5px rgba(100, 72, 48, 0.12);
+    }
     #intro-simple-envelope .card-in {
       position: relative;
       z-index: 1;
       border: none;
       border-radius: 1px;
-      padding: clamp(26px, 6.5vw, 36px) clamp(18px, 5vw, 30px);
-      min-height: clamp(96px, 21vw, 128px);
+      padding: clamp(22px, 5.5vw, 32px) clamp(18px, 5vw, 30px) clamp(24px, 6vw, 34px);
+      min-height: clamp(104px, 22vw, 138px);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       box-shadow:
@@ -1363,6 +1484,60 @@
       text-align: center;
       line-height: 1.5;
       text-shadow: 0 0 14px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.88);
+    }
+
+    /* Mobile portrait: keep envelope modest vs. viewport height (room for names + hint) */
+    @media (orientation: portrait) {
+      #intro-simple-envelope .scene {
+        max-width: min(332px, 92vw);
+        margin-top: clamp(22px, 5dvh, 48px);
+        perspective: 720px;
+      }
+      #intro-simple-envelope .env-wrap {
+        width: min(302px, 86vw);
+        height: min(200px, min(56vw, 33dvh));
+        max-height: min(200px, 33dvh);
+      }
+      #intro-simple-envelope .env-body,
+      #intro-simple-envelope .inner-glow,
+      #intro-simple-envelope .shimmer-sweep {
+        border-radius: 8px;
+      }
+      #intro-simple-envelope .seal-wrap svg {
+        width: 56px;
+        height: 56px;
+      }
+      #intro-simple-envelope .stamp {
+        top: 7px;
+        right: 9px;
+        width: 32px;
+        height: 40px;
+      }
+      #intro-simple-envelope .stamp-inner {
+        width: 22px;
+        height: 22px;
+      }
+      #intro-simple-envelope .stamp-lines {
+        width: 24px;
+      }
+      #intro-simple-envelope .hero-invite {
+        margin-top: clamp(18px, 5.5dvh, 68px);
+      }
+    }
+    @media (orientation: portrait) and (max-height: 700px) {
+      #intro-simple-envelope .scene {
+        margin-top: clamp(14px, 3.5dvh, 32px);
+        perspective: 680px;
+      }
+      #intro-simple-envelope .env-wrap {
+        width: min(288px, 88vw);
+        height: min(184px, min(58vw, 28dvh));
+        max-height: min(184px, 28dvh);
+      }
+      #intro-simple-envelope .seal-wrap svg {
+        width: 52px;
+        height: 52px;
+      }
     }
 
     body:not(.intro-done) .tabs {
@@ -3579,8 +3754,18 @@
         transform: rotateX(-188deg) !important;
       }
       #intro-simple-envelope .env-wrap.open .card-wrap {
-        transform: translateX(-50%) translateY(calc(-1 * min(102%, 34dvh))) !important;
+        transform: translateX(-50%) translateY(calc(-1 * min(102%, 34dvh))) translateZ(0) rotateX(0deg) !important;
         opacity: 1 !important;
+        filter: none !important;
+      }
+      #intro-simple-envelope .env-wrap.open .card {
+        animation: none !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      #intro-simple-envelope .card .card-foil-sweep {
+        animation: none !important;
+        opacity: 0 !important;
       }
       #intro-simple-envelope .env-wrap.open .seal-wrap {
         opacity: 0 !important;
@@ -3646,7 +3831,7 @@
     aria-describedby="mobile-intro-hint"
   >
     <span id="mobile-intro-hint" class="visually-hidden"
-      >Tap the envelope or swipe up on it to open. Then a Ganesh motif appears, then a message from the families, then the full invitation. Use Continue to skip at any time.</span>
+      >Tap or swipe up on the envelope or the hint below it to open. Then a Ganesh motif appears, then a message from the families, then the full invitation. Use Continue to skip at any time.</span>
     <div
       id="intro-simple-envelope"
       class="intro-simple-envelope-gate"
@@ -3658,13 +3843,13 @@
         ><span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
       </div>
       <div class="intro-env-ambience" aria-hidden="true"></div>
-      <div class="scene">
+      <div class="scene" id="intro-env-scene">
         <div
           class="env-wrap"
           id="intro-env-wrap"
           tabindex="0"
           role="button"
-          aria-label="Open invitation envelope: tap or swipe up"
+          aria-label="Open invitation envelope: tap or swipe up on this area"
           aria-describedby="intro-hint-txt mobile-intro-hint"
         >
           <div class="env-body">
@@ -3719,7 +3904,9 @@
           </div>
           <div class="card-wrap">
             <div class="card">
+              <span class="card-foil-sweep" aria-hidden="true"></span>
               <div class="card-in">
+                <div class="card-crest" aria-hidden="true"></div>
                 <div class="rs-monogram" aria-label="Initials R and S"><span class="rs-r"><span class="rs-let">R</span></span><span class="rs-amp">&amp;</span><span class="rs-s"><span class="rs-let">S</span></span></div>
               </div>
             </div>
@@ -3727,12 +3914,12 @@
         </div>
         <div class="hint-wrap" id="intro-hint-wrap">
           <div class="hint-arrows" aria-hidden="true"><span></span><span></span><span></span></div>
-          <p class="hint-txt" id="intro-hint-txt">Tap the envelope or swipe up</p>
+          <p class="hint-txt" id="intro-hint-txt">Tap to open the envelope</p>
         </div>
         <header class="hero-invite">
           <p class="hero-kicker">The wedding of</p>
           <p class="hero-script">Rutuja <span class="hero-script-amp">&amp;</span> Saurabh</p>
-          <p class="hero-tagline">A celebration of love · Sunday 3 May 2026 · Malegaon</p>
+          <p class="hero-tagline">Sunday 3 May 2026 · Malegaon</p>
         </header>
       </div>
     </div>
@@ -4059,12 +4246,14 @@
     function initSimpleEnvelopeGate() {
       var gate = document.getElementById("intro-simple-envelope");
       var wrap = document.getElementById("intro-env-wrap");
+      var scene = document.getElementById("intro-env-scene");
       var seal = document.getElementById("intro-seal-wrap");
       var hintWrap = document.getElementById("intro-hint-wrap");
       if (!introShell || !gate || !wrap) {
         runIntroMotifThenFamily();
         return;
       }
+      var gestureRoot = scene || wrap;
       if (reduceMotion) {
         introShell.classList.add("intro-simple-env-done");
         wrap.classList.add("open");
@@ -4083,6 +4272,8 @@
 
       function openSimpleEnvelope() {
         if (introFinished || wrap.classList.contains("open") || wrap.dataset.envOpening === "1") return;
+        wrap.classList.remove("env-pulling");
+        wrap.style.removeProperty("--env-pull");
         wrap.dataset.envOpening = "1";
         tryAutoplayBackgroundMusic();
         if (seal) seal.classList.add("cracking");
@@ -4101,21 +4292,39 @@
       var gestureX0 = null;
       var gesturePid = null;
       function clearEnvelopeGesture() {
+        wrap.classList.remove("env-pulling");
+        wrap.style.removeProperty("--env-pull");
         gestureY0 = null;
         gestureX0 = null;
         gesturePid = null;
       }
-      wrap.addEventListener("pointerdown", function (e) {
+      gestureRoot.addEventListener("pointerdown", function (e) {
         if (introFinished || wrap.classList.contains("open")) return;
         if (typeof e.button === "number" && e.button !== 0) return;
+        var t = e.target && e.target.nodeType === 1 ? e.target : e.target && e.target.parentElement;
+        if (t && typeof t.closest === "function" && (t.closest("a[href]") || t.closest("button"))) return;
         gestureY0 = e.clientY;
         gestureX0 = e.clientX;
         gesturePid = e.pointerId;
         try {
-          wrap.setPointerCapture(e.pointerId);
+          gestureRoot.setPointerCapture(e.pointerId);
         } catch (err) {}
       });
-      wrap.addEventListener("pointerup", function (e) {
+      gestureRoot.addEventListener("pointermove", function (e) {
+        if (gesturePid == null || e.pointerId !== gesturePid) return;
+        if (gestureY0 == null || introFinished || wrap.classList.contains("open")) return;
+        var dy = gestureY0 - e.clientY;
+        var dx = Math.abs((gestureX0 || 0) - e.clientX);
+        if (dy > 6 && dy > dx * 0.32) {
+          var pull = Math.min(22, dy * 0.24);
+          wrap.style.setProperty("--env-pull", pull + "px");
+          wrap.classList.add("env-pulling");
+        } else if (dy < -4) {
+          wrap.classList.remove("env-pulling");
+          wrap.style.removeProperty("--env-pull");
+        }
+      });
+      gestureRoot.addEventListener("pointerup", function (e) {
         if (gesturePid == null || e.pointerId !== gesturePid) return;
         if (gestureY0 == null || introFinished || wrap.classList.contains("open")) {
           clearEnvelopeGesture();
@@ -4126,14 +4335,14 @@
         var pid = gesturePid;
         clearEnvelopeGesture();
         try {
-          wrap.releasePointerCapture(pid);
+          gestureRoot.releasePointerCapture(pid);
         } catch (err2) {}
-        var swipeUp = dy >= 40 && dy >= dx * 0.55;
-        var tap = Math.abs(dy) <= 16 && dx <= 16;
+        var swipeUp = dy >= 32 && dy >= dx * 0.45;
+        var tap = Math.abs(dy) <= 18 && dx <= 18;
         if (swipeUp || tap) openSimpleEnvelope();
       });
-      wrap.addEventListener("pointercancel", clearEnvelopeGesture);
-      wrap.addEventListener("lostpointercapture", clearEnvelopeGesture);
+      gestureRoot.addEventListener("pointercancel", clearEnvelopeGesture);
+      gestureRoot.addEventListener("lostpointercapture", clearEnvelopeGesture);
       wrap.addEventListener("keydown", function (e) {
         if (introFinished || wrap.classList.contains("open")) return;
         if (e.key === "Enter" || e.key === " ") {
@@ -4280,6 +4489,8 @@
       }
       var introWrap = document.getElementById("intro-env-wrap");
       if (introWrap) {
+        introWrap.classList.remove("env-pulling");
+        introWrap.style.removeProperty("--env-pull");
         introWrap.classList.add("open");
         delete introWrap.dataset.envOpening;
       }
