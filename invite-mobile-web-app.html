@@ -68,7 +68,7 @@
       --font-caps: "Cinzel", serif;
       --font-script: "Great Vibes", cursive;
       /* One size for all rich section / widget labels (Calendar & countdown, Your calendar, etc.) */
-      --section-eyebrow-size: clamp(0.88rem, 3.08vw, 1.02rem);
+      --section-eyebrow-size: clamp(0.8rem, 2.72vw, 0.93rem);
       --pad-x: max(1rem, env(safe-area-inset-left, 0px));
       --pad-x2: max(1rem, env(safe-area-inset-right, 0px));
       --pad-b: max(0.75rem, env(safe-area-inset-bottom, 0px));
@@ -2302,6 +2302,7 @@
       z-index: 1;
     }
     section[id] {
+      scroll-margin-top: 0.45rem;
       scroll-margin-bottom: calc(var(--tab-h) + var(--pad-b) + 20px);
     }
 
@@ -2800,18 +2801,18 @@
     .eyebrow.eyebrow--section {
       position: relative;
       z-index: 1;
-      margin: 0 auto 0.5rem;
+      margin: 0 auto 0.4rem;
       max-width: 22rem;
-      padding: 0.15rem 0.5rem 0.1rem;
+      padding: 0.1rem 0.45rem 0.06rem;
       text-align: center;
       font-family: var(--font-display);
       font-size: var(--section-eyebrow-size);
       font-weight: 600;
       font-style: italic;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.175em;
       text-transform: uppercase;
-      text-indent: 0.2em;
-      line-height: 1.35;
+      text-indent: 0.175em;
+      line-height: 1.24;
       border: none;
       color: transparent;
       background: linear-gradient(
@@ -2850,9 +2851,9 @@
     .reveal.card .eyebrow.eyebrow--section::before {
       content: "";
       display: block;
-      width: min(11.5rem, 78vw);
+      width: min(10.75rem, 76vw);
       height: 1px;
-      margin: 0 auto 0.65rem;
+      margin: 0 auto 0.52rem;
       background: linear-gradient(
         90deg,
         transparent 0%,
@@ -2875,14 +2876,14 @@
       width: auto;
       max-width: none;
       height: auto;
-      margin: 0.5rem auto 0;
+      margin: 0.4rem auto 0;
       padding: 0;
       left: auto;
       bottom: auto;
       border-radius: 0;
       background: none;
       font-family: var(--font-caps);
-      font-size: 0.5rem;
+      font-size: 0.46rem;
       letter-spacing: 0;
       line-height: 1;
       color: rgba(176, 141, 87, 0.88);
@@ -2903,18 +2904,18 @@
     }
     /* Timing widgets: same label treatment, slightly tighter chrome so ✦ sits above the h2 title */
     .motif-widget .eyebrow.eyebrow--section {
-      margin-bottom: 0.35rem;
-      padding-left: 0.35rem;
-      padding-right: 0.35rem;
+      margin-bottom: 0.28rem;
+      padding-left: 0.32rem;
+      padding-right: 0.32rem;
     }
     .motif-widget .eyebrow.eyebrow--section::before {
-      width: min(9.5rem, 76vw);
-      margin-bottom: 0.48rem;
+      width: min(9rem, 74vw);
+      margin-bottom: 0.4rem;
     }
     .motif-widget .eyebrow.eyebrow--section::after {
-      margin-top: 0.38rem;
-      margin-bottom: 0.15rem;
-      font-size: 0.46rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.12rem;
+      font-size: 0.42rem;
     }
     @keyframes ceremonyLabelEnter {
       to {
@@ -2960,21 +2961,21 @@
     /* Ceremony label above framed art — compact stack (invite-only; other sections unchanged) */
     #invite.ceremony-framed > #invite-h.eyebrow.eyebrow--section {
       z-index: 2;
-      margin: 0 auto 0.18rem;
-      padding: 0.38rem 0.65rem 0.22rem;
-      line-height: 1.16;
-      font-size: clamp(0.76rem, 2.6vw, 0.92rem);
-      letter-spacing: 0.17em;
-      text-indent: 0.17em;
+      margin: 0 auto 0.14rem;
+      padding: 0.32rem 0.55rem 0.18rem;
+      line-height: 1.14;
+      font-size: clamp(0.72rem, 2.45vw, 0.88rem);
+      letter-spacing: 0.155em;
+      text-indent: 0.155em;
       transform: translateY(-2px) scale(0.98);
     }
     #invite.ceremony-framed > #invite-h.eyebrow.eyebrow--section::before {
-      width: min(9rem, 72vw);
-      margin: 0 auto 0.3rem;
+      width: min(8.5rem, 70vw);
+      margin: 0 auto 0.26rem;
     }
     #invite.ceremony-framed.reveal.card.is-revealed > #invite-h.eyebrow.eyebrow--section::after {
-      margin: 0.26rem auto 0;
-      font-size: 0.42rem;
+      margin: 0.22rem auto 0;
+      font-size: 0.4rem;
     }
 
     h2 {
@@ -3008,13 +3009,13 @@
     /* Timing: section head + framed widgets */
     .timing-rich__head {
       text-align: center;
-      margin: 0 0 1rem;
+      margin: 0 0 0.88rem;
     }
     .timing-rich__head .eyebrow {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.32rem;
     }
     .timing-rich__head .eyebrow--section {
-      margin-bottom: 0.42rem;
+      margin-bottom: 0.34rem;
     }
     .timing-rich__tag {
       margin: 0;
@@ -3027,7 +3028,7 @@
     .timing-widgets {
       display: flex;
       flex-direction: column;
-      gap: 1.35rem;
+      gap: 1.15rem;
     }
     .motif-widget {
       position: relative;
@@ -4071,14 +4072,14 @@
     .events-rich__head {
       text-align: center;
       margin-bottom: 0.05rem;
-      padding: 0.2rem 0.55rem 0.72rem;
+      padding: 0.14rem 0.5rem 0.58rem;
       border-radius: 14px 14px 0 0;
       border-bottom: 1px solid rgba(176, 141, 87, 0.3);
       box-shadow: 0 1px 0 rgba(255, 252, 248, 0.78);
       background: radial-gradient(ellipse 92% 140% at 50% -20%, rgba(255, 252, 245, 0.75) 0%, transparent 62%);
     }
     #events .events-rich__head .eyebrow--section {
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.34rem;
     }
     .events-rich__tag {
       margin: 0 auto;
@@ -4307,12 +4308,12 @@
       z-index: 1;
     }
     .family-card__title-head {
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.4rem;
       text-align: center;
     }
     #family .family-card__title-head .eyebrow--section {
-      margin-bottom: 0.4rem;
-      padding-top: 0.35rem;
+      margin-bottom: 0.32rem;
+      padding-top: 0.26rem;
     }
     .family-card__contact {
       margin-top: 0.35rem;
@@ -4662,10 +4663,10 @@
     }
     .gatherings-rich__head {
       text-align: center;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.18rem;
     }
     #venues .gatherings-rich__head .eyebrow--section {
-      margin-bottom: 0.42rem;
+      margin-bottom: 0.34rem;
     }
     .gatherings-rich__tag {
       margin: 0 0 0.9rem;
