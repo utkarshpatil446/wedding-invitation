@@ -67,6 +67,8 @@
       --font-invite: "Cormorant Infant", "Cormorant Garamond", Georgia, serif;
       --font-caps: "Cinzel", serif;
       --font-script: "Great Vibes", cursive;
+      /* One size for all rich section / widget labels (Calendar & countdown, Your calendar, etc.) */
+      --section-eyebrow-size: clamp(0.88rem, 3.08vw, 1.02rem);
       --pad-x: max(1rem, env(safe-area-inset-left, 0px));
       --pad-x2: max(1rem, env(safe-area-inset-right, 0px));
       --pad-b: max(0.75rem, env(safe-area-inset-bottom, 0px));
@@ -688,13 +690,38 @@
     .cover-enter-bridge__names {
       margin: 0 0 0.85rem;
       font-family: var(--font-script);
-      font-size: clamp(1.85rem, 9vw, 2.45rem);
-      line-height: 1.15;
-      color: var(--gold);
+      font-weight: 400;
+      font-size: clamp(2.1rem, 10vw, 3.1rem);
+      line-height: 1.12;
+      background-image: linear-gradient(
+        118deg,
+        #4e3f36 0%,
+        #6b5648 14%,
+        #c4a060 32%,
+        #f0e0c8 48%,
+        #b8925a 58%,
+        #5a483e 78%,
+        #7a6248 100%
+      );
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 1px 1px rgba(255, 252, 248, 0.85)) drop-shadow(0 2px 14px rgba(200, 165, 120, 0.18));
+      animation: intro-hero-script-shimmer 8s ease-in-out infinite;
+    }
+    .cover-enter-bridge__amp {
+      color: #b08040;
+      font-size: 0.78em;
+      margin: 0 0.08em;
+      -webkit-text-fill-color: #b08040;
+      background: none;
+      -webkit-background-clip: border-box;
+      background-clip: border-box;
       text-shadow:
-        0 0 14px rgba(255, 253, 248, 0.55),
-        0 1px 0 rgba(255, 249, 240, 0.5),
-        0 3px 18px rgba(138, 102, 58, 0.12);
+        0 0 16px rgba(255, 253, 250, 0.98),
+        0 0 8px rgba(255, 236, 200, 0.55),
+        0 1px 0 rgba(255, 252, 248, 0.95);
     }
     .cover-enter-bridge__hint {
       margin: 0;
@@ -2459,32 +2486,53 @@
     .hero.is-revealed .hero__kicker {
       animation: heroLine 0.95s var(--ease-out) 0.18s forwards;
     }
+    /* Match #intro-simple-envelope .hero-script — script + foil gradient + amp jewel */
     .hero__names {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(1.72rem, 7.2vw, 2.42rem);
-      letter-spacing: 0.022em;
+      font-family: var(--font-script);
+      font-weight: 400;
+      font-size: clamp(1.45rem, 5.8vw + 0.35rem, 3.65rem);
+      letter-spacing: 0.02em;
       font-feature-settings: "kern" 1, "liga" 1;
       margin: 0;
-      line-height: 1.15;
+      line-height: 1.12;
+      text-align: center;
+      white-space: nowrap;
       opacity: 0;
       transform: translateY(16px) scale(0.97);
-      color: #1f1915;
+      background-image: linear-gradient(
+        118deg,
+        #4e3f36 0%,
+        #6b5648 14%,
+        #c4a060 32%,
+        #f0e0c8 48%,
+        #b8925a 58%,
+        #5a483e 78%,
+        #7a6248 100%
+      );
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 1px 1px rgba(255, 252, 248, 0.85)) drop-shadow(0 2px 14px rgba(200, 165, 120, 0.18));
     }
     .hero__names .hero__name {
-      display: inline-block;
-      color: #1a1511;
+      display: inline;
     }
     .hero__names .hero__amp {
       font-family: var(--font-script);
       font-weight: 400;
-      font-size: 1.48em;
-      margin: 0 0.06em;
-      vertical-align: middle;
-      color: #8a663a;
+      font-size: 0.78em;
+      margin: 0 0.08em;
+      vertical-align: baseline;
+      color: #b08040;
+      -webkit-text-fill-color: #b08040;
+      background: none;
+      -webkit-background-clip: border-box;
+      background-clip: border-box;
       text-shadow:
-        0 1px 0 rgba(255, 252, 248, 0.9),
-        0 2px 0 rgba(176, 141, 87, 0.35);
+        0 0 16px rgba(255, 253, 250, 0.98),
+        0 0 8px rgba(255, 236, 200, 0.55),
+        0 1px 0 rgba(255, 252, 248, 0.95);
     }
     .hero__names::after {
       content: "";
@@ -2506,10 +2554,32 @@
       transform: scaleX(0.55);
     }
     .hero.is-revealed .hero__names {
-      animation: heroTitle 1.12s var(--ease-rich) 0.3s forwards;
+      animation:
+        heroTitle 1.12s var(--ease-rich) 0.3s forwards,
+        intro-hero-script-shimmer 8s ease-in-out 1.2s infinite;
     }
     .hero.is-revealed .hero__names::after {
       animation: heroRule 1s var(--ease-rich) 0.92s forwards;
+    }
+    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+      .hero__names {
+        background: none;
+        -webkit-text-fill-color: unset;
+        color: #5a483e;
+        filter: none;
+        text-shadow: 0 0 14px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.9);
+      }
+      .hero.is-revealed .hero__names {
+        animation: heroTitle 1.12s var(--ease-rich) 0.3s forwards;
+      }
+      .cover-enter-bridge__names {
+        background: none;
+        -webkit-text-fill-color: unset;
+        color: #5a483e;
+        filter: none;
+        text-shadow: 0 0 14px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.9);
+        animation: none;
+      }
     }
     .hero__date {
       margin: 0.55rem auto 0;
@@ -2539,13 +2609,11 @@
     @keyframes heroTitle {
       0% {
         opacity: 0;
-        transform: translateY(24px) scale(0.93);
-        letter-spacing: 0.18em;
+        transform: translateY(22px) scale(0.94);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
-        letter-spacing: 0.02em;
       }
     }
     @keyframes heroRule {
@@ -2727,6 +2795,176 @@
       color: var(--gold);
       margin: 0 0 0.5rem;
     }
+
+    /* Primary card section titles — one rich treatment (Ceremony-style foil + rule + jewel) */
+    .eyebrow.eyebrow--section {
+      position: relative;
+      z-index: 1;
+      margin: 0 auto 0.5rem;
+      max-width: 22rem;
+      padding: 0.15rem 0.5rem 0.1rem;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: var(--section-eyebrow-size);
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-indent: 0.2em;
+      line-height: 1.35;
+      border: none;
+      color: transparent;
+      background: linear-gradient(
+        118deg,
+        var(--p1-gold-deep) 0%,
+        var(--p1-gold) 22%,
+        #e8c992 42%,
+        #fff6e8 48%,
+        #e8c992 54%,
+        var(--p1-gold) 72%,
+        var(--p1-gold-deep) 100%
+      );
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.95)) drop-shadow(0 3px 14px rgba(138, 102, 58, 0.22));
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+      .eyebrow.eyebrow--section {
+        background: none;
+        -webkit-text-fill-color: unset;
+        color: var(--p1-gold);
+        text-shadow:
+          0 1px 0 rgba(255, 252, 248, 0.9),
+          0 2px 18px rgba(176, 141, 87, 0.28);
+      }
+    }
+    .reveal.card.is-revealed .eyebrow.eyebrow--section {
+      animation:
+        ceremonyLabelEnter 0.95s var(--ease-page-rich) forwards,
+        ceremonyGoldShimmer 5.5s ease-in-out 0.6s infinite alternate;
+    }
+    .reveal.card .eyebrow.eyebrow--section::before {
+      content: "";
+      display: block;
+      width: min(11.5rem, 78vw);
+      height: 1px;
+      margin: 0 auto 0.65rem;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(176, 141, 87, 0.2) 12%,
+        rgba(201, 168, 120, 0.75) 50%,
+        rgba(176, 141, 87, 0.2) 88%,
+        transparent 100%
+      );
+      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.65);
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    .reveal.card.is-revealed .eyebrow.eyebrow--section::before {
+      animation: ceremonyLabelRuleIn 0.85s var(--ease-out) 0.08s forwards;
+    }
+    .reveal.card.is-revealed .eyebrow.eyebrow--section::after {
+      content: "✦";
+      position: static;
+      display: block;
+      width: auto;
+      max-width: none;
+      height: auto;
+      margin: 0.5rem auto 0;
+      padding: 0;
+      left: auto;
+      bottom: auto;
+      border-radius: 0;
+      background: none;
+      font-family: var(--font-caps);
+      font-size: 0.5rem;
+      letter-spacing: 0;
+      line-height: 1;
+      color: rgba(176, 141, 87, 0.88);
+      text-shadow: 0 0 16px rgba(201, 168, 120, 0.55);
+      transform: scale(0);
+      transform-origin: 50% 50%;
+      animation: ceremonyJewelPop 0.75s var(--ease-rich) 0.45s forwards, ceremonyJewelPulse 2.8s ease-in-out 1.2s infinite alternate;
+    }
+    /* Section title + centered variant: jewel overrides default centered underline */
+    .reveal.card.is-revealed .eyebrow.eyebrow--section.eyebrow--center::after {
+      left: auto;
+      width: auto;
+      max-width: none;
+      margin-left: 0;
+      transform: scale(0);
+      transform-origin: 50% 50%;
+      animation: ceremonyJewelPop 0.75s var(--ease-rich) 0.45s forwards, ceremonyJewelPulse 2.8s ease-in-out 1.2s infinite alternate;
+    }
+    /* Timing widgets: same label treatment, slightly tighter chrome so ✦ sits above the h2 title */
+    .motif-widget .eyebrow.eyebrow--section {
+      margin-bottom: 0.35rem;
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+    }
+    .motif-widget .eyebrow.eyebrow--section::before {
+      width: min(9.5rem, 76vw);
+      margin-bottom: 0.48rem;
+    }
+    .motif-widget .eyebrow.eyebrow--section::after {
+      margin-top: 0.38rem;
+      margin-bottom: 0.15rem;
+      font-size: 0.46rem;
+    }
+    @keyframes ceremonyLabelEnter {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    @keyframes ceremonyGoldShimmer {
+      0% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.95)) drop-shadow(0 3px 12px rgba(138, 102, 58, 0.18));
+      }
+      100% {
+        background-position: 100% 50%;
+        filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 1)) drop-shadow(0 4px 22px rgba(201, 168, 120, 0.32));
+      }
+    }
+    @keyframes ceremonyLabelRuleIn {
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+    @keyframes ceremonyJewelPop {
+      70% {
+        transform: scale(1.25);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    @keyframes ceremonyJewelPulse {
+      from {
+        opacity: 0.75;
+        text-shadow: 0 0 10px rgba(201, 168, 120, 0.35);
+      }
+      to {
+        opacity: 1;
+        text-shadow: 0 0 22px rgba(201, 168, 120, 0.65);
+      }
+    }
+
+    /* Ceremony label sits above framed art — extra padding + stacking */
+    #invite.ceremony-framed > #invite-h.eyebrow.eyebrow--section {
+      z-index: 2;
+      margin-bottom: 0;
+      padding: 1rem 1.35rem 0.85rem;
+      transform: translateY(-6px) scale(0.96);
+    }
+
     h2 {
       font-family: var(--font-display);
       font-weight: 600;
@@ -2762,6 +3000,9 @@
     }
     .timing-rich__head .eyebrow {
       margin-bottom: 0.4rem;
+    }
+    .timing-rich__head .eyebrow--section {
+      margin-bottom: 0.42rem;
     }
     .timing-rich__tag {
       margin: 0;
@@ -2855,16 +3096,6 @@
       margin: 0 0 0.85rem;
       color: var(--ink);
       text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
-    }
-    .motif-widget__title::after {
-      content: "✦";
-      display: block;
-      margin: 0.4rem auto 0;
-      font-family: var(--font-caps);
-      font-size: 0.45rem;
-      letter-spacing: 0;
-      color: rgba(176, 141, 87, 0.75);
-      text-shadow: 0 0 14px rgba(201, 168, 76, 0.35);
     }
     .eyebrow--center {
       text-align: center;
@@ -3187,141 +3418,6 @@
     #invite.ceremony-framed.card {
       padding: 0;
       overflow: hidden;
-    }
-    /* “Ceremony” tab label — richer than standard .eyebrow */
-    #invite.ceremony-framed > #invite-h.eyebrow {
-      position: relative;
-      z-index: 2;
-      margin: 0 auto;
-      padding: 1rem 1.35rem 0.9rem;
-      max-width: 22rem;
-      text-align: center;
-      font-family: var(--font-display);
-      font-size: clamp(0.82rem, 3.1vw, 1.02rem);
-      font-weight: 600;
-      font-style: italic;
-      letter-spacing: 0.48em;
-      text-transform: uppercase;
-      text-indent: 0.48em;
-      line-height: 1.35;
-      color: var(--p1-gold-deep);
-      border: none;
-      background: linear-gradient(
-        118deg,
-        var(--p1-gold-deep) 0%,
-        var(--p1-gold) 22%,
-        #e8c992 42%,
-        #fff6e8 48%,
-        #e8c992 54%,
-        var(--p1-gold) 72%,
-        var(--p1-gold-deep) 100%
-      );
-      background-size: 220% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.95)) drop-shadow(0 3px 14px rgba(138, 102, 58, 0.22));
-      opacity: 0;
-      transform: translateY(-6px) scale(0.96);
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite.ceremony-framed > #invite-h.eyebrow {
-        background: none;
-        -webkit-text-fill-color: unset;
-        color: var(--p1-gold);
-        text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.9),
-          0 2px 20px rgba(176, 141, 87, 0.35);
-      }
-    }
-    #invite.is-revealed #invite-h.eyebrow {
-      animation:
-        ceremonyLabelEnter 0.95s var(--ease-page-rich) forwards,
-        ceremonyGoldShimmer 5.5s ease-in-out 0.6s infinite alternate;
-    }
-    @keyframes ceremonyLabelEnter {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    @keyframes ceremonyGoldShimmer {
-      0% {
-        background-position: 0% 50%;
-        filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.95)) drop-shadow(0 3px 12px rgba(138, 102, 58, 0.18));
-      }
-      100% {
-        background-position: 100% 50%;
-        filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 1)) drop-shadow(0 4px 22px rgba(201, 168, 120, 0.32));
-      }
-    }
-    #invite #invite-h.eyebrow::before {
-      content: "";
-      display: block;
-      width: min(11.5rem, 78vw);
-      height: 1px;
-      margin: 0 auto 0.7rem;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(176, 141, 87, 0.2) 12%,
-        rgba(201, 168, 120, 0.75) 50%,
-        rgba(176, 141, 87, 0.2) 88%,
-        transparent 100%
-      );
-      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.65);
-      transform: scaleX(0);
-      opacity: 0;
-    }
-    #invite.is-revealed #invite-h.eyebrow::before {
-      animation: ceremonyLabelRuleIn 0.85s var(--ease-out) 0.08s forwards;
-    }
-    @keyframes ceremonyLabelRuleIn {
-      to {
-        transform: scaleX(1);
-        opacity: 1;
-      }
-    }
-    /* Override generic eyebrow underline: jewel + micro-glow under “Ceremony” */
-    #invite.is-revealed #invite-h.eyebrow::after {
-      content: "✦";
-      position: static;
-      display: block;
-      width: auto;
-      max-width: none;
-      height: auto;
-      margin: 0.55rem auto 0;
-      padding: 0;
-      left: auto;
-      bottom: auto;
-      border-radius: 0;
-      background: none;
-      font-family: var(--font-caps);
-      font-size: 0.5rem;
-      letter-spacing: 0;
-      line-height: 1;
-      color: rgba(176, 141, 87, 0.88);
-      text-shadow: 0 0 16px rgba(201, 168, 120, 0.55);
-      transform: scale(0);
-      animation: ceremonyJewelPop 0.75s var(--ease-rich) 0.45s forwards, ceremonyJewelPulse 2.8s ease-in-out 1.2s infinite alternate;
-    }
-    @keyframes ceremonyJewelPop {
-      70% {
-        transform: scale(1.25);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-    @keyframes ceremonyJewelPulse {
-      from {
-        opacity: 0.75;
-        text-shadow: 0 0 10px rgba(201, 168, 120, 0.35);
-      }
-      to {
-        opacity: 1;
-        text-shadow: 0 0 22px rgba(201, 168, 120, 0.65);
-      }
     }
     #invite .ceremony-framed__stage {
       position: relative;
@@ -3803,6 +3899,7 @@
         opacity: 1;
       }
     }
+    /* Schedule date — same warm gold tone as .invite-sheet__venue (no foil / motion). */
     #invite .invite-sheet__dow {
       margin: 0 0 clamp(0.45rem, 1.2dvh, 0.65rem);
       width: 100%;
@@ -3812,56 +3909,9 @@
       letter-spacing: 0.38em;
       text-transform: uppercase;
       text-indent: 0.38em;
-      background: linear-gradient(
-        118deg,
-        var(--p1-gold-deep) 0%,
-        var(--p1-gold) 28%,
-        #f0dcb8 48%,
-        var(--p1-gold) 68%,
-        var(--p1-gold-deep) 100%
-      );
-      background-size: 220% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter:
-        drop-shadow(0 1px 0 rgba(255, 252, 248, 0.88))
-        drop-shadow(0 2px 10px rgba(176, 141, 87, 0.18));
+      color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.3), 0 0 10px rgba(255, 253, 248, 0.22);
     }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite .invite-sheet__dow {
-        background: none;
-        -webkit-text-fill-color: unset;
-        color: var(--p1-gold-deep);
-        filter: none;
-        text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.55),
-          0 0 14px rgba(255, 253, 248, 0.35);
-      }
-    }
-    #invite.is-revealed .invite-sheet__dow {
-      animation: inviteDowGoldDrift 5.4s ease-in-out 1.15s infinite alternate;
-    }
-    @keyframes inviteDowGoldDrift {
-      0% {
-        background-position: 0% 50%;
-        filter:
-          drop-shadow(0 1px 0 rgba(255, 252, 248, 0.88))
-          drop-shadow(0 2px 10px rgba(176, 141, 87, 0.16));
-      }
-      100% {
-        background-position: 100% 50%;
-        filter:
-          drop-shadow(0 1px 0 rgba(255, 252, 248, 0.98))
-          drop-shadow(0 3px 16px rgba(201, 168, 120, 0.26));
-      }
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite.is-revealed .invite-sheet__dow {
-        animation: none !important;
-      }
-    }
-    /* Same foil gradient as .invite-sheet__name; text-shadow only (no filter — large clip:text + filter hides “3” in Chrome). */
     #invite .invite-sheet__day {
       margin: 0 0 clamp(0.35rem, 1dvh, 0.5rem);
       font-family: var(--font-display);
@@ -3874,79 +3924,8 @@
       text-align: center;
       padding: 0.04em 0;
       -webkit-font-smoothing: antialiased;
-      background: linear-gradient(
-        122deg,
-        var(--p1-gold-deep) 0%,
-        var(--p1-gold) 16%,
-        #d4a86a 34%,
-        #fff8ec 49%,
-        #e8c992 58%,
-        var(--p1-gold) 76%,
-        var(--p1-gold-deep) 100%
-      );
-      background-size: 240% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow:
-        0 1px 0 rgba(255, 249, 240, 0.82),
-        0 2px 10px rgba(138, 102, 58, 0.18),
-        0 8px 26px rgba(176, 141, 87, 0.16);
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite .invite-sheet__day {
-        background: none;
-        -webkit-text-fill-color: unset;
-        color: var(--p1-gold);
-        text-shadow:
-          0 0 12px rgba(255, 253, 248, 0.55),
-          0 1px 0 rgba(255, 249, 240, 0.55),
-          0 2px 14px rgba(138, 102, 58, 0.22),
-          0 10px 32px rgba(176, 141, 87, 0.16);
-      }
-    }
-    #invite.is-revealed .invite-sheet__day {
-      animation:
-        inviteDayReveal 1s var(--ease-rich) 0.9s both,
-        inviteDateNumGlow 5.8s ease-in-out 1.05s infinite alternate;
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite.is-revealed .invite-sheet__day {
-        animation:
-          inviteDayReveal 1s var(--ease-rich) 0.9s both,
-          ceremonyNamesBreath 6.5s ease-in-out 1.65s infinite alternate;
-      }
-    }
-    @keyframes inviteDayReveal {
-      0% {
-        opacity: 0;
-        transform: translateY(18px) scale(0.82);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    @keyframes inviteDayShimmer {
-      from { filter: brightness(1); }
-      to { filter: brightness(1.1); }
-    }
-    /* Mirrors inviteNameGlow: same background drift + text-shadow stand-in for the names’ drop-shadows (no filter on digit). */
-    @keyframes inviteDateNumGlow {
-      0% {
-        background-position: 0% 50%;
-        text-shadow:
-          0 1px 0 rgba(255, 249, 240, 0.82),
-          0 2px 10px rgba(138, 102, 58, 0.18),
-          0 8px 26px rgba(176, 141, 87, 0.16);
-      }
-      100% {
-        background-position: 100% 50%;
-        text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.95),
-          0 3px 16px rgba(138, 102, 58, 0.26),
-          0 12px 36px rgba(201, 168, 120, 0.24);
-      }
+      color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.3), 0 0 10px rgba(255, 253, 248, 0.22);
     }
     #invite .invite-sheet__mon-year {
       margin: 0 0 clamp(0.45rem, 1.2dvh, 0.65rem);
@@ -3954,62 +3933,17 @@
       text-align: center;
       font-family: var(--font-display);
       font-size: clamp(0.98rem, 2.65vw, 1.14rem);
-      font-style: italic;
-      font-weight: 400;
+      font-style: normal;
+      font-weight: 500;
       line-height: 1.35;
       color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.3), 0 0 10px rgba(255, 253, 248, 0.22);
     }
     #invite .invite-sheet__date-line {
-      display: inline-block;
-      padding: 0.08em 0.15em;
-      background: linear-gradient(
-        120deg,
-        var(--p1-gold-deep) 0%,
-        var(--p1-gold) 22%,
-        #f5e6cc 48%,
-        var(--p1-gold) 72%,
-        var(--p1-gold-deep) 100%
-      );
-      background-size: 240% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter:
-        drop-shadow(0 1px 0 rgba(255, 252, 248, 0.82))
-        drop-shadow(0 2px 12px rgba(176, 141, 87, 0.16));
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite .invite-sheet__date-line {
-        background: none;
-        -webkit-text-fill-color: unset;
-        color: var(--p1-gold-mid);
-        filter: none;
-        text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.42),
-          0 0 12px rgba(255, 253, 248, 0.32);
-      }
-    }
-    #invite.is-revealed .invite-sheet__date-line {
-      animation: inviteDateLineGlow 5.6s ease-in-out 1.2s infinite alternate;
-    }
-    @keyframes inviteDateLineGlow {
-      0% {
-        background-position: 0% 50%;
-        filter:
-          drop-shadow(0 1px 0 rgba(255, 252, 248, 0.82))
-          drop-shadow(0 2px 12px rgba(176, 141, 87, 0.14));
-      }
-      100% {
-        background-position: 100% 50%;
-        filter:
-          drop-shadow(0 1px 0 rgba(255, 252, 248, 0.95))
-          drop-shadow(0 3px 18px rgba(201, 168, 120, 0.24));
-      }
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite.is-revealed .invite-sheet__date-line {
-        animation: none !important;
-      }
+      display: inline;
+      padding: 0;
+      color: inherit;
+      font-weight: inherit;
     }
     #invite .invite-sheet__year {
       font-style: normal;
@@ -4027,54 +3961,8 @@
       font-style: italic;
       font-weight: 500;
       letter-spacing: 0.02em;
-      background: linear-gradient(
-        112deg,
-        var(--p1-gold-deep) 0%,
-        var(--p1-gold) 30%,
-        #fdf4dc 50%,
-        var(--p1-gold) 70%,
-        var(--p1-gold-deep) 100%
-      );
-      background-size: 220% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter:
-        drop-shadow(0 1px 0 rgba(255, 252, 248, 0.85))
-        drop-shadow(0 2px 10px rgba(176, 141, 87, 0.14));
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite .invite-sheet__time {
-        background: none;
-        -webkit-text-fill-color: unset;
-        color: var(--p1-gold-deep);
-        filter: none;
-        text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.4),
-          0 0 12px rgba(255, 253, 248, 0.28);
-      }
-    }
-    #invite.is-revealed .invite-sheet__time {
-      animation: inviteTimeGoldDrift 5s ease-in-out 1.05s infinite alternate;
-    }
-    @keyframes inviteTimeGoldDrift {
-      0% {
-        background-position: 0% 50%;
-        filter:
-          drop-shadow(0 1px 0 rgba(255, 252, 248, 0.85))
-          drop-shadow(0 2px 10px rgba(176, 141, 87, 0.12));
-      }
-      100% {
-        background-position: 100% 50%;
-        filter:
-          drop-shadow(0 1px 0 rgba(255, 252, 248, 0.98))
-          drop-shadow(0 3px 16px rgba(201, 168, 120, 0.22));
-      }
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #invite.is-revealed .invite-sheet__time {
-        animation: none !important;
-      }
+      color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.3), 0 0 10px rgba(255, 253, 248, 0.22);
     }
     #invite .invite-sheet__venue {
       display: flex;
@@ -4143,10 +4031,25 @@
 
     /* ── Events: “Functions & ceremonies” — rich list (scoped so #venues .event stays plain) ── */
     #events.events-card {
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
-      padding: clamp(1.25rem, 4vw, 1.65rem) clamp(1.05rem, 3.6vw, 1.4rem);
+      gap: 0.85rem;
+      padding: clamp(1.35rem, 4.2vw, 1.88rem) clamp(1.12rem, 3.8vw, 1.52rem);
+    }
+    #events.events-card::before {
+      content: "";
+      position: absolute;
+      inset: 0.48rem 0.32rem;
+      border-radius: calc(var(--radius) + 4px);
+      border: 1px solid rgba(176, 141, 87, 0.16);
+      background:
+        radial-gradient(ellipse 78% 48% at 50% -6%, rgba(255, 244, 220, 0.28) 0%, transparent 55%),
+        radial-gradient(ellipse 36% 30% at 0% 102%, rgba(244, 167, 185, 0.07) 0%, transparent 58%),
+        radial-gradient(ellipse 36% 30% at 100% 102%, rgba(201, 168, 120, 0.1) 0%, transparent 58%);
+      box-shadow: inset 0 0 0 1px rgba(255, 252, 248, 0.42);
+      pointer-events: none;
+      z-index: 0;
     }
     #events.events-card > * {
       position: relative;
@@ -4154,25 +4057,27 @@
     }
     .events-rich__head {
       text-align: center;
-      margin-bottom: 0.15rem;
-      padding-bottom: 0.55rem;
-      border-bottom: 1px solid rgba(176, 141, 87, 0.22);
-      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.65);
+      margin-bottom: 0.05rem;
+      padding: 0.2rem 0.55rem 0.72rem;
+      border-radius: 14px 14px 0 0;
+      border-bottom: 1px solid rgba(176, 141, 87, 0.3);
+      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.78);
+      background: radial-gradient(ellipse 92% 140% at 50% -20%, rgba(255, 252, 245, 0.75) 0%, transparent 62%);
     }
-    #events .eyebrow--events {
+    #events .events-rich__head .eyebrow--section {
       margin-bottom: 0.45rem;
-      letter-spacing: 0.2em;
-      font-size: 0.58rem;
-      color: var(--gold-mid);
     }
     .events-rich__tag {
       margin: 0 auto;
-      max-width: 18.5rem;
+      max-width: 19rem;
+      padding-bottom: 0.15rem;
       font-family: var(--font-invite);
-      font-size: clamp(0.98rem, 3.1vw, 1.08rem);
+      font-size: clamp(1.02rem, 3.15vw, 1.12rem);
       font-style: italic;
-      line-height: 1.45;
-      color: var(--muted);
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+      color: rgba(92, 81, 71, 0.92);
     }
     #events.is-revealed .events-rich__tag {
       animation: richTitleBreath 7s ease-in-out 0.85s infinite alternate;
@@ -4186,18 +4091,100 @@
     }
     #events .event {
       margin: 0;
-      padding: clamp(0.95rem, 3.2vw, 1.15rem) clamp(0.85rem, 3vw, 1.05rem);
-      border: 1px solid rgba(176, 141, 87, 0.32);
-      border-radius: 14px;
-      border-bottom: 1px solid rgba(176, 141, 87, 0.32);
+      position: relative;
+      padding: clamp(1.05rem, 3.4vw, 1.28rem) clamp(0.95rem, 3.1vw, 1.15rem) clamp(1.05rem, 3.4vw, 1.28rem)
+        clamp(1.05rem, 3.4vw, 1.28rem);
+      border: 1px solid rgba(176, 141, 87, 0.34);
+      border-radius: 16px;
+      border-bottom: 1px solid rgba(176, 141, 87, 0.34);
       background:
-        radial-gradient(ellipse 88% 70% at 50% 0%, rgba(255, 252, 248, 0.75) 0%, transparent 52%),
-        linear-gradient(168deg, rgba(255, 253, 248, 0.97) 0%, rgba(248, 240, 228, 0.55) 100%);
+        radial-gradient(ellipse 94% 76% at 50% 0%, rgba(255, 252, 248, 0.92) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 40% at 100% 88%, rgba(201, 168, 120, 0.07) 0%, transparent 50%),
+        linear-gradient(172deg, rgba(255, 254, 252, 0.99) 0%, rgba(250, 244, 232, 0.78) 48%, rgba(242, 232, 214, 0.58) 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 0.92),
-        0 6px 20px rgba(45, 32, 22, 0.05);
+        inset 0 1px 0 rgba(255, 252, 248, 0.98),
+        inset 3px 0 0 rgba(138, 102, 58, 0.52),
+        0 0 0 1px rgba(255, 252, 248, 0.35) inset,
+        0 8px 28px rgba(45, 32, 22, 0.07);
       opacity: 0;
       transform: translateY(12px);
+      transition: box-shadow 0.45s var(--ease-soft), transform 0.45s var(--ease-soft);
+    }
+    #events .event:nth-of-type(2) {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.98),
+        inset 3px 0 0 rgba(196, 130, 110, 0.48),
+        0 0 0 1px rgba(255, 252, 248, 0.35) inset,
+        0 8px 28px rgba(45, 32, 22, 0.07);
+    }
+    #events .event:nth-of-type(3) {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.98),
+        inset 3px 0 0 rgba(176, 141, 87, 0.68),
+        0 0 0 1px rgba(255, 252, 248, 0.35) inset,
+        0 8px 28px rgba(45, 32, 22, 0.07);
+    }
+    #events.is-revealed .event:focus-within {
+      transform: translateY(-2px);
+      outline: 2px solid rgba(176, 141, 87, 0.42);
+      outline-offset: 3px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        inset 3px 0 0 rgba(176, 141, 87, 0.62),
+        0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+        0 12px 36px rgba(45, 32, 22, 0.1);
+    }
+    #events.is-revealed .event:nth-of-type(1):focus-within {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        inset 3px 0 0 rgba(138, 102, 58, 0.62),
+        0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+        0 12px 36px rgba(45, 32, 22, 0.1);
+    }
+    #events.is-revealed .event:nth-of-type(2):focus-within {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        inset 3px 0 0 rgba(196, 130, 110, 0.58),
+        0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+        0 12px 36px rgba(45, 32, 22, 0.1);
+    }
+    #events.is-revealed .event:nth-of-type(3):focus-within {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        inset 3px 0 0 rgba(176, 141, 87, 0.78),
+        0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+        0 12px 36px rgba(45, 32, 22, 0.1);
+    }
+    @media (hover: hover) {
+      #events.is-revealed .event:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 252, 248, 1),
+          inset 3px 0 0 rgba(176, 141, 87, 0.62),
+          0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+          0 12px 36px rgba(45, 32, 22, 0.1);
+      }
+      #events.is-revealed .event:nth-of-type(1):hover {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 252, 248, 1),
+          inset 3px 0 0 rgba(138, 102, 58, 0.62),
+          0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+          0 12px 36px rgba(45, 32, 22, 0.1);
+      }
+      #events.is-revealed .event:nth-of-type(2):hover {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 252, 248, 1),
+          inset 3px 0 0 rgba(196, 130, 110, 0.58),
+          0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+          0 12px 36px rgba(45, 32, 22, 0.1);
+      }
+      #events.is-revealed .event:nth-of-type(3):hover {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 252, 248, 1),
+          inset 3px 0 0 rgba(176, 141, 87, 0.78),
+          0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+          0 12px 36px rgba(45, 32, 22, 0.1);
+      }
     }
     #events.is-revealed .event {
       animation: eventsTileIn 0.72s var(--ease-out) forwards;
@@ -4218,25 +4205,61 @@
       }
     }
     #events .event h3 {
-      margin: 0 0 0.45rem;
-      padding-bottom: 0.35rem;
+      margin: 0 0 0.5rem;
+      padding-bottom: 0.42rem;
       font-family: var(--font-display);
-      font-size: clamp(0.95rem, 3.1vw, 1.06rem);
+      font-size: clamp(1.02rem, 3.25vw, 1.14rem);
       font-weight: 600;
-      letter-spacing: 0.06em;
-      color: var(--ink);
-      border-bottom: 1px solid rgba(176, 141, 87, 0.18);
+      letter-spacing: 0.07em;
+      color: var(--p1-gold-deep);
+      border-bottom: 1px solid rgba(176, 141, 87, 0.3);
+      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.65);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.88);
     }
     #events .event p {
-      margin: 0 0 0.4rem;
+      margin: 0 0 0.42rem;
       font-size: clamp(1.02rem, 3.2vw, 1.1rem);
-      line-height: 1.5;
+      line-height: 1.55;
+      color: rgba(61, 52, 41, 0.94);
+    }
+    #events .event p:first-of-type {
+      margin-bottom: 0.48rem;
+      font-family: var(--font-caps);
+      font-size: clamp(0.66rem, 2.15vw, 0.76rem);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-indent: 0.16em;
+      color: var(--p1-gold-deep);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.75);
+    }
+    #events .event p:not(:first-of-type):not(:last-child) {
+      font-family: var(--font-invite);
+      font-size: clamp(0.98rem, 3.05vw, 1.08rem);
+      color: rgba(61, 52, 41, 0.9);
     }
     #events .event p:last-child {
       margin-bottom: 0;
+      margin-top: 0.12rem;
+      padding-top: 0.48rem;
+      border-top: 1px dashed rgba(176, 141, 87, 0.28);
+      font-family: var(--font-display);
+      font-size: clamp(0.86rem, 2.65vw, 0.96rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.52;
+      letter-spacing: 0.02em;
+      color: var(--p1-gold-mid);
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.35);
     }
     #events .event time {
       font-variant-numeric: tabular-nums;
+      color: var(--p1-gold-mid);
+      font-weight: 600;
+    }
+    #events .event p:first-of-type time {
+      color: inherit;
+      font-weight: 700;
     }
     @keyframes familiesRuleBloom {
       to {
@@ -4274,59 +4297,9 @@
       margin: 0 0 0.5rem;
       text-align: center;
     }
-    #family .family-card__title-head .eyebrow {
-      margin: 0 auto 0.35rem;
-      max-width: 20rem;
-      padding: 0.55rem 0.75rem 0.5rem;
-      font-family: var(--font-display);
-      font-size: clamp(0.78rem, 3vw, 0.95rem);
-      font-weight: 600;
-      font-style: italic;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      text-indent: 0.2em;
-      line-height: 1.4;
-      text-align: center;
-      border: none;
-      color: var(--p1-gold-deep);
-      background: linear-gradient(
-        118deg,
-        var(--p1-gold-deep) 0%,
-        var(--p1-gold) 22%,
-        #e8c992 42%,
-        #fff8ec 50%,
-        #e8c992 58%,
-        var(--p1-gold) 78%,
-        var(--p1-gold-deep) 100%
-      );
-      background-size: 220% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.98)) drop-shadow(0 3px 14px rgba(138, 102, 58, 0.18));
-    }
-    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-      #family .family-card__title-head .eyebrow {
-        background: none;
-        -webkit-text-fill-color: unset;
-        color: var(--p1-gold);
-        text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.95),
-          0 2px 18px rgba(176, 141, 87, 0.28);
-      }
-    }
-    #family.is-revealed .family-card__title-head .eyebrow {
-      animation: familyTitleGoldDrift 5.8s ease-in-out 0.35s infinite alternate;
-    }
-    @keyframes familyTitleGoldDrift {
-      0% {
-        background-position: 0% 50%;
-        filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 0.98)) drop-shadow(0 3px 12px rgba(138, 102, 58, 0.16));
-      }
-      100% {
-        background-position: 100% 50%;
-        filter: drop-shadow(0 1px 0 rgba(255, 252, 248, 1)) drop-shadow(0 4px 22px rgba(201, 168, 120, 0.28));
-      }
+    #family .family-card__title-head .eyebrow--section {
+      margin-bottom: 0.4rem;
+      padding-top: 0.35rem;
     }
     .family-card__contact {
       margin-top: 0.35rem;
@@ -4525,42 +4498,28 @@
     .signers--rich .signers__names {
       text-align: center;
     }
+    /* Match Venues .gathering-card h3 (e.g. Mandav & Mehandi) */
     #family .signers--rich .name {
       font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(1.02rem, 3.35vw, 1.12rem);
-      font-style: italic;
-      letter-spacing: 0.045em;
+      font-size: clamp(1.1rem, 3.8vw, 1.28rem);
+      font-weight: 500;
+      font-style: normal;
+      letter-spacing: 0.02em;
       margin: 0.22rem 0;
-      color: #3a3128;
-      line-height: 1.38;
-      text-shadow:
-        0 0 12px rgba(255, 253, 248, 0.75),
-        0 1px 0 rgba(255, 255, 255, 0.92),
-        0 2px 10px rgba(255, 249, 240, 0.25);
+      color: var(--ink);
+      line-height: 1.42;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
     }
     #family .signers--rich .name--join {
-      font-family: var(--font-script);
-      font-size: clamp(1.65rem, 6vw, 1.95rem);
-      font-weight: 400;
-      letter-spacing: 0.03em;
-      color: #8f6a3a;
-      margin: 0.2rem 0 0.3rem;
-      text-shadow:
-        0 0 20px rgba(232, 200, 140, 0.35),
-        0 1px 0 rgba(255, 252, 248, 0.98),
-        0 2px 0 rgba(184, 145, 88, 0.35);
-    }
-    #family.is-revealed .signers--rich .name--join {
-      animation: familyAmpScript 4.2s ease-in-out 0.85s infinite alternate;
-    }
-    @keyframes familyAmpScript {
-      from {
-        filter: brightness(1);
-      }
-      to {
-        filter: brightness(1.08);
-      }
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3.8vw, 1.28rem);
+      font-weight: 500;
+      font-style: normal;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      margin: 0.18rem 0 0.28rem;
+      line-height: 1.2;
+      text-shadow: 0 1px 0 rgba(255, 252, 248, 0.9);
     }
     #family .phones a {
       position: relative;
@@ -4692,12 +4651,8 @@
       text-align: center;
       margin-bottom: 0.25rem;
     }
-    .eyebrow--gatherings {
-      margin-bottom: 0.45rem;
-      text-transform: none;
-      letter-spacing: 0.1em;
-      font-size: clamp(0.68rem, 2.8vw, 0.78rem);
-      color: var(--gold);
+    #venues .gatherings-rich__head .eyebrow--section {
+      margin-bottom: 0.42rem;
     }
     .gatherings-rich__tag {
       margin: 0 0 0.9rem;
@@ -4963,9 +4918,9 @@
       .hero.is-revealed .hero__names,
       .hero.is-revealed .hero__date,
       #timing.is-revealed .cal__grid span.cal__day--wed,
-      #invite.is-revealed #invite-h.eyebrow,
-      #invite.is-revealed #invite-h.eyebrow::before,
-      #invite.is-revealed #invite-h.eyebrow::after,
+      .reveal.card.is-revealed .eyebrow.eyebrow--section,
+      .reveal.card.is-revealed .eyebrow.eyebrow--section::before,
+      .reveal.card.is-revealed .eyebrow.eyebrow--section::after,
       #invite.is-revealed .ceremony-framed__backdrop,
       #invite.is-revealed .ceremony-framed__lamp,
       #invite.is-revealed .ceremony-framed__wing,
@@ -4984,7 +4939,7 @@
       #invite.is-revealed .invite-sheet__venue,
       .card.is-revealed .map-btn,
       #events.is-revealed .events-rich__tag,
-      #family.is-revealed .family-card__title-head .eyebrow,
+      #family.is-revealed .family-card__title-head .eyebrow.eyebrow--section,
       #family.is-revealed .family-card__lede,
       #family.is-revealed .family-card__rule::after,
       #family.is-revealed .signers--rich .eyebrow--signers,
@@ -5026,6 +4981,38 @@
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
+      }
+      .hero .hero__names,
+      .hero.is-revealed .hero__names {
+        color: #5a483e !important;
+        background: none !important;
+        -webkit-text-fill-color: #5a483e !important;
+        -webkit-background-clip: border-box !important;
+        background-clip: border-box !important;
+        filter: none !important;
+        text-shadow: 0 0 14px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.9) !important;
+      }
+      .hero .hero__names .hero__amp,
+      .hero.is-revealed .hero__names .hero__amp {
+        color: #9a6e38 !important;
+        -webkit-text-fill-color: #9a6e38 !important;
+        text-shadow:
+          0 0 12px rgba(255, 253, 250, 0.95),
+          0 1px 0 rgba(255, 252, 248, 0.88) !important;
+      }
+      .cover-enter-bridge__names {
+        animation: none !important;
+        color: #5a483e !important;
+        background: none !important;
+        -webkit-text-fill-color: #5a483e !important;
+        -webkit-background-clip: border-box !important;
+        background-clip: border-box !important;
+        filter: none !important;
+        text-shadow: 0 0 14px rgba(255, 253, 250, 0.95), 0 1px 0 rgba(255, 252, 248, 0.9) !important;
+      }
+      .cover-enter-bridge__amp {
+        color: #9a6e38 !important;
+        -webkit-text-fill-color: #9a6e38 !important;
       }
       #timing .motif-widget,
       .card.is-revealed .motif-widget--count::after,
@@ -5091,24 +5078,22 @@
         animation: none !important;
         background: none !important;
         -webkit-text-fill-color: unset !important;
-        color: var(--p1-gold-deep) !important;
+        color: var(--p1-gold-mid) !important;
         filter: none !important;
         text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.75),
-          0 0 12px rgba(255, 253, 248, 0.35) !important;
+          0 1px 0 rgba(255, 252, 248, 0.3),
+          0 0 10px rgba(255, 253, 248, 0.22) !important;
       }
       #invite .invite-sheet__day,
       #invite.is-revealed .invite-sheet__day {
         animation: none !important;
         background: none !important;
         -webkit-text-fill-color: unset !important;
-        color: var(--p1-gold) !important;
+        color: var(--p1-gold-mid) !important;
         filter: none !important;
         text-shadow:
-          0 0 12px rgba(255, 253, 248, 0.55),
-          0 1px 0 rgba(255, 249, 240, 0.55),
-          0 2px 14px rgba(138, 102, 58, 0.2),
-          0 10px 30px rgba(176, 141, 87, 0.14) !important;
+          0 1px 0 rgba(255, 252, 248, 0.3),
+          0 0 10px rgba(255, 253, 248, 0.22) !important;
       }
       #invite .invite-sheet__date-line,
       #invite.is-revealed .invite-sheet__date-line {
@@ -5118,19 +5103,19 @@
         color: var(--p1-gold-mid) !important;
         filter: none !important;
         text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.45),
-          0 0 12px rgba(255, 253, 248, 0.3) !important;
+          0 1px 0 rgba(255, 252, 248, 0.3),
+          0 0 10px rgba(255, 253, 248, 0.22) !important;
       }
       #invite .invite-sheet__time,
       #invite.is-revealed .invite-sheet__time {
         animation: none !important;
         background: none !important;
         -webkit-text-fill-color: unset !important;
-        color: var(--p1-gold-deep) !important;
+        color: var(--p1-gold-mid) !important;
         filter: none !important;
         text-shadow:
-          0 1px 0 rgba(255, 252, 248, 0.45),
-          0 0 12px rgba(255, 253, 248, 0.28) !important;
+          0 1px 0 rgba(255, 252, 248, 0.3),
+          0 0 10px rgba(255, 253, 248, 0.22) !important;
       }
       #invite .invite-sheet__schedule,
       #invite .invite-sheet__venue {
@@ -5161,8 +5146,8 @@
         filter: none !important;
         text-shadow: 0 1px 0 rgba(255, 252, 248, 0.42), 0 0 12px rgba(255, 253, 248, 0.35) !important;
       }
-      /* Ceremony tab label: no enter/shimmer — must override base opacity: 0 */
-      #invite.is-revealed #invite-h.eyebrow {
+      /* Section titles (shared .eyebrow--section): static foil look, no motion */
+      .reveal.card.is-revealed .eyebrow.eyebrow--section {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
@@ -5172,16 +5157,16 @@
         color: var(--p1-gold-deep) !important;
         text-shadow: 0 1px 0 rgba(255, 252, 248, 0.85) !important;
       }
-      #invite.is-revealed #invite-h.eyebrow::before,
-      #invite.is-revealed #invite-h.eyebrow::after {
+      .reveal.card.is-revealed .eyebrow.eyebrow--section::before,
+      .reveal.card.is-revealed .eyebrow.eyebrow--section::after {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
       }
-      #invite.is-revealed #invite-h.eyebrow::before {
+      .reveal.card.is-revealed .eyebrow.eyebrow--section::before {
         transform: scaleX(1) !important;
       }
-      #invite.is-revealed #invite-h.eyebrow::after {
+      .reveal.card.is-revealed .eyebrow.eyebrow--section::after {
         transform: scale(1) !important;
       }
       #invite .ceremony-framed__backdrop {
@@ -5211,15 +5196,6 @@
       }
       .reveal.card.invite-paper.is-revealed.section-nav-pulse::after {
         animation: none !important;
-      }
-      /* Family panel: static “revealed” look without motion */
-      #family.is-revealed .family-card__title-head .eyebrow {
-        animation: none !important;
-        filter: none !important;
-        background: none !important;
-        -webkit-text-fill-color: unset !important;
-        color: var(--p1-gold-deep) !important;
-        text-shadow: 0 1px 0 rgba(255, 252, 248, 0.95), 0 2px 16px rgba(176, 141, 87, 0.22) !important;
       }
       #family.is-revealed .family-card__lede {
         animation: none !important;
@@ -5262,6 +5238,18 @@
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
+        transition: none !important;
+      }
+      #events.is-revealed .event:hover,
+      #events.is-revealed .event:focus-within,
+      #events.is-revealed .event:nth-of-type(1):hover,
+      #events.is-revealed .event:nth-of-type(1):focus-within,
+      #events.is-revealed .event:nth-of-type(2):hover,
+      #events.is-revealed .event:nth-of-type(2):focus-within,
+      #events.is-revealed .event:nth-of-type(3):hover,
+      #events.is-revealed .event:nth-of-type(3):focus-within {
+        transform: none !important;
+        outline: none !important;
       }
       #events.is-revealed .events-rich__tag {
         text-shadow: 0 1px 0 rgba(255, 252, 248, 0.75) !important;
@@ -5702,7 +5690,7 @@
     <div class="cover-enter-bridge__content">
       <p class="cover-enter-bridge__flourish" aria-hidden="true">✦</p>
       <p class="cover-enter-bridge__kicker">The wedding of</p>
-      <p class="cover-enter-bridge__names">Rutuja &amp; Saurabh</p>
+      <p class="cover-enter-bridge__names">Rutuja <span class="cover-enter-bridge__amp">&amp;</span> Saurabh</p>
       <p class="cover-enter-bridge__hint">Unfolding your cover…</p>
       <div class="cover-enter-bridge__rule" aria-hidden="true"></div>
     </div>
@@ -5754,9 +5742,7 @@
         <div class="hero__inner">
           <div class="hero__text">
             <p class="hero__kicker">The wedding of</p>
-            <h1 class="hero__names">
-              <span class="hero__name">Rutuja</span> <span class="hero__amp">&amp;</span> <span class="hero__name">Saurabh</span>
-            </h1>
+            <h1 class="hero__names"><span class="hero__name">Rutuja</span> <span class="hero__amp">&amp;</span> <span class="hero__name">Saurabh</span></h1>
             <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
           </div>
         </div>
@@ -5765,13 +5751,13 @@
 
     <section class="card invite-paper reveal" id="timing" aria-labelledby="timing-section-h">
       <header class="timing-rich__head">
-        <p class="eyebrow eyebrow--center" id="timing-section-h">Calendar &amp; countdown</p>
+        <p class="eyebrow eyebrow--center eyebrow--section" id="timing-section-h">Calendar &amp; countdown</p>
         <p class="timing-rich__tag">May 2026 — save the wedding weekend</p>
       </header>
       <div class="timing-widgets">
         <div class="motif-widget motif-widget--cal">
           <div class="motif-widget__body">
-            <p class="eyebrow eyebrow--center" id="cal-eyebrow">Your calendar</p>
+            <p class="eyebrow eyebrow--center eyebrow--section" id="cal-eyebrow">Your calendar</p>
             <h2 class="motif-widget__title" id="cal-widget-title">May 2026</h2>
             <div class="cal" aria-labelledby="cal-widget-title">
               <div class="cal__grid" role="presentation">
@@ -5788,7 +5774,7 @@
         </div>
         <div class="motif-widget motif-widget--count">
           <div class="motif-widget__body">
-            <p class="eyebrow eyebrow--center" id="count-h">Counting down to</p>
+            <p class="eyebrow eyebrow--center eyebrow--section" id="count-h">Counting down to</p>
             <h2 class="motif-widget__title">Forever</h2>
             <div class="countdown" id="countdown" aria-live="polite">
               <div><span class="n" id="cd-d">—</span><span class="u">Days</span></div>
@@ -5802,7 +5788,7 @@
     </section>
 
     <section id="invite" class="card invite-paper reveal ceremony-framed" aria-labelledby="invite-h">
-      <p class="eyebrow" id="invite-h">Ceremony</p>
+      <p class="eyebrow eyebrow--section" id="invite-h">Ceremony</p>
       <div class="ceremony-framed__stage">
         <img
           class="ceremony-framed__backdrop"
@@ -5843,7 +5829,7 @@
 
     <section id="events" class="card invite-paper reveal events-card" aria-labelledby="events-h">
       <header class="events-rich__head">
-        <p class="eyebrow eyebrow--events" id="events-h">Functions &amp; ceremonies</p>
+        <p class="eyebrow eyebrow--events eyebrow--section" id="events-h">Functions &amp; ceremonies</p>
         <p class="events-rich__tag">Three gatherings · one weekend of joy</p>
       </header>
       <article class="event">
@@ -5868,7 +5854,7 @@
     <section id="family" class="card invite-paper reveal family-card" aria-labelledby="family-h">
       <div class="family-rich">
         <header class="family-card__title-head">
-          <p class="eyebrow" id="family-h">From the Family</p>
+          <p class="eyebrow eyebrow--section" id="family-h">From the Family</p>
         </header>
         <p class="family-card__lede">
           We warmly invite you to bless Rutuja and Saurabh and to join us for their wedding and for every ceremony that surrounds it. Your presence would bring our family great joy.
@@ -5899,7 +5885,7 @@
 
     <section id="venues" class="card invite-paper reveal gatherings-card" aria-labelledby="venues-h">
       <header class="gatherings-rich__head">
-        <p class="eyebrow eyebrow--gatherings" id="venues-h">Where we're gathering</p>
+        <p class="eyebrow eyebrow--gatherings eyebrow--section" id="venues-h">Where we're gathering</p>
         <p class="gatherings-rich__tag">Two places on the map · follow the pins when you travel</p>
       </header>
       <p class="gatherings-rich__lead">Each card opens in Google Maps so you can save the route or share it with family.</p>
