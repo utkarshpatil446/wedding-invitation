@@ -563,6 +563,173 @@
         opacity 1.1s var(--ease-rich) 0.15s,
         visibility 0s linear 0s;
     }
+
+    /* Post-intro → Cover: full-screen bridge (above tabs/music) then hero reveal */
+    .cover-enter-bridge {
+      position: fixed;
+      inset: 0;
+      z-index: 125;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: max(1rem, env(safe-area-inset-top, 0px)) var(--pad-x) max(1.2rem, env(safe-area-inset-bottom, 0px)) var(--pad-x2);
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+    body.cover-bridge-active .cover-enter-bridge {
+      display: flex;
+      pointer-events: auto;
+      visibility: visible;
+      animation: coverBridgeShell 2.45s var(--ease-page-rich) forwards;
+    }
+    body.cover-bridge-complete .cover-enter-bridge {
+      display: none !important;
+      animation: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    body.cover-bridge-active {
+      overflow: hidden;
+    }
+    .cover-enter-bridge__veil {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 120% 85% at 50% 38%, rgba(255, 253, 248, 0.97) 0%, rgba(253, 246, 232, 0.94) 42%, rgba(235, 227, 212, 0.98) 100%),
+        radial-gradient(ellipse 70% 55% at 50% 100%, rgba(201, 168, 120, 0.14), transparent 58%),
+        repeating-linear-gradient(135deg, transparent 0, transparent 11px, rgba(143, 106, 58, 0.028) 11px, rgba(143, 106, 58, 0.028) 12px);
+    }
+    .cover-enter-bridge__sweep {
+      position: absolute;
+      inset: -20%;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255, 252, 248, 0.22) 49.5%,
+        rgba(255, 248, 220, 0.38) 50%,
+        rgba(255, 252, 248, 0.22) 50.5%,
+        transparent 60%
+      );
+      transform: translateX(-40%) skewX(-10deg);
+      opacity: 0;
+    }
+    body.cover-bridge-active .cover-enter-bridge__sweep {
+      animation: coverBridgeSweep 1.85s var(--ease-page-soft) 0.35s forwards;
+    }
+    @keyframes coverBridgeSweep {
+      0% {
+        opacity: 0;
+        transform: translateX(-48%) skewX(-10deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(38%) skewX(-10deg);
+      }
+    }
+    .cover-enter-bridge__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 20rem;
+      opacity: 0;
+      transform: translateY(14px) scale(0.97);
+    }
+    body.cover-bridge-active .cover-enter-bridge__content {
+      animation: coverBridgeContentIn 0.95s var(--ease-page-rich) 0.2s forwards;
+    }
+    @keyframes coverBridgeShell {
+      0% {
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      78% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+    @keyframes coverBridgeContentIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .cover-enter-bridge__flourish {
+      margin: 0 0 0.55rem;
+      font-family: var(--font-caps);
+      font-size: clamp(0.75rem, 3vw, 0.95rem);
+      letter-spacing: 0.12em;
+      color: rgba(176, 141, 87, 0.92);
+      text-shadow: 0 0 20px rgba(201, 168, 120, 0.5);
+    }
+    .cover-enter-bridge__kicker {
+      margin: 0 0 0.35rem;
+      font-family: var(--font-caps);
+      font-size: clamp(0.58rem, 2.2vw, 0.68rem);
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      text-indent: 0.32em;
+      color: rgba(90, 72, 52, 0.72);
+    }
+    .cover-enter-bridge__names {
+      margin: 0 0 0.85rem;
+      font-family: var(--font-script);
+      font-size: clamp(1.85rem, 9vw, 2.45rem);
+      line-height: 1.15;
+      color: var(--gold);
+      text-shadow:
+        0 0 14px rgba(255, 253, 248, 0.55),
+        0 1px 0 rgba(255, 249, 240, 0.5),
+        0 3px 18px rgba(138, 102, 58, 0.12);
+    }
+    .cover-enter-bridge__hint {
+      margin: 0;
+      font-family: var(--font-invite);
+      font-size: clamp(0.88rem, 2.6vw, 0.98rem);
+      font-style: italic;
+      color: rgba(92, 81, 71, 0.78);
+      letter-spacing: 0.02em;
+    }
+    .cover-enter-bridge__rule {
+      width: min(11rem, 78vw);
+      height: 1px;
+      margin: 1rem auto 0;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(176, 141, 87, 0.35) 20%,
+        rgba(201, 168, 120, 0.75) 50%,
+        rgba(176, 141, 87, 0.35) 80%,
+        transparent
+      );
+      box-shadow: 0 1px 0 rgba(255, 252, 248, 0.75);
+      opacity: 0;
+      transform: scaleX(0.4);
+    }
+    body.cover-bridge-active .cover-enter-bridge__rule {
+      animation: coverBridgeRule 0.75s var(--ease-out) 0.45s forwards;
+    }
+    @keyframes coverBridgeRule {
+      to {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
     .petal {
       position: absolute;
       top: -14%;
@@ -4720,7 +4887,7 @@
       visibility: hidden;
       pointer-events: none;
     }
-    body.intro-done .music-fab {
+    body.intro-done.cover-bridge-complete .music-fab {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
@@ -5529,6 +5696,18 @@
     <button type="button" class="mobile-intro-continue" id="mobile-intro-continue">Continue to invite</button>
   </div>
 
+  <div id="cover-enter-bridge" class="cover-enter-bridge" aria-hidden="true">
+    <div class="cover-enter-bridge__veil" aria-hidden="true"></div>
+    <div class="cover-enter-bridge__sweep" aria-hidden="true"></div>
+    <div class="cover-enter-bridge__content">
+      <p class="cover-enter-bridge__flourish" aria-hidden="true">✦</p>
+      <p class="cover-enter-bridge__kicker">The wedding of</p>
+      <p class="cover-enter-bridge__names">Rutuja &amp; Saurabh</p>
+      <p class="cover-enter-bridge__hint">Unfolding your cover…</p>
+      <div class="cover-enter-bridge__rule" aria-hidden="true"></div>
+    </div>
+  </div>
+
   <nav class="tabs" aria-label="Page sections">
     <a href="#cover" aria-current="true">Cover</a>
     <a href="#timing" title="Calendar and countdown">When</a>
@@ -5757,6 +5936,7 @@
     var envOpeningTimerB = null;
     var envOpeningTimerC = null;
     var simpleEnvFinalizeTimer = null;
+    var coverBridgeFallbackTimer = null;
     var introFinished = false;
     var revIo = null;
     var bgMusicGestureListeners = null;
@@ -5989,10 +6169,10 @@
     }
 
     function clearIntroTimers() {
-      [simpleEnvFinalizeTimer, envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer].forEach(function (id) {
+      [simpleEnvFinalizeTimer, envOpeningTimerA, envOpeningTimerB, envOpeningTimerC, famExitTimer, famFinishTimer, coverBridgeFallbackTimer].forEach(function (id) {
         if (id) window.clearTimeout(id);
       });
-      simpleEnvFinalizeTimer = envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = null;
+      simpleEnvFinalizeTimer = envOpeningTimerA = envOpeningTimerB = envOpeningTimerC = famExitTimer = famFinishTimer = coverBridgeFallbackTimer = null;
     }
 
     function beginScrollReveals() {
@@ -6017,6 +6197,73 @@
       });
     }
 
+    function runCoverEntranceSequence() {
+      var hero = document.getElementById("cover");
+      var coverEnterBridge = document.getElementById("cover-enter-bridge");
+      function finishTabsAndObservers() {
+        beginScrollReveals();
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            syncTabsFromScrollPosition();
+          });
+        });
+        armIdleSectionAutoAdvance();
+      }
+      function completeCoverEntrance() {
+        if (document.body.classList.contains("cover-bridge-complete")) return;
+        document.body.classList.remove("cover-bridge-active");
+        document.body.classList.add("cover-bridge-complete");
+        if (coverEnterBridge) coverEnterBridge.setAttribute("aria-hidden", "true");
+        if (hero) {
+          if (reduceMotion) {
+            hero.classList.add("is-revealed");
+          } else {
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                hero.classList.add("is-revealed");
+              });
+            });
+          }
+        }
+        finishTabsAndObservers();
+      }
+      if (reduceMotion || !coverEnterBridge) {
+        completeCoverEntrance();
+        return;
+      }
+      try {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      } catch (e) {
+        window.scrollTo(0, 0);
+      }
+      document.body.classList.add("cover-bridge-active");
+      coverEnterBridge.setAttribute("aria-hidden", "false");
+      var bridgeDone = false;
+      function armBridgeFallback() {
+        coverBridgeFallbackTimer = window.setTimeout(function () {
+          coverBridgeFallbackTimer = null;
+          if (bridgeDone) return;
+          bridgeDone = true;
+          coverEnterBridge.removeEventListener("animationend", onBridgeAnimEnd);
+          completeCoverEntrance();
+        }, 3200);
+      }
+      function onBridgeAnimEnd(ev) {
+        if (ev.target !== coverEnterBridge) return;
+        if (ev.animationName !== "coverBridgeShell") return;
+        if (bridgeDone) return;
+        bridgeDone = true;
+        if (coverBridgeFallbackTimer) {
+          window.clearTimeout(coverBridgeFallbackTimer);
+          coverBridgeFallbackTimer = null;
+        }
+        coverEnterBridge.removeEventListener("animationend", onBridgeAnimEnd);
+        completeCoverEntrance();
+      }
+      coverEnterBridge.addEventListener("animationend", onBridgeAnimEnd);
+      armBridgeFallback();
+    }
+
     function revealHeroAndScrollUI() {
       if (introFinished) return;
       introFinished = true;
@@ -6033,26 +6280,8 @@
       var openingEl = document.getElementById("mobile-env-opening");
       if (openingEl) openingEl.setAttribute("aria-hidden", "true");
       if (introFam) introFam.setAttribute("aria-hidden", "true");
-      var hero = document.getElementById("cover");
-      if (hero) {
-        if (reduceMotion) {
-          hero.classList.add("is-revealed");
-        } else {
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              hero.classList.add("is-revealed");
-            });
-          });
-        }
-      }
-      beginScrollReveals();
       tryAutoplayBackgroundMusic();
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          syncTabsFromScrollPosition();
-        });
-      });
-      armIdleSectionAutoAdvance();
+      runCoverEntranceSequence();
     }
 
     function runIntroFamilyThenFinish() {
@@ -6120,20 +6349,22 @@
 
     if (!introShell) {
       document.body.classList.add("intro-done");
+      tryAutoplayBackgroundMusic();
       if (reduceMotion) {
+        document.body.classList.add("cover-bridge-complete");
         document.querySelectorAll(".reveal").forEach(function (el) {
           el.classList.add("is-revealed");
         });
-      } else {
+        beginScrollReveals();
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
-            var h = document.getElementById("cover");
-            if (h) h.classList.add("is-revealed");
+            syncTabsFromScrollPosition();
           });
         });
-        beginScrollReveals();
+        armIdleSectionAutoAdvance();
+      } else {
+        runCoverEntranceSequence();
       }
-      tryAutoplayBackgroundMusic();
     } else {
       tryAutoplayBackgroundMusic();
       runIntroEnvelopeThenGaneshAfterOpen();
