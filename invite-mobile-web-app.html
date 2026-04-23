@@ -2957,12 +2957,24 @@
       }
     }
 
-    /* Ceremony label sits above framed art — extra padding + stacking */
+    /* Ceremony label above framed art — compact stack (invite-only; other sections unchanged) */
     #invite.ceremony-framed > #invite-h.eyebrow.eyebrow--section {
       z-index: 2;
-      margin-bottom: 0;
-      padding: 1rem 1.35rem 0.85rem;
-      transform: translateY(-6px) scale(0.96);
+      margin: 0 auto 0.18rem;
+      padding: 0.38rem 0.65rem 0.22rem;
+      line-height: 1.16;
+      font-size: clamp(0.76rem, 2.6vw, 0.92rem);
+      letter-spacing: 0.17em;
+      text-indent: 0.17em;
+      transform: translateY(-2px) scale(0.98);
+    }
+    #invite.ceremony-framed > #invite-h.eyebrow.eyebrow--section::before {
+      width: min(9rem, 72vw);
+      margin: 0 auto 0.3rem;
+    }
+    #invite.ceremony-framed.reveal.card.is-revealed > #invite-h.eyebrow.eyebrow--section::after {
+      margin: 0.26rem auto 0;
+      font-size: 0.42rem;
     }
 
     h2 {
@@ -3422,7 +3434,8 @@
     #invite .ceremony-framed__stage {
       position: relative;
       isolation: isolate;
-      min-height: min(72vh, 32rem);
+      /* Floor height for backdrop art, but let content drive growth — avoids an oversized card on scroll */
+      min-height: min(50dvh, 24rem);
       overflow: hidden;
     }
     #invite .ceremony-framed__backdrop {
