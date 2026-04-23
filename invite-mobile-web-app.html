@@ -4811,12 +4811,12 @@
       opacity: 0;
       pointer-events: none;
     }
-    /* Floating control — top corner (not on bottom tab strip / home indicator) */
+    /* Floating control — bottom-right, above tab strip / home indicator */
     .music-fab {
       position: fixed;
       right: max(12px, env(safe-area-inset-right, 0px));
-      top: calc(max(8px, env(safe-area-inset-top, 0px)) + 8px);
-      bottom: auto;
+      top: auto;
+      bottom: calc(var(--tab-h) + max(10px, env(safe-area-inset-bottom, 0px)) + 10px);
       z-index: 55;
       width: 46px;
       height: 46px;
@@ -5932,7 +5932,7 @@
     var idleAutoScrollArmed = false;
     var idleAutoScrollSuppressUntil = 0;
     var IDLE_AUTO_MS = 5000;
-    var IDLE_AUTO_SUPPRESS_MS = 3200;
+    var IDLE_AUTO_SUPPRESS_MS = 4200;
 
     function detachBgMusicGestureListeners() {
       if (!bgMusicGestureListeners) return;
@@ -6508,6 +6508,52 @@
 
     var tabsNavEl = document.querySelector("nav.tabs");
 
+    function getTabBarHeightPx() {
+      if (tabsNavEl) {
+        var h = Math.round(tabsNavEl.getBoundingClientRect().height);
+        if (h > 12) return h;
+      }
+      var root = document.documentElement;
+      var raw = (root && getComputedStyle(root).getPropertyValue("--tab-h")) || "";
+      var m = String(raw).trim().match(/^([\d.]+)\s*(rem|em|px)?$/i);
+      if (m) {
+        var n = parseFloat(m[1], 10);
+        if (!isNaN(n) && n > 0) {
+          var unit = (m[2] || "rem").toLowerCase();
+          var fs = parseFloat(getComputedStyle(root).fontSize, 10) || 16;
+          if (unit === "rem") return Math.round(n * fs);
+          if (unit === "em") return Math.round(n * fs);
+          if (unit === "px") return Math.round(n);
+        }
+      }
+      return 72;
+    }
+
+    /**
+     * Pick the section whose bounds contain a horizontal probe line in the viewport
+     * region above the fixed tab bar; if the probe falls in a gap, use the last section
+     * whose top has crossed that line (document order).
+     */
+    function computeActiveSectionIdFromLayout() {
+      var vh = window.innerHeight || 640;
+      var tabH = getTabBarHeightPx();
+      var usable = Math.max(vh - tabH - 4, vh * 0.55);
+      var probe = usable * 0.44 + 2;
+      if (probe < 48) probe = 48;
+      if (probe > vh - tabH - 20) probe = Math.max(48, vh - tabH - 20);
+
+      var fallback = "cover";
+      for (var si = 0; si < sectionIds.length; si++) {
+        var sid = sectionIds[si];
+        var secEl = document.getElementById(sid);
+        if (!secEl) continue;
+        var r = secEl.getBoundingClientRect();
+        if (r.top <= probe && r.bottom > probe) return sid;
+        if (r.top <= probe) fallback = sid;
+      }
+      return fallback;
+    }
+
     function afterScrollSettles(fn) {
       if (reduceMotion) {
         requestAnimationFrame(function () {
@@ -6572,15 +6618,7 @@
 
     function syncTabsFromScrollPosition() {
       if (!document.body.classList.contains("intro-done")) return;
-      var anchorY = window.innerHeight * 0.36;
-      var activeId = "cover";
-      for (var si = 0; si < sectionIds.length; si++) {
-        var sid = sectionIds[si];
-        var secEl = document.getElementById(sid);
-        if (!secEl) continue;
-        if (secEl.getBoundingClientRect().top <= anchorY) activeId = sid;
-      }
-      setTabsCurrent(activeId);
+      setTabsCurrent(computeActiveSectionIdFromLayout());
     }
     var scrollTabsScheduled = false;
     function scheduleScrollTabSync() {
@@ -6594,15 +6632,7 @@
     }
 
     function getActiveSectionIdFromScroll() {
-      var anchorY = window.innerHeight * 0.36;
-      var activeId = "cover";
-      for (var si = 0; si < sectionIds.length; si++) {
-        var sid = sectionIds[si];
-        var secEl = document.getElementById(sid);
-        if (!secEl) continue;
-        if (secEl.getBoundingClientRect().top <= anchorY) activeId = sid;
-      }
-      return activeId;
+      return computeActiveSectionIdFromLayout();
     }
 
     function clearIdleAutoScrollTimer() {
@@ -6662,6 +6692,7 @@
           block: "start",
         });
         afterScrollSettles(function () {
+          scheduleScrollTabSync();
           playSectionNavPulse(nextEl);
         });
         scheduleIdleAutoScroll();
@@ -6692,6 +6723,7 @@
           block: "start",
         });
         afterScrollSettles(function () {
+          scheduleScrollTabSync();
           playSectionNavPulse(coverEl);
         });
         scheduleIdleAutoScroll();
@@ -6709,6 +6741,7 @@
           block: "end",
         });
         afterScrollSettles(function () {
+          scheduleScrollTabSync();
           playSectionNavPulse(foot);
         });
         scheduleIdleAutoScroll();
@@ -6728,6 +6761,7 @@
     }
 
     window.addEventListener("scroll", scheduleScrollTabSync, { passive: true });
+    window.addEventListener("scrollend", scheduleScrollTabSync, { passive: true });
     window.addEventListener("resize", scheduleScrollTabSync);
     function syncTabsFromHash() {
       var raw = (location.hash || "#cover").replace("#", "");
