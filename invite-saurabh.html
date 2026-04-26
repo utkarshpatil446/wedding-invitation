@@ -2150,6 +2150,54 @@
         height: 46px;
       }
     }
+    @media (orientation: portrait) and (max-width: 430px) {
+      #events.events-card,
+      #venues.gatherings-card {
+        padding: 1.1rem 0.9rem 1.25rem;
+      }
+      #events .event,
+      .gathering-card {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      #events .event {
+        padding: 0.92rem 0.88rem 0.98rem;
+      }
+      #events .event h3 {
+        font-size: clamp(0.96rem, 4.4vw, 1.04rem);
+        letter-spacing: 0.05em;
+      }
+      #events .event p,
+      #events .event address,
+      .gathering-card p {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .gatherings-rich__list {
+        gap: 0.82rem;
+      }
+      .gathering-card {
+        padding: 0.92rem 0.88rem 0.98rem;
+      }
+      .gathering-card::before {
+        left: 0.85rem;
+        top: 0.9rem;
+      }
+      .gathering-card__label,
+      .gathering-card h3,
+      .gathering-card p {
+        margin-left: 1.25rem;
+      }
+      .gathering-card h3 {
+        font-size: clamp(1rem, 4.35vw, 1.12rem);
+      }
+      .gathering-card .map-btn {
+        margin-top: 0.5rem;
+        min-height: 44px;
+        padding: 0.68rem 0.9rem;
+        font-size: 0.94rem;
+      }
+    }
 
     body:not(.intro-done) .tabs {
       visibility: hidden;
@@ -5806,7 +5854,6 @@
     <section class="card invite-paper reveal" id="timing" aria-labelledby="timing-section-h">
       <header class="timing-rich__head">
         <p class="eyebrow eyebrow--center eyebrow--section" id="timing-section-h">Calendar &amp; countdown</p>
-        <p class="timing-rich__tag">1–3 May 2026 — from mehandi and mandav at home to the mandap: three days in Malegaon, and we’d love you in every frame.</p>
       </header>
       <div class="timing-widgets">
         <div class="motif-widget motif-widget--cal">
