@@ -4036,6 +4036,7 @@
     .card.is-revealed .event:nth-of-type(1)::before { animation-delay: 0.35s; }
     .card.is-revealed .event:nth-of-type(2)::before { animation-delay: 0.48s; }
     .card.is-revealed .event:nth-of-type(3)::before { animation-delay: 0.6s; }
+    .card.is-revealed .event:nth-of-type(4)::before { animation-delay: 0.72s; }
     #events .event:last-of-type::before {
       display: none;
     }
@@ -4138,6 +4139,13 @@
         0 0 0 1px rgba(255, 252, 248, 0.35) inset,
         0 8px 28px rgba(45, 32, 22, 0.07);
     }
+    #events .event:nth-of-type(4) {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 0.98),
+        inset 3px 0 0 rgba(150, 115, 95, 0.5),
+        0 0 0 1px rgba(255, 252, 248, 0.35) inset,
+        0 8px 28px rgba(45, 32, 22, 0.07);
+    }
     #events.is-revealed .event:focus-within {
       transform: translateY(-2px);
       outline: 2px solid rgba(176, 141, 87, 0.42);
@@ -4166,6 +4174,13 @@
       box-shadow:
         inset 0 1px 0 rgba(255, 252, 248, 1),
         inset 3px 0 0 rgba(176, 141, 87, 0.78),
+        0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+        0 12px 36px rgba(45, 32, 22, 0.1);
+    }
+    #events.is-revealed .event:nth-of-type(4):focus-within {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 252, 248, 1),
+        inset 3px 0 0 rgba(150, 115, 95, 0.68),
         0 0 0 1px rgba(255, 252, 248, 0.45) inset,
         0 12px 36px rgba(45, 32, 22, 0.1);
     }
@@ -4199,6 +4214,13 @@
           0 0 0 1px rgba(255, 252, 248, 0.45) inset,
           0 12px 36px rgba(45, 32, 22, 0.1);
       }
+      #events.is-revealed .event:nth-of-type(4):hover {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 252, 248, 1),
+          inset 3px 0 0 rgba(150, 115, 95, 0.68),
+          0 0 0 1px rgba(255, 252, 248, 0.45) inset,
+          0 12px 36px rgba(45, 32, 22, 0.1);
+      }
     }
     #events.is-revealed .event {
       animation: eventsTileIn 0.72s var(--ease-out) forwards;
@@ -4211,6 +4233,9 @@
     }
     #events.is-revealed .event:nth-of-type(3) {
       animation-delay: 0.4s;
+    }
+    #events.is-revealed .event:nth-of-type(4) {
+      animation-delay: 0.54s;
     }
     @keyframes eventsTileIn {
       to {
@@ -4252,19 +4277,26 @@
       font-size: clamp(0.98rem, 3.05vw, 1.08rem);
       color: rgba(61, 52, 41, 0.9);
     }
-    #events .event p:last-child {
-      margin-bottom: 0;
-      margin-top: 0.12rem;
+    #events .event p.event__location,
+    #events .event address {
+      display: block;
+      margin: 0.12rem 0 0;
       padding-top: 0.48rem;
       border-top: 1px dashed rgba(176, 141, 87, 0.28);
       font-family: var(--font-display);
       font-size: clamp(0.86rem, 2.65vw, 0.96rem);
       font-style: italic;
       font-weight: 500;
-      line-height: 1.52;
+      line-height: 1.55;
       letter-spacing: 0.02em;
       color: var(--p1-gold-mid);
       text-shadow: 0 1px 0 rgba(255, 252, 248, 0.35);
+    }
+    #events .event .event__addr-line {
+      display: block;
+    }
+    #events .event .event__addr-line + .event__addr-line {
+      margin-top: 0.22em;
     }
     #events .event time {
       font-variant-numeric: tabular-nums;
@@ -4512,7 +4544,7 @@
     .signers--rich .signers__names {
       text-align: center;
     }
-    /* Match Venues .gathering-card h3 (e.g. Mandav & Mehandi) */
+    /* Match Venues .gathering-card h3 (e.g. Mehandi & Sangeet) */
     #family .signers--rich .name {
       font-family: var(--font-display);
       font-size: clamp(1.1rem, 3.8vw, 1.28rem);
@@ -4746,6 +4778,12 @@
     }
     #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(2) {
       animation-delay: 0.16s;
+    }
+    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(3) {
+      animation-delay: 0.26s;
+    }
+    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(4) {
+      animation-delay: 0.36s;
     }
     @keyframes gatheringCardRise {
       from {
@@ -5261,7 +5299,9 @@
       #events.is-revealed .event:nth-of-type(2):hover,
       #events.is-revealed .event:nth-of-type(2):focus-within,
       #events.is-revealed .event:nth-of-type(3):hover,
-      #events.is-revealed .event:nth-of-type(3):focus-within {
+      #events.is-revealed .event:nth-of-type(3):focus-within,
+      #events.is-revealed .event:nth-of-type(4):hover,
+      #events.is-revealed .event:nth-of-type(4):focus-within {
         transform: none !important;
         outline: none !important;
       }
@@ -5757,7 +5797,7 @@
           <div class="hero__text">
             <p class="hero__kicker">The wedding of</p>
             <h1 class="hero__names"><span class="hero__name">Saurabh</span> <span class="hero__amp">&amp;</span> <span class="hero__name">Rutuja</span></h1>
-            <p class="hero__date">Sunday 3 May 2026 · Malegoan</p>
+            <p class="hero__date">Sunday 3 May 2026 · Malegaon</p>
           </div>
         </div>
       </div>
@@ -5766,7 +5806,7 @@
     <section class="card invite-paper reveal" id="timing" aria-labelledby="timing-section-h">
       <header class="timing-rich__head">
         <p class="eyebrow eyebrow--center eyebrow--section" id="timing-section-h">Calendar &amp; countdown</p>
-        <p class="timing-rich__tag">May 2026 — save the wedding weekend</p>
+        <p class="timing-rich__tag">1–3 May 2026 — from mehandi and mandav at home to the mandap: three days in Malegaon, and we’d love you in every frame.</p>
       </header>
       <div class="timing-widgets">
         <div class="motif-widget motif-widget--cal">
@@ -5844,24 +5884,34 @@
     <section id="events" class="card invite-paper reveal events-card" aria-labelledby="events-h">
       <header class="events-rich__head">
         <p class="eyebrow eyebrow--events eyebrow--section" id="events-h">Functions &amp; ceremonies</p>
-        <p class="events-rich__tag">Three gatherings · one weekend of joy</p>
       </header>
       <article class="event">
-        <h3>Mandav &amp; Mehandi</h3>
+        <h3>Mehandi &amp; Sangeet</h3>
         <p><time datetime="2026-05-01">May 1st, 2026</time></p>
-        <p><time datetime="2026-05-01T09:00">Mandav</time> at 9 AM, morning</p>
-        <p><time datetime="2026-05-01T18:00">Mehandi</time> at 6 PM, evening</p>
-        <p>Malegoan, Nashik District</p>
+        <p>An evening of mehandi &amp; sangeet</p>
+        <address>
+          <span class="event__addr-line">H.N. 57/2, Plot No. 16, Mahalakshi Colony</span>
+          <span class="event__addr-line">Church–Soyegaon Road, Malegaon Camp, Nashik</span>
+        </address>
+      </article>
+      <article class="event">
+        <h3>Mandav</h3>
+        <p><time datetime="2026-05-02">May 2nd, 2026</time></p>
+        <p><time datetime="2026-05-02T08:00">Mandav</time> at 8 AM, morning</p>
+        <address>
+          <span class="event__addr-line">H.N. 57/2, Plot No. 16, Mahalakshi Colony</span>
+          <span class="event__addr-line">Church–Soyegaon Road, Malegaon Camp, Nashik</span>
+        </address>
       </article>
       <article class="event">
         <h3>Haldi</h3>
         <p><time datetime="2026-05-02">May 2nd, 2026</time> · <time datetime="2026-05-02T18:00">6 PM</time> onwards</p>
-        <p>Lakshminarayan Resort Lawns, Nampur Road, Malegaon, Nashik</p>
+        <p class="event__location">Lakshminarayan Resort Lawns, Nampur Road, Malegaon, Nashik</p>
       </article>
       <article class="event">
         <h3>Wedding</h3>
         <p><time datetime="2026-05-03">May 3rd, 2026</time> · <time datetime="2026-05-03T19:20">7:20 PM</time></p>
-        <p>Lakshminarayan Resort, Lotus Hall, Nampur Road, Malegaon, Nashik</p>
+        <p class="event__location">Lakshminarayan Resort, Lotus Hall, Nampur Road, Malegaon, Nashik</p>
       </article>
     </section>
 
@@ -5885,8 +5935,8 @@
         <div class="family-card__contact">
           <p class="eyebrow eyebrow--contact-details">Contact details</p>
           <div class="phones" aria-label="Phone contact details">
-            <a href="tel:+919423550175">+91 94235 50175</a>
-            <a href="tel:+919175370767">+91 91753 70767</a>
+            <a href="tel:+919422246004">+91 94222 46004</a>
+            <a href="tel:+019881400051">+91 98814 00051</a>
           </div>
         </div>
       </div>
@@ -5895,19 +5945,31 @@
     <section id="venues" class="card invite-paper reveal gatherings-card" aria-labelledby="venues-h">
       <header class="gatherings-rich__head">
         <p class="eyebrow eyebrow--gatherings eyebrow--section" id="venues-h">Where we're gathering</p>
-        <p class="gatherings-rich__tag">Two places on the map · follow the pins when you travel</p>
+        <p class="gatherings-rich__tag">Four gatherings on the map · follow the pins when you travel</p>
       </header>
       <p class="gatherings-rich__lead">Each card opens in Google Maps so you can save the route or share it with family.</p>
       <div class="gatherings-rich__list">
         <article class="gathering-card">
-          <p class="gathering-card__label">May 1st · Kalwan</p>
-          <h3>Mandav &amp; Mehandi</h3>
-          <p>Kalwan, Nashik District</p>
-          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Kalwan%2C%20Nashik%20District%2C%20Maharashtra">Open in Google Maps</a>
+          <p class="gathering-card__label">1 May · Malegaon Camp</p>
+          <h3>Mehandi &amp; Sangeet</h3>
+          <p>H.N. 57/2, Plot No. 16, Mahalakshi Colony, Church–Soyegaon Road, Malegaon Camp, Nashik</p>
+          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://maps.app.goo.gl/SVrpdWmfFKzoFxCu5">Open in Google Maps</a>
         </article>
         <article class="gathering-card">
-          <p class="gathering-card__label">May 2nd–3rd · Malegaon</p>
-          <h3>Haldi &amp; wedding</h3>
+          <p class="gathering-card__label">2 May · Malegaon Camp</p>
+          <h3>Mandav</h3>
+          <p>H.N. 57/2, Plot No. 16, Mahalakshi Colony, Church–Soyegaon Road, Malegaon Camp, Nashik</p>
+          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://maps.app.goo.gl/SVrpdWmfFKzoFxCu5">Open in Google Maps</a>
+        </article>
+        <article class="gathering-card">
+          <p class="gathering-card__label">2 May · Malegaon</p>
+          <h3>Haldi</h3>
+          <p>Lakshminarayan Resort, Nampur Road, Malegaon, Nashik</p>
+          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Lakshminarayan%20Resort%2C%20Nampur%20Road%2C%20Malegaon%2C%20Nashik%2C%20Maharashtra">Open in Google Maps</a>
+        </article>
+        <article class="gathering-card">
+          <p class="gathering-card__label">3 May · Malegaon</p>
+          <h3>Wedding</h3>
           <p>Lakshminarayan Resort — Lotus Hall, Nampur Road, Malegaon, Nashik</p>
           <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Lakshminarayan%20Resort%2C%20Nampur%20Road%2C%20Malegaon%2C%20Nashik%2C%20Maharashtra">Open in Google Maps</a>
         </article>
