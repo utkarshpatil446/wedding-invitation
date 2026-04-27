@@ -2151,19 +2151,13 @@
       }
     }
     @media (orientation: portrait) and (max-width: 430px) {
-      #events.events-card,
-      #venues.gatherings-card {
-        padding: 0.9rem 0.72rem 1.05rem;
-      }
       #events.events-card {
+        padding: 0.9rem 0.72rem 1.05rem;
         gap: 0.62rem;
       }
-      #events .event,
-      .gathering-card {
+      #events .event {
         width: 100%;
         box-sizing: border-box;
-      }
-      #events .event {
         padding: 0.78rem 0.74rem 0.82rem;
       }
       #events .event h3 {
@@ -2173,8 +2167,7 @@
         letter-spacing: 0.04em;
       }
       #events .event p,
-      #events .event address,
-      .gathering-card p {
+      #events .event address {
         overflow-wrap: anywhere;
         word-break: break-word;
       }
@@ -2193,77 +2186,17 @@
         padding-top: 0.36rem;
         font-size: clamp(0.76rem, 3.1vw, 0.84rem);
       }
-      .gatherings-rich__list {
-        gap: 0.72rem;
-      }
-      .gathering-card {
-        padding: 0.78rem 0.74rem 0.84rem;
-      }
-      .gathering-card::before {
-        left: 0.7rem;
-        top: 0.74rem;
-        width: 9px;
-        height: 9px;
-      }
-      .gathering-card__label,
-      .gathering-card h3,
-      .gathering-card p {
-        margin-left: 1.02rem;
-      }
-      .gathering-card h3 {
-        font-size: clamp(0.9rem, 4vw, 1rem);
-      }
-      .gathering-card__label {
-        margin-bottom: 0.22rem;
-        font-size: 0.42rem;
-        letter-spacing: 0.2em;
-      }
-      .gathering-card p {
-        font-size: clamp(0.8rem, 3.35vw, 0.9rem);
-        line-height: 1.44;
-      }
-      .gatherings-rich__tag {
-        margin-bottom: 0.58rem;
-        font-size: clamp(0.88rem, 3.75vw, 0.98rem);
-      }
-      .gatherings-rich__lead {
-        margin-bottom: 0.88rem;
-        font-size: clamp(0.8rem, 3.25vw, 0.9rem);
-      }
-      .gathering-card .map-btn {
-        margin-top: 0.42rem;
-        min-height: 40px;
-        padding: 0.58rem 0.74rem;
-        font-size: 0.84rem;
-      }
     }
     @media (orientation: portrait) and (max-width: 380px) {
-      #events.events-card,
-      #venues.gatherings-card {
+      #events.events-card {
         padding: 0.78rem 0.58rem 0.92rem;
       }
-      #events .event,
-      .gathering-card {
-        border-radius: 12px;
-      }
       #events .event {
+        border-radius: 12px;
         padding: 0.7rem 0.64rem 0.74rem;
       }
-      .gathering-card {
-        padding: 0.7rem 0.64rem 0.74rem;
-      }
-      .gathering-card__label,
-      .gathering-card h3,
-      .gathering-card p {
-        margin-left: 0.92rem;
-      }
-      #events .event h3,
-      .gathering-card h3 {
+      #events .event h3 {
         font-size: clamp(0.84rem, 3.95vw, 0.92rem);
-      }
-      .gathering-card .map-btn {
-        min-height: 38px;
-        font-size: 0.8rem;
       }
     }
 
@@ -4160,7 +4093,7 @@
       to { transform: translateX(-50%) scaleX(1); }
     }
 
-    /* ── Events: “Functions & ceremonies” — rich list (scoped so #venues .event stays plain) ── */
+    /* ── Events: “Functions & ceremonies” — rich list ── */
     #events.events-card {
       position: relative;
       display: flex;
@@ -4660,7 +4593,7 @@
     .signers--rich .signers__names {
       text-align: center;
     }
-    /* Match Venues .gathering-card h3 (e.g. Mehandi & Sangeet) */
+    /* Match event card title scale on the family card */
     #family .signers--rich .name {
       font-family: var(--font-display);
       font-size: clamp(1.1rem, 3.8vw, 1.28rem);
@@ -4788,181 +4721,6 @@
     }
     .card.is-revealed .phones a:nth-child(2) {
       animation: chipRise 0.5s var(--ease-out) 0.32s both;
-    }
-
-    /* ── Gatherings: “Where we're gathering” (venues) ── */
-    #venues.gatherings-card {
-      position: relative;
-      overflow: hidden;
-    }
-    #venues.gatherings-card::before {
-      content: "";
-      position: absolute;
-      inset: -25%;
-      background:
-        radial-gradient(ellipse 72% 58% at 10% -5%, rgba(201, 168, 76, 0.14), transparent 55%),
-        radial-gradient(ellipse 60% 48% at 92% 105%, rgba(244, 167, 185, 0.1), transparent 52%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    #venues.gatherings-card > * {
-      position: relative;
-      z-index: 1;
-    }
-    .gatherings-rich__head {
-      text-align: center;
-      margin-bottom: 0.18rem;
-    }
-    #venues .gatherings-rich__head .eyebrow--section {
-      margin-bottom: 0.34rem;
-    }
-    .gatherings-rich__tag {
-      margin: 0 0 0.9rem;
-      font-family: var(--font-serif);
-      font-size: clamp(1.02rem, 3.4vw, 1.16rem);
-      font-style: italic;
-      color: rgba(92, 81, 71, 0.92);
-      line-height: 1.48;
-    }
-    .gatherings-rich__lead {
-      margin: 0 0 1.2rem;
-      text-align: center;
-      font-family: var(--font-serif);
-      font-size: clamp(0.94rem, 3vw, 1.05rem);
-      color: var(--muted);
-      line-height: 1.55;
-    }
-    .gatherings-rich__list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.05rem;
-    }
-    .gathering-card {
-      position: relative;
-      padding: clamp(1rem, 2.8vw, 1.12rem) clamp(1rem, 3vw, 1.22rem) clamp(1.05rem, 3vw, 1.2rem);
-      border-radius: clamp(12px, 2vmin, 16px);
-      border: 1px solid rgba(176, 141, 87, 0.34);
-      background:
-        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(176, 141, 87, 0.035) 1px, rgba(176, 141, 87, 0.035) 2px),
-        linear-gradient(165deg, rgba(255, 253, 248, 0.98) 0%, #faf4e8 52%, #f0e8da 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 252, 248, 1),
-        0 8px 26px rgba(38, 28, 18, 0.07);
-    }
-    .gathering-card::before {
-      content: "";
-      position: absolute;
-      left: 1.05rem;
-      top: 1.05rem;
-      width: 11px;
-      height: 11px;
-      border-radius: 50% 50% 50% 0;
-      transform: rotate(-45deg);
-      background: linear-gradient(135deg, rgba(201, 168, 76, 0.55), rgba(143, 106, 58, 0.38));
-      box-shadow: 0 0 0 2px rgba(255, 252, 248, 0.95);
-    }
-    .gathering-card__label {
-      margin: 0 0 0.32rem 1.5rem;
-      font-family: var(--font-caps);
-      font-size: 0.48rem;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(143, 106, 58, 0.88);
-    }
-    .gathering-card h3 {
-      margin: 0 0 0.42rem 1.5rem;
-      font-family: var(--font-display);
-      font-size: clamp(1.1rem, 3.8vw, 1.28rem);
-      font-weight: 500;
-      color: var(--ink);
-      letter-spacing: 0.02em;
-    }
-    .gathering-card p {
-      margin: 0 0 0.3rem 1.5rem;
-      font-family: var(--font-serif);
-      color: var(--muted);
-      line-height: 1.52;
-    }
-    .gathering-card .map-btn {
-      margin-top: 0.55rem;
-    }
-    #venues.is-revealed .gathering-card {
-      animation: gatheringCardRise 0.68s var(--ease-out) both;
-    }
-    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(1) {
-      animation-delay: 0.06s;
-    }
-    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(2) {
-      animation-delay: 0.16s;
-    }
-    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(3) {
-      animation-delay: 0.26s;
-    }
-    #venues.is-revealed .gatherings-rich__list .gathering-card:nth-child(4) {
-      animation-delay: 0.36s;
-    }
-    @keyframes gatheringCardRise {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .map-btn {
-      display: block;
-      width: 100%;
-      min-height: 48px;
-      margin-top: 0.65rem;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      border: 1px solid var(--gold);
-      background: linear-gradient(135deg, #fffdf8 0%, #f8efe4 45%, #f0e4d4 100%);
-      background-size: 200% 200%;
-      color: var(--ink);
-      font-family: var(--font-caps);
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition:
-        transform 0.4s var(--ease-out),
-        box-shadow 0.5s var(--ease-soft),
-        border-color 0.35s ease;
-    }
-    .map-btn::after {
-      content: "";
-      position: absolute;
-      inset: -40% -60%;
-      background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60%);
-      transform: translateX(-100%);
-      transition: transform 0s;
-    }
-    @media (hover: hover) {
-      .card.is-revealed .map-btn:hover::after {
-        transform: translateX(100%);
-        transition: transform 0.85s var(--ease-soft);
-      }
-    }
-    .card.is-revealed .map-btn:focus-visible::after {
-      transform: translateX(100%);
-      transition: transform 0.85s var(--ease-soft);
-    }
-    .map-btn:active {
-      transform: scale(0.985);
-    }
-    .card.is-revealed .map-btn {
-      animation: mapBtnFloat 5s ease-in-out infinite alternate;
-    }
-    @keyframes mapBtnFloat {
-      0% { box-shadow: 0 4px 14px rgba(45, 32, 22, 0.08); }
-      100% { box-shadow: 0 8px 26px rgba(154, 115, 69, 0.18); }
     }
 
     /* Background melody — hidden element; use #music-toggle to pause/play */
@@ -5105,7 +4863,6 @@
       #invite.is-revealed .invite-sheet__time,
       #invite.is-revealed .invite-sheet__day,
       #invite.is-revealed .invite-sheet__venue,
-      .card.is-revealed .map-btn,
       #events.is-revealed .events-rich__tag,
       #family.is-revealed .family-card__title-head .eyebrow.eyebrow--section,
       #family.is-revealed .family-card__lede,
@@ -5434,14 +5191,6 @@
       }
       .card.is-revealed .event {
         animation: none !important;
-      }
-      #venues.is-revealed .gathering-card {
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-      }
-      .map-btn::after {
-        display: none;
       }
       #mobile-intro::after {
         animation: none !important;
@@ -5872,7 +5621,6 @@
     <a href="#invite">Invite</a>
     <a href="#events">Events</a>
     <a href="#family">Family</a>
-    <a href="#venues">Venues</a>
   </nav>
 
   <button
@@ -6005,7 +5753,7 @@
         <p><time datetime="2026-05-01">May 1st, 2026</time></p>
         <p>An evening of mehandi &amp; sangeet</p>
         <address>
-          <span class="event__addr-line">H.N. 57/2, Plot No. 16, Mahalakshi Colony</span>
+          <span class="event__addr-line">S.N. 57/2, Plot No. 16, Mahalakshi Colony</span>
           <span class="event__addr-line">Church–Soyegaon Road, Malegaon Camp, Nashik</span>
         </address>
       </article>
@@ -6014,7 +5762,7 @@
         <p><time datetime="2026-05-02">May 2nd, 2026</time></p>
         <p><time datetime="2026-05-02T08:00">Mandav</time> at 8 AM, morning</p>
         <address>
-          <span class="event__addr-line">H.N. 57/2, Plot No. 16, Mahalakshi Colony</span>
+          <span class="event__addr-line">S.N. 57/2, Plot No. 16, Mahalakshi Colony</span>
           <span class="event__addr-line">Church–Soyegaon Road, Malegaon Camp, Nashik</span>
         </address>
       </article>
@@ -6042,9 +5790,11 @@
         <div class="signers signers--rich">
           <p class="eyebrow eyebrow--signers">With blessings</p>
           <div class="signers__names">
+            <p class="name">Late Shankar Malaji Pawar</p>
             <p class="name">Mr. Anil Shankar Pawar</p>
-            <p class="name name--join">&amp;</p>
             <p class="name">Mrs. Mira Anil Pawar</p>
+            <p class="name">Mr. Amit Anil Pawar</p>
+            <p class="name">Mrs. Ashwini Amit Pawar</p>
           </div>
         </div>
         <div class="family-card__contact">
@@ -6054,40 +5804,6 @@
             <a href="tel:+019881400051">+91 98814 00051</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="venues" class="card invite-paper reveal gatherings-card" aria-labelledby="venues-h">
-      <header class="gatherings-rich__head">
-        <p class="eyebrow eyebrow--gatherings eyebrow--section" id="venues-h">Where we're gathering</p>
-        <p class="gatherings-rich__tag">Four gatherings on the map · follow the pins when you travel</p>
-      </header>
-      <p class="gatherings-rich__lead">Each card opens in Google Maps so you can save the route or share it with family.</p>
-      <div class="gatherings-rich__list">
-        <article class="gathering-card">
-          <p class="gathering-card__label">1 May · Malegaon Camp</p>
-          <h3>Mehandi &amp; Sangeet</h3>
-          <p>H.N. 57/2, Plot No. 16, Mahalakshi Colony, Church–Soyegaon Road, Malegaon Camp, Nashik</p>
-          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://maps.app.goo.gl/WUiWGFagXEAcuqzt8">Open in Google Maps</a>
-        </article>
-        <article class="gathering-card">
-          <p class="gathering-card__label">2 May · Malegaon Camp</p>
-          <h3>Mandav</h3>
-          <p>H.N. 57/2, Plot No. 16, Mahalakshi Colony, Church–Soyegaon Road, Malegaon Camp, Nashik</p>
-          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://maps.app.goo.gl/WUiWGFagXEAcuqzt8">Open in Google Maps</a>
-        </article>
-        <article class="gathering-card">
-          <p class="gathering-card__label">2 May · Malegaon</p>
-          <h3>Haldi</h3>
-          <p>Lakshminarayan Resort, Nampur Road, Malegaon, Nashik</p>
-          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Lakshminarayan%20Resort%2C%20Nampur%20Road%2C%20Malegaon%2C%20Nashik%2C%20Maharashtra">Open in Google Maps</a>
-        </article>
-        <article class="gathering-card">
-          <p class="gathering-card__label">3 May · Malegaon</p>
-          <h3>Wedding</h3>
-          <p>Lakshminarayan Resort — Lotus Hall, Nampur Road, Malegaon, Nashik</p>
-          <a class="map-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&amp;query=Lakshminarayan%20Resort%2C%20Nampur%20Road%2C%20Malegaon%2C%20Nashik%2C%20Maharashtra">Open in Google Maps</a>
-        </article>
       </div>
     </section>
 
@@ -6627,7 +6343,7 @@
     })();
 
     var tabs = document.querySelectorAll(".tabs a");
-    var sectionIds = ["cover", "timing", "invite", "events", "family", "venues"];
+    var sectionIds = ["cover", "timing", "invite", "events", "family"];
 
     function initMusicFabAndVisibility() {
       var a = document.getElementById("bg-music");
